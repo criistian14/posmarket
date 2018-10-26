@@ -9,7 +9,7 @@
     <script src="public/js/main.js"></script>
     <link rel="stylesheet" href="public/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Document</title>
+    <title>PosMarket</title>
     <!-- Gitter Chat Link -->
 <!-- Script Materialice -->
 
