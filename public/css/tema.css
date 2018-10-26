@@ -1,0 +1,22 @@
+.titulo-cart-main {
+    display: block;
+    text-align: center;
+    padding: 20px 0;
+    font-weight: bold !important;
+    font-size: 25px !important;
+    text-transform: uppercase;
+}
+
+.alerta {
+    position:relative;
+    padding:.75rem 1.25rem;
+    margin-bottom:1rem;
+    border:1px solid transparent;
+    border-radius:.25rem;
+}
+
+.alerta-teal-darken-3 {
+    color: rgba(0, 105, 92, 1);
+    background-color: rgba(0, 105, 92, 0.3);
+    border-color: rgba(0, 105, 92, 0.4);
+}
