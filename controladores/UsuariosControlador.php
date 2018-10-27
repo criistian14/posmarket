@@ -317,7 +317,7 @@ class UsuariosControlador
             $usuario = Usuario::encontrarPorID($id);
 
             // Guardar un mensaje de que se elimino correctamente en una cookie
-            setcookie('mensaje', 'Se elimino correctamente al usuario ' . $usuario->name, time() + 10 );
+            setcookie('mensaje', 'Se elimino correctamente al usuario ' . $usuario->nombre, time() + 10 );
 
             // Eliminar el usuario
             $usuario->eliminar();

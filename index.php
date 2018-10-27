@@ -56,8 +56,8 @@
     <!-- Todos los productos -->
     <div class="row" id="productos">
 
-            
-            
+
+
     </div>
     
 
@@ -76,7 +76,7 @@
         $('.slider').slider({full_width: true});
         productos();
 
-        
+
 
     });
 </script>
