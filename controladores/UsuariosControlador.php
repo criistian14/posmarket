@@ -460,10 +460,80 @@ class UsuariosControlador
 
             $usuario = (isset($_SESSION['admin']) ? unserialize($_SESSION['admin']) : unserialize($_SESSION['usuario']) );
 
-            print_r($usuario);
 
-            // Requerir la vista que muestra el perfil
-            include '../vistas/usuarios/perfil.php';
+            // Cargar mensaje de error si es que existe
+            $msg = ( isset($_COOKIE['mensaje_perfil']) ? $_COOKIE['mensaje_perfil'] : null);
+
+
+            if( isset($_POST['flag']) ) {
+
+
+                // Comprobar si el correo es el mismo que tiene registrado
+                if ($_POST['correo'] == $usuario->correo) {
+
+                    $correoValido = true;
+                } else {
+
+                    // Hacer consulta si existe un usuario con el correo digitada en el formulario
+                    $comprobarUsuario = Usuario::donde('correo', $_POST['correo'])
+                                               ->resultado();
+
+                   // Comprobar si el correo no se encuentra registrado
+                   $correoValido = ( empty($comprobarUsuario) ? true : false );
+                }
+
+
+                if($correoValido) {
+
+                    $cambioContrasena = false;
+
+                    if ( isset($_POST['cambioContrasena']) ) {
+                        $cambioContrasena = true;
+                    }
+
+                    if ($cambioContrasena) {
+
+                        $comprobarAntiguaContrasena = Usuario::donde('contrasena', md5($_POST['antiguaContrasena']))
+                                                                ->resultado();
+
+                        $usuarioEditado = Usuario::encontrarPorID($usuario->id);
+
+                        if( !empty($comprobarAntiguaContrasena) ) {
+
+                            $usuarioEditado->contrasena = md5($_POST['nuevaContrasena']);
+
+                        } else {
+
+                            // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
+                            setcookie('mensaje_perfil', 'No coincide tu antigua contraseña', time() + 10 );
+
+                            // Redirigir al formulario login
+                            header('Location: UsuariosControlador.php?action=perfil');
+                        }
+
+
+
+
+
+
+                        // Guardar el usuario editado
+                        $usuarioEditado->guardar();
+
+
+                    }
+
+                } else {
+
+                }
+
+
+
+            } else {
+
+                // Requerir la vista que muestra el perfil
+                include '../vistas/usuarios/perfil.php';
+            }
+
 
         } else {
 

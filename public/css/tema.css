@@ -20,3 +20,10 @@
     background-color: rgba(0, 105, 92, 0.3);
     border-color: rgba(0, 105, 92, 0.4);
 }
+
+
+
+
+.ocultar {
+    display: none
+}
