@@ -20,3 +20,30 @@
     background-color: rgba(0, 105, 92, 0.3);
     border-color: rgba(0, 105, 92, 0.4);
 }
+
+
+
+.tabs .tab a{
+    color: #000;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+    background-color: rgba(0, 105, 92, 0.2) ;
+    color: #000;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    background-color: rgba(255, 109, 0, .2) !important;
+    /* color: #000; */
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color: rgba(255, 109, 0, 1);
+} /*Color of underline*/
+
+
+
+
+.ocultar {
+    display: none
+}

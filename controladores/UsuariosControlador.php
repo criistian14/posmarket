@@ -460,10 +460,128 @@ class UsuariosControlador
 
             $usuario = (isset($_SESSION['admin']) ? unserialize($_SESSION['admin']) : unserialize($_SESSION['usuario']) );
 
+<<<<<<< HEAD
            
+=======
+>>>>>>> 7e837bdb6bd138076d6668b1610c1cdc8c1244b4
 
-            // Requerir la vista que muestra el perfil
-            include '../vistas/usuarios/perfil.php';
+            // Cargar mensaje de error si es que existe
+            $msg = ( isset($_COOKIE['mensaje_perfil']) ? $_COOKIE['mensaje_perfil'] : null);
+
+
+            // Cargar mensaje de correcto si es que existe
+            $msgSuccess = ( isset($_COOKIE['mensaje_perfil_success']) ? $_COOKIE['mensaje_perfil_success'] : null);
+
+
+
+
+            if( isset($_POST['flag']) ) {
+
+
+                // Comprobar si el correo es el mismo que tiene registrado
+                if ($_POST['correo'] == $usuario->correo) {
+
+                    $correoValido = true;
+                } else {
+
+                    // Hacer consulta si existe un usuario con el correo digitada en el formulario
+                    $comprobarUsuario = Usuario::donde('correo', $_POST['correo'])
+                                               ->resultado();
+
+                   // Comprobar si el correo no se encuentra registrado
+                   $correoValido = ( empty($comprobarUsuario) ? true : false );
+                }
+
+                // Si el correo es valido
+                if($correoValido) {
+
+                    // Encontrar el usuario
+                    $usuarioEditado = Usuario::encontrarPorID($usuario->id);
+
+                    // Variable para comprobar si cambio la contraseña
+                    $cambioContrasena = false;
+
+                    // Comprobar si cambio la contraseña
+                    if ( isset($_POST['cambioContrasena']) ) {
+                        $cambioContrasena = true;
+                    }
+
+
+                    // Si desea cambiar la contraseña
+                    if ($cambioContrasena) {
+
+                        // Comprobar si la antigua contraseña coincide
+                        $comprobarAntiguaContrasena = Usuario::donde('contrasena', md5($_POST['antiguaContrasena']))
+                                                                ->resultado();
+
+                        if( !empty($comprobarAntiguaContrasena) ) {
+
+                            // Cambiar la contraseña por la nueva
+                            $usuarioEditado->contrasena = md5($_POST['nuevaContrasena']);
+
+                        } else {
+
+                            // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
+                            setcookie('mensaje_perfil', 'No coincide tu antigua contraseña', time() + 10 );
+
+                            // Redirigir al formulario login
+                            header('Location: UsuariosControlador.php?action=perfil');
+                        }
+
+                    } // <-- Fin del cambio de contraseña
+
+
+                    $usuarioEditado->nombre     = $_POST['nombre'];
+                    $usuarioEditado->apellido   = $_POST['apellido'];
+                    $usuarioEditado->celular    = $_POST['celular'];
+                    $usuarioEditado->ciudad     = $_POST['ciudad'];
+                    $usuarioEditado->direccion  = $_POST['direccion'];
+                    $usuarioEditado->correo     = $_POST['correo'];
+
+
+
+                    // Guardar el usuario editado
+                    $usuarioEditado->guardar();
+
+
+                    if( $usuario->rol_id == 1 ) {
+
+                        // Guardar los datos en una session admin
+                        $_SESSION['admin'] = serialize($usuarioEditado);
+
+                    } else {
+
+                        // Guardar los datos en una session usuario
+                        $_SESSION['usuario'] = serialize($usuarioEditado);
+                    }
+
+
+                    // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
+                    setcookie('mensaje_perfil_success', 'Pefil modificado satisfactoriamente', time() + 10 );
+
+                    // Redirigir al formulario login
+                    header('Location: UsuariosControlador.php?action=perfil');
+
+                } else {
+
+                    // Si el correo no es valido
+
+                    // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
+                    setcookie('mensaje_perfil', 'El correo '. $_POST['correo'] .' ya esta en uso', time() + 10 );
+
+                    // Redirigir al formulario login
+                    header('Location: UsuariosControlador.php?action=perfil');
+
+                }
+
+
+
+            } else {
+
+                // Requerir la vista que muestra el perfil
+                include '../vistas/usuarios/perfil.php';
+            }
+
 
         } else {
 

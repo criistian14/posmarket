@@ -89,6 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let intancesSelectsElement = M.FormSelect.init(selectsMaterializeElements);
     }
 
+    // Inicializar Tabs de materialize
+    const tabsMaterializeElements = document.querySelectorAll('.tabs');
+    if (tabsMaterializeElements) {
+        let intancesSelectsElement = M.Tabs.init(tabsMaterializeElements, { swipeable: false });
+    }
+
 
     // Inicializar textarea de Materialize
     const textareaDescripcionReporteElement = [...document.querySelectorAll('#textareaDescripcionReporte')];
@@ -120,6 +126,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // Mostrar formulario para cambiar contraseña
+    const cambiarContrasenaElement = document.getElementById('cambiarContrasena');
+    if (cambiarContrasenaElement) {
+
+        cambiarContrasenaElement.addEventListener('change', () => {
+
+            let contrasenaElement = document.getElementById('mostrarCambiarContrasena');
+
+            if (cambiarContrasenaElement.checked) {
+                contrasenaElement.classList.remove('bounceOutLeft', 'ocultar');
+                contrasenaElement.classList.add('bounceInLeft');
+
+                [...contrasenaElement.children].map( (element) => {
+                    element.firstElementChild.required = true;
+                });
+
+            } else {
+                contrasenaElement.classList.remove('bounceInLeft');
+                contrasenaElement.classList.add('bounceOutLeft');
+
+                [...contrasenaElement.children].map( (element) => {
+                    element.firstElementChild.required = false;
+                });
+
+                setTimeout(() => {
+                    contrasenaElement.classList.add('ocultar');
+                }, 750);
+            }
+
+        });
+    }
 
 
 });
