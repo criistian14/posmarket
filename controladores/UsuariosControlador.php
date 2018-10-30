@@ -460,7 +460,7 @@ class UsuariosControlador
 
             $usuario = (isset($_SESSION['admin']) ? unserialize($_SESSION['admin']) : unserialize($_SESSION['usuario']) );
 
-            print_r($usuario);
+           
 
             // Requerir la vista que muestra el perfil
             include '../vistas/usuarios/perfil.php';

@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <title>Posmarket</title>
-
-
-    <!-- Llamando el php que contiene la hoja de estilos -->
-    <?php include_once '../vistas/includes/estilos.php'; ?>
+    <script type="text/javascript" src="public/js/jquery.js"></script>
+<script type="text/javascript" src="public/js/materialize.min.js"></script>
+    <script src="public/js/main.js"></script>
+    <link rel="stylesheet" href="public/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+    <!-- Gitter Chat Link -->
+<!-- Script Materialice -->
 
 </head>
 <body>
@@ -56,8 +58,8 @@
     <!-- Todos los productos -->
     <div class="row" id="productos">
 
-
-
+            
+            
     </div>
     
 
@@ -76,7 +78,7 @@
         $('.slider').slider({full_width: true});
         productos();
 
-
+        
 
     });
 </script>

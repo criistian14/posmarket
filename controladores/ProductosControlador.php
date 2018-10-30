@@ -70,6 +70,106 @@ class ProductosControlador
     }
 
 
+    // Funcion para mostrar el formulario de registro de usuarios
+    public function registro()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) || !isset($_SESSION['usuario']) ) {
+
+            // Cargar mensaje de error si es que existe
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+            // Cargar datos del usuario si tuvo un error
+            $datosProducto = ( isset($_COOKIE['datos_producto_registro']) ? unserialize($_COOKIE['datos_producto_registro']) : null);
+
+            // Requerir la vista que muestra el formulario para registrar un usuario
+            include '../vistas/productos/registro.php';
+
+        } else {
+            header('Location: UsuariosControlador.php?action=perfil');
+        }
+    }
+
+    
+    /*  Funcion para registrar al usuario en la base de datos o en caso de que no haya enviado datos
+        lo va a redirigir al registro
+    */
+    public function registrar()
+    {
+        // Comprobar si se envio por el formulario
+        if (isset($_POST["flag"])) {
+
+            // Hacer consulta si existe un usuario con la cedula digitada en el formulario
+            $comprobarProducto = Producto::donde('codigo', $_POST['codigo'])
+                                       ->resultado();
+
+           // Comprobar si la cedula no se encuentra registrada
+            $codigoValido = ( empty($comprobarProducto) ? true : false );
+
+
+            if ($codigoValido) {
+
+
+                    // Crear una instancia (Objeto) de Usuario
+                    $producto = new Producto;
+
+                    // Pasarle los datos a la instancia
+                    $producto->codigo     = $_POST['codigo'];
+                    $producto->nombre     = $_POST['nombre'];
+                    $producto->precio    = $_POST['precio'];
+                    $producto->cantidad     = $_POST['cantidad'];
+                    $producto->oferta     = $_POST['oferta'];
+                    $producto->tamano  = $_POST['tamano'];
+                    $producto->tipo_producto     = $_POST['tipo_producto'];
+                    $carpeta_destinofinal = "../public/img/";
+                    $producto->activo = $_POST["activo"];
+                    $producto->imagen = $carpeta_destinofinal . rand(1, 10000) . $_POST['imagen'];
+                    
+                    move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
+
+                    // Guardar el usuario
+                    $res = $producto->guardar();
+
+                    // Comprobar si se guardo correctamente el usuario en la db
+                    if ($res == 1) {
+                        $msg = "Producto creado exitosamente";
+                    } else {
+                        $msg = "Error no se pudo crear";
+                    }
+
+                    // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
+                    setcookie('mensaje', $msg, time() + 5 );
+                    
+                    // Redirigir a la lista de usuarios
+                    header('Location: ProductosControlador.php');
+
+
+                
+
+
+            } else {
+
+                // Guardar mensaje con los datos del usuario enviados por POST en una cookie
+                setcookie('datos_producto_registro', serialize($_POST), time() + 20);
+
+                // Guardar un mensaje de error en una cookie (Si la cedula ya existe)
+                setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 );
+
+                // Redirigir al formulario
+                header('Location: UsuariosControlador.php?action=registro');
+            }
+
+
+
+        } else {
+
+            // Si aun no ha completado el formulario se va a redirigir al formulario
+            header('Location: UsuariosControlador.php?action=registro');
+        }
+
+    }
+
+
 
     // Funcion para eliminar un producto de la base de datos
     public function eliminar()
@@ -132,7 +232,7 @@ class ProductosControlador
 
 
                    // Comprobar si la cedula no se encuentra registrada
-                   $codigoValido = ( empty($comprobarUsuario) ? true : false );
+                   $codigoValido = ( empty($comprobarProducto) ? true : false );
                 }
 
 
@@ -141,38 +241,52 @@ class ProductosControlador
 
 
                     // Pasarle los datos a la instancia
-                    $usuario->apellido   = $_POST['apellido'];
-                    $usuario->cedula     = $_POST['cedula'];
-                    $usuario->celular    = $_POST['celular'];
-                    $usuario->ciudad     = $_POST['ciudad'];
-                    $usuario->correo     = $_POST['correo'];
-                    $usuario->direccion  = $_POST['direccion'];
-                    $usuario->nombre     = $_POST['nombre'];
-                    $usuario->rol_id     = $_POST['rol_id'];
+                    $producto->codigo     = $_POST['codigo'];
+                    $producto->nombre     = $_POST['nombre'];
+                    $producto->precio    = $_POST['precio'];
+                    $producto->cantidad     = $_POST['cantidad'];
+                    $producto->oferta     = $_POST['oferta'];
+                    $producto->tamano  = $_POST['tamano'];
+                    $producto->tipo_producto     = $_POST['tipo_producto'];
+                    $carpeta_destinofinal = "../public/img/";
+                    
+                    // Condicion
+                    if(isset($_POST["activo"])){
 
+                        $producto->activo = 1;
+
+                    }else{
+                        $producto->activo = 0;
+                    }
+
+                    $producto->imagen = $carpeta_destinofinal . rand(1, 10000) . $_POST['imagen'];
+
+                    // Mover la imagen a su respectiva carpeta
+                    move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
+                 
                     // Actualizar el usuario
-                    $res = $usuario->guardar();
+                    $res = $producto->guardar();
 
 
                     // Comprobar si se actualizo correctamente el usuario en la db
                     if ($res == 1) {
-                        $msg = "Usuario se actualizo exitosamente";
+                        $msg = "Producto se actualizo exitosamente";
                     } else {
-                        $msg = "Error al actualizar el usuario";
+                        $msg = "Error al actualizar el producto";
                     }
 
                     // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
                     setcookie('mensaje', $msg, time() + 5 );
 
                     // Redirigir a la lista con todos los usuarios
-                    header('Location: UsuariosControlador.php?action=todos');
+                    header('Location: ProductosControlador.php?action=todos');
 
 
 
                 } else {
 
                     // Guardar un mensaje de error en una cookie (Si la cedula ya existe)
-                    setcookie('mensaje', 'La codigo ya se encuentra registrada', time() + 10 );
+                    setcookie('mensaje', 'el codigo ya se encuentra registrado', time() + 10 );
 
                     // Redirigir al formulario
                     header("Location: UsuariosControlador.php?action=actualizar&id=$id");

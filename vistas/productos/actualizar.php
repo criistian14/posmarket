@@ -20,7 +20,7 @@
 
         <div class="row" style="display: flex; justify-content: center; margin-top: 80px">
 
-            <form method="POST" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" class="col s12 m7 card" style="margin-left: 0;" >
+            <form enctype="multipart/form-data" method="POST" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" class="col s12 m7 card" style="margin-left: 0;" >
 
                 <span class="card-title deep-orange-text titulo-cart-main">Actualizar</span>
 
@@ -31,7 +31,7 @@
 
                 <div class="input-field">
                     <i class="material-icons prefix">vpn_key</i>
-                    <input type="text" class="validate" id="txtCedula" name="cedula" required
+                    <input type="text" class="validate" id="txtCedula" name="codigo" required
                             value="<?php echo $producto->codigo ?>">
                     <label for="txtCedula">Codigo</label>
                 </div>
@@ -49,7 +49,7 @@
 
                 <div class="input-field" style="margin-top: 15px;">
                     <i class="material-icons prefix">monetization_on</i>
-                    <input type="text" class="validate" id="txtApellido" name="apellido" required
+                    <input type="text" class="validate" id="txtApellido" name="precio" required
                             value="<?php echo $producto->precio ?>">
                     <label for="txtApellido">Precio</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
@@ -58,7 +58,7 @@
 
                 <div class="input-field" style="margin-top: 15px;">
                     <i class="material-icons prefix">grid_on</i>
-                    <input type="email" class="validate" id="txtCorreo" name="correo" required
+                    <input type="text" class="validate" id="txtCorreo" name="cantidad" required
                             value="<?php echo $producto->cantidad ?>">
                     <label for="txtCorreo">Cantidad</label>
                     <span class="helper-text" data-error="Correo valido"></span>
@@ -67,7 +67,7 @@
 
                 <div class="input-field" style="margin-top: 15px;">
                     <i class="material-icons prefix">shopping_basket</i>
-                    <input type="text" class="validate" id="txtCiudad" name="ciudad" required
+                    <input type="text" class="validate" id="txtCiudad" name="oferta" required
                             value="<?php echo $producto->oferta ?>">
                     <label for="txtCiudad">Oferta</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
@@ -75,16 +75,23 @@
 
                 <div class="input-field" style="margin-top: 15px;">
                     <i class="material-icons prefix">assignment</i>
-                    <input type="text" class="validate" id="txtCiudad" name="ciudad" required
+                    <input type="text" class="validate" id="txtCiudad" name="tipo_producto" required
                             value="<?php echo $producto->tipo_producto ?>">
                     <label for="txtCiudad">Tipo del producto</label>
+                    <span class="helper-text" data-error="Obligatorio"></span>
+                </div>
+
+                <div class="input-field" style="margin-top: 25px;">
+                    <i class="material-icons prefix">location_on</i>
+                    <input type="text" class="validate" id="txtDireccion" name="tamano" required
+                            value="<?php echo $producto->tamano ?>">
+                    <label for="txtDireccion">Tamaño</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
                 </div>
 
                 <div style="display: flex; justify-content: center; height: 350px" >
                     <img class="materialboxed" width="350" src="<?php echo $producto->imagen ?>" alt="">
                 </div>
-
 
                 <!-- IMAGEN -->
                 <div class="file-field input-field">
@@ -93,16 +100,23 @@
                         <input type="file" name="imagen_producto">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Upload one or more files" name="imagen">
+                        <input class="file-path validate" type="text" name="imagen" placeholder="Upload one or more files">
                     </div>
                 </div>
 
-                <div class="input-field" >
+                <p>
                     <label>
-                        <input type="checkbox" class="filled-in" />
-                        <span>Activo</span>
+                        <?php if($producto->activo == 0):?>
+                            <input id="indeterminate-checkbox" type="checkbox" name="activo" />
+                        
+                        <?php else: ?>
+                            <input id="indeterminate-checkbox" type="checkbox" checked name="activo" />
+                        <?php endif ?>
+                    <span>Activo</span>    
+
+
                     </label>
-                </div>
+                </p>
 
 
 

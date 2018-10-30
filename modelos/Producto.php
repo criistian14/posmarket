@@ -264,9 +264,11 @@ class Producto {
 		// Crear una instancia de la conexion
 		$conexion = new Conexion;
 
+        
 
 		// Elimina al usuario de la bd encontrado por id
-		$conexion->conn->query("DELETE FROM " . static::$tablaConsulta . " WHERE id = $id LIMIT 1");
+        $conexion->conn->query("DELETE FROM " . static::$tablaConsulta . " WHERE id = $id LIMIT 1");
+        
 	}
 
 
@@ -278,13 +280,101 @@ class Producto {
 
 
 		// Crear una instancia de la conexion
-		$conexion = new Conexion;
+        $conexion = new Conexion;
+        
+        
+		// Consulta para la base de datos y despues lo guarda en la variable
+		$resultado = $conexion->conn->query("SELECT * FROM " . static::$tablaConsulta . " where id = $id LIMIT 1");
+
+		// Guardar el usuario encontrado por id en la variable
+        $productoEncontrado = $resultado->fetch_assoc();
+        
+        // Eliminar imagen de la carpeta
+        unlink($productoEncontrado['imagen']);
 
 
-		// Elimina al usuario de la bd encontrado por id
+		// Elimina al producto de la bd encontrado por id
 		$conexion->conn->query("DELETE FROM ". static::$tablaConsulta ." WHERE id = $id LIMIT 1");
-	}
+    
+    }
+    
 
+    // ---------------- Actualizar --------------------
+	// Funcion para guardar los datos del objecto actual (Producto), ya sea actualizar o guardar uno nuevo
+	public function guardar()
+	{
+		// Crear una instancia de la conexion
+        $conexion = new Conexion;
+        
+
+
+		// Comprobar si es un registro nuevo o uno ya existente
+		if ($this->update) {
+            
+            // Consulta para la base de datos y despues lo guarda en la variable
+		    $resultado = $conexion->conn->query("SELECT * FROM " . static::$tablaConsulta . " where id = $this->id LIMIT 1");
+
+            // Guardar el usuario encontrado por id en la variable
+            $productoEncontrado = $resultado->fetch_assoc();
+            
+            // Eliminar imagen de la carpeta
+            unlink($productoEncontrado['imagen']);
+            
+
+
+			// Preparar la sentencia para actualizar el usuario en la bd
+			$sentencia = $conexion->conn->prepare("UPDATE productos SET codigo= ?, nombre= ?, precio= ?, cantidad= ?, oferta= ?, tamano= ?, tipo_producto= ?, imagen= ?, activo = ? WHERE id= ?");
+            
+			 // Pasar los campos del objecto a la sentencia
+             $sentencia->bind_param(
+                'isiiisssii',
+                $this->codigo,
+                $this->nombre,
+                $this->precio,
+                $this->cantidad,
+                $this->oferta,
+                $this->tamano,
+                $this->tipo_producto,
+                $this->imagen,
+                $this->activo,
+                $this->id
+                
+             );
+
+		} else {
+
+			// Preparar la sentencia para isertar el usuario en la bd
+			$sentencia = $conexion->conn->prepare("INSERT INTO productos VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+		    // Pasar los campos del objecto a la sentencia
+			$sentencia->bind_param(
+                    'isiiisssi',
+					$this->codigo,
+					$this->nombre,
+					$this->precio,
+					$this->cantidad,
+					$this->oferta,
+					$this->tamano,
+					$this->tipo_producto,
+                    $this->imagen,
+                    $this->activo
+					
+			);
+		}
+
+
+		// Ejecutar la sentencia
+		if ( $sentencia->execute() ) {
+
+			// Devolver un uno si fue un exito
+			return 1;
+		} else {
+
+			// Devolver un 0 si ocurrio un error
+			return 0;
+		}
+
+	}
 
 
 

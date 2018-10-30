@@ -42,7 +42,6 @@
 <?php
   } else if(isset($_SESSION['admin'])){
 
-
 ?>
 <nav class="orange accent-4">
   <div class="row" style="margin: 0px">
@@ -55,10 +54,9 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
 
 
-              <li><a href="#">Gestionar Productos</a></li>
-              <li><a href="../vistas/CrearProducto.php">Crear Productos</a></li>
+              <li><a href="/posmarket/controladores/ProductosControlador.php">Gestionar Productos</a></li>
               <li><a href="#">Ventas</a></li>
-              <li><a href="#">Usuarios</a></li>
+              <li><a href="/posmarket/controladores/UsuariosControlador.php">Usuarios</a></li>
               <li><a href="#">Inventario</a></li>
               <li><a href="#">Configuracion</a></li>
               <li><a href="../vistas/cerrar_seccion.php">Cerrar Seccion</a></li>
@@ -77,7 +75,7 @@
 <nav class="orange accent-4">
   <div class="row" style="margin: 0px">
       <div class="col s3">
-        <a href="/proyecto/index.php" class="brand-logo"><img src="./public/img/logo.png" width="65" class="responsive-img"></a>
+        <a href="/proyecto/index.php" class="brand-logo"><img src="/posmarket/public/img/logo.png" width="65" class="responsive-img"></a>
       </div>
       <div class="col s5">
 

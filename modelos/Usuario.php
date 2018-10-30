@@ -407,7 +407,7 @@ class Usuario
 			);
 		}
 
-
+		
 		// Ejecutar la sentencia
 		if ( $sentencia->execute() ) {
 
