@@ -460,10 +460,6 @@ class UsuariosControlador
 
             $usuario = (isset($_SESSION['admin']) ? unserialize($_SESSION['admin']) : unserialize($_SESSION['usuario']) );
 
-<<<<<<< HEAD
-           
-=======
->>>>>>> 7e837bdb6bd138076d6668b1610c1cdc8c1244b4
 
             // Cargar mensaje de error si es que existe
             $msg = ( isset($_COOKIE['mensaje_perfil']) ? $_COOKIE['mensaje_perfil'] : null);
