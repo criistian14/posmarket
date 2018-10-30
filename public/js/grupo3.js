@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Tabs de materialize
     const tabsMaterializeElements = document.querySelectorAll('.tabs');
     if (tabsMaterializeElements) {
-        let intancesSelectsElement = M.Tabs.init(tabsMaterializeElements);
+        let intancesSelectsElement = M.Tabs.init(tabsMaterializeElements, { swipeable: false });
     }
 
 

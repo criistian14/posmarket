@@ -32,6 +32,11 @@
                         <span class=" red-text " style="margin-bottom: 1.5rem; display: block; font-size: 18px;"><?php echo $msg ?></span>
                     <?php endif; ?>
 
+                    <?php if ($msgSuccess != null): ?>
+                        <span class="alerta-teal-darken-3 alerta " style="margin-bottom: 1.5rem; display: block; font-size: 18px;"><?php echo $msgSuccess ?></span>
+                    <?php endif; ?>
+
+
 
                     <div id="datosPersonales">
 
