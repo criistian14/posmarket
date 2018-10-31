@@ -9,7 +9,7 @@
 <nav class="orange accent-4">
   <div class="row" style="margin: 0px">
       <div class="col s3">
-        <a href="/proyecto/index.php" class="brand-logo"><img src="./public/img/logo.png" width="65" class="responsive-img"></a>
+        <a href="../" class="brand-logo"><img src="./public/img/logo.png" width="65" class="responsive-img"></a>
       </div>
       <div class="col s6">
 
@@ -28,7 +28,8 @@
           <div>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-              <li><a href="controladores/UsuariosControlador.php?action=login">Mi Cuenta</a></li>
+
+            <li><a href="./controladores/UsuariosControlador.php?action=login">Cuenta</a></li>
 
               <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
@@ -54,12 +55,13 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
 
 
-              <li><a href="/posmarket/controladores/ProductosControlador.php">Gestionar Productos</a></li>
+              <li><a href="./ProductosControlador.php">Gestionar Productos</a></li>
               <li><a href="#">Ventas</a></li>
-              <li><a href="/posmarket/controladores/UsuariosControlador.php">Usuarios</a></li>
-              <li><a href="#">Inventario</a></li>
+              <li><a href="./UsuariosControlador.php">Usuarios</a></li>
+              <li><a href="./ReportesControlador.php">Reportes</a></li>
+              <li><a href="./UsuariosControlador.php?action=perfil">Cuenta</a></li>
               <li><a href="#">Configuracion</a></li>
-              <li><a href="../vistas/cerrar_seccion.php">Cerrar Seccion</a></li>
+              <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
             </ul>
           </div>
 
@@ -94,10 +96,10 @@
           <div>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-              <li><a href="controladores/UsuariosControlador.php?action=login">Mi Cuenta</a></li>
+              <li><a href="./controladores/UsuariosControlador.php?action=login">Mi Cuenta</a></li>
 
               <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
-              <li><a href="UsuariosControlador.php?action=cerrar">Cerrar Session</a></li>
+              <li><a href="./controladores/UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
 
             </ul>
           </div>

@@ -27,14 +27,14 @@
 
         <div class="row" style="margin-top: 4rem;">
 
-            <form action="" id="crearReporte">
+            <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post" id="crearReporte">
 
 
                 <div class="input-field col s12">
 
                     <h5 class="deep-orange-text">Tipo de reporte</h5>
 
-                    <select name="tipoReporte" >
+                    <select name="tipoReporte" required >
                         <option value="" disabled selected>Escoge un tipo de reporte</option>
 
                         <?php foreach ($tiposReporte as $key => $tipoReporte): ?>
@@ -50,28 +50,45 @@
 
                     <h5 class="deep-orange-text">Descripcion</h5>
 
-                    <textarea name="descripcion" id="textareaDescripcionReporte"  class="materialize-textarea"></textarea>
+                    <textarea name="descripcion" id="textareaDescripcionReporte"  class="materialize-textarea" required></textarea>
                 </div>
 
 
-                <div class="input-field col s12">
+                <div class="input-field col s12" style="margin-bottom: 2.7rem;">
                     <label>
-                        <input type="checkbox" class="filled-in" id="mostrarListaProductos" />
+                        <input type="checkbox" class="filled-in" id="mostrarListaProductos"  />
                         <span>¿Es un producto?</span>
                     </label>
                 </div>
 
 
-                <div class="input-field col s12" id="listaProductos" style="margin-top: 3rem;" >
+                <div class="animated ocultar" id="listaProductos" >
+                    <div class="input-field col s12">
 
-                    <h5 class="deep-orange-text">Lista De Productos</h5>
+                        <h5 class="deep-orange-text">Lista De Productos</h5>
 
-                    <select name="tipoReporte" >
-                        <option value="" disabled selected>Escoge que producto es</option>
+                        <select name="producto" >
+                            <option value="" disabled selected>Escoge que producto es</option>
 
-                        <option value="crearNuevoTipo">Crear un producto</option>
+                            <?php foreach ($productos as $key => $producto): ?>
+                                <option value="<?php echo $producto->id ?>"><?php echo "$producto->codigo: $producto->nombre" ?></option>
+                            <?php endforeach; ?>
 
-                    </select>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+                <input type="hidden" name="flag" value="1">
+
+                <div style="margin-top: 5rem; display: inline-block; width: 100%;">
+                    <div style="display: flex; justify-content: space-around;">
+                        <button type="submit" class="waves-effect waves-light btn deep-orange" >Guardar</button>
+
+                        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="waves-effect waves-light btn teal darken-3">Cancelar</a>
+                    </div>
                 </div>
 
 

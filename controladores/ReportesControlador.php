@@ -2,7 +2,9 @@
 
 session_start();
 require_once '../modelos/Reporte.php';
+require_once '../modelos/Usuario.php';
 require_once '../modelos/TipoReporte.php';
+require_once '../modelos/Producto.php';
 
 
 class ReportesControlador
@@ -11,6 +13,9 @@ class ReportesControlador
     // Constructor de la clase que ejecutara las funciones segun se soliciten
     function __construct()
     {
+        // Establecer zona horaria Colombia
+        date_default_timezone_set('America/Bogota');
+
         // Se comprueba si se paso por metodo get una accion en concreto o sino se le asigna "todos"
         $action = ( isset($_GET["action"]) ? $_GET["action"] : "todos");
 
@@ -31,7 +36,7 @@ class ReportesControlador
     public function todos()
     {
         // La cantidad de reportes que va a mostrar
-        $numeroReportes = 1;
+        $numeroReportes = 5;
 
         // Obtener que numero de pagina es
         $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
@@ -47,12 +52,12 @@ class ReportesControlador
 
 
         // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $reportes = Reporte::seleccionar('reportes.*, usuarios.*, tipo_reportes.reporte, roles.rol')
+        $reportes = Reporte::seleccionar('reportes.*, usuarios.nombre, usuarios.ciudad, usuarios.cedula, usuarios.rol_id, tipo_reportes.reporte, roles.rol')
                             ->unir('reportes', 'usuarios', 'usuario_id', 'id')
                             ->unir('reportes', 'tipo_reportes', 'tipo_reporte_id', 'id')
                             ->unir('usuarios', 'roles', 'rol_id', 'id')
+                            ->limite($inicioConsulta, $numeroReportes)
                             ->resultado();
-
 
         // Mensaje
         $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
@@ -63,27 +68,216 @@ class ReportesControlador
     }
 
 
+
+    // Funcion para crear un reporte y guardarlo en la base de datos
     public function crear()
     {
-        $tiposReporte = TipoReporte::todos();
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
 
-        if ( isset($_POST['flagNuevoTipoReporte']) ) {
+            // Si se envio el formulario para crear Reporte
+            if( isset($_POST['flag']) ) {
 
-            $tipoReporte = new TipoReporte;
+                // Obtener la fecha actual
+                $fecha_actual = date('Y-m-d');
 
-            $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
+                // Obtener el usuario actual
+                $usuario = unserialize($_SESSION['admin']);
 
-            $tipoReporte->guardar();
+                // Crear una instancia (Objeto) de Reporte
+                $reporte = new Reporte;
 
-            header('Location: ReportesControlador.php?action=crear');
+                // Pasarle los datos a la instancia
+                $reporte->descripcion       = $_POST['descripcion'];
+                $reporte->tipo_reporte_id   = $_POST['tipoReporte'];
+                $reporte->fecha             = $fecha_actual;
+                $reporte->usuario_id        = $usuario->id;
 
 
+                // Si el reporte es de un Producto
+                if( isset($_POST['producto']) ) {
+                    $reporte->producto_id = $_POST['producto'];
+                }
+
+
+
+                // Guardar el Reporte
+                $res = $reporte->guardar();
+
+
+
+                // Comprobar si se guardo correctamente el reporte en la db
+                if ($res == 1) {
+                    $msg = "Reporte creado exitosamente";
+                } else {
+                    $msg = "Error al crear el reporte";
+                }
+
+                // Guardar mensaje con el resultado de la operacion de guardar el reporte en una cookie
+                setcookie('mensaje', $msg, time() + 5 );
+
+                // Redirigir a la lista de reportes
+                header('Location: ReportesControlador.php');
+
+
+
+
+            // Si se envio el formulario para crear un Tipo de Reporte
+            } elseif( isset($_POST['flagNuevoTipoReporte']) ) {
+
+                $tipoReporte = new TipoReporte;
+
+                $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
+
+                $tipoReporte->guardar();
+
+                header('Location: ReportesControlador.php?action=crear');
+
+
+            } else {
+
+                // Consultar tipos de reporte
+                $tiposReporte = TipoReporte::todos();
+
+                // Consultar productos
+                $productos = Producto::todos();
+
+                // Requerir la vista que muestra el formulario para crear un reporte
+                include '../vistas/reportes/crear.php';
+            }
         } else {
 
-            include '../vistas/reportes/crear.php';
+            // Redirigir al login
+            header('Location: UsuariosControlador.php?action=login');
         }
 
     }
+
+
+
+    // Funcion para eliminar un reporte de la base de datos
+    public function eliminar()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
+
+            // Capturar el id enviado por GET
+            $id = $_GET['id'];
+
+            // Encontra el reporte por el id capturado y eliminarlo
+            Reporte::eliminarPorID($id);
+
+            // Guardar un mensaje de que se elimino correctamente en una cookie
+            setcookie('mensaje', 'Se elimino correctamente el reporte ', time() + 10 );
+
+
+            // Redirigir a la tabla con todos los usuarios
+            header('Location: ReportesControlador.php');
+
+        } else {
+
+            // Redirigir al perfil
+            header('Location: UsuariosControlador.php?action=perfil');
+        }
+    }
+
+
+
+    // Funcion para actualizar un reporte de la base de datos
+    public function actualizar()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
+
+            // Capturar el id enviado por GET
+            $id = $_GET['id'];
+
+            // Encontra el usuario por el id capturado y guardarlo en una variable
+            $reporte = Reporte::encontrarPorID($id);
+
+            // Consultar tipos de reporte
+            $tiposReporte = TipoReporte::todos();
+
+            // Consultar productos
+            $productos = Producto::todos();
+
+            // Consultar usuarios
+            $usuarios = Usuario::todos();
+
+
+            // Cargar mensaje de error si es que existe
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+            // Cargar mensaje de correcto si es que existe
+            $msgSuccess = ( isset($_COOKIE['mensaje_reporte_actualizar_success']) ? $_COOKIE['mensaje_reporte_actualizar_success'] : null);
+
+
+
+            // Si se envio el formulario para crear Reporte
+            if (isset($_POST["flag"])) {
+
+
+                // Pasarle los datos a la instancia
+                $reporte->descripcion       = $_POST['descripcion'];
+                $reporte->tipo_reporte_id   = $_POST['tipoReporte'];
+                $reporte->fecha             = $_POST['fecha'];
+                $reporte->usuario_id        = $_POST['usuario'];
+
+
+                // Si el reporte es de un Producto
+                if( isset($_POST['productoConfirmar']) ) {
+                    $reporte->producto_id = $_POST['producto'];
+                } else {
+                    $reporte->producto_id = null;
+                }
+
+
+
+                // Guardar el Reporte
+                $res = $reporte->guardar();
+
+
+                // Comprobar si se actualizo correctamente el usuario en la db
+                if ($res == 1) {
+                    $msg = "El reporte se actualizo exitosamente";
+                } else {
+                    $msg = "Error al actualizar el reporte";
+                }
+
+                // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
+                setcookie('mensaje', $msg, time() + 5 );
+
+                // Redirigir a la lista con todos los reportes
+                header('Location: ReportesControlador.php?action=todos');
+
+
+
+            // Si se envio el formulario para crear un Tipo de Reporte
+            } elseif( isset($_POST['flagNuevoTipoReporte']) ) {
+
+                $tipoReporte = new TipoReporte;
+
+                $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
+
+                $tipoReporte->guardar();
+
+                header("Location: ReportesControlador.php?action=actualizar&id=$id");
+
+
+            } else {
+
+                // Requerir la vista que muestra el formulario para actualizar un reporte
+                include '../vistas/reportes/actualizar.php';
+            }
+
+        } else {
+
+            // Redirigir al perfil
+            header('Location: UsuariosControlador.php?action=perfil');
+        }
+    }
+
+
 
 
 

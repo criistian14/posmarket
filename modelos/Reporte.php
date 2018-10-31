@@ -252,9 +252,9 @@ class Reporte
 		$resultado = $conexion->conn->query($sql);
 
 
-
 		// Recorrer todos los reportes que llegaron de la bd
 		while ( $reporte = $resultado->fetch_assoc() ) {
+
 
 			// Crear un reporte temporal en cada vuelta
 			$reporteTemporal = new Reporte();
@@ -433,7 +433,15 @@ class Reporte
 
 
 		// Ejecutar la sentencia
-		$sentencia->execute();
+		if ( $sentencia->execute() ) {
+
+			// Devolver un uno si fue un exito
+			return 1;
+		} else {
+
+			// Devolver un 0 si ocurrio un error
+			return 0;
+		}
 	}
 
 

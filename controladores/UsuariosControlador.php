@@ -33,7 +33,7 @@ class UsuariosControlador
         if( isset($_SESSION['admin']) ){
 
             // La cantidad de usuarios que va a mostrar
-            $numeroUsuarios = 2;
+            $numeroUsuarios = 5;
 
             // Obtener que numero de pagina es
             $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
@@ -65,7 +65,7 @@ class UsuariosControlador
 
         } else {
 
-            // Redirigir a
+            // Redirigir al login
             header('Location: UsuariosControlador.php?action=login');
         }
     }
@@ -522,6 +522,8 @@ class UsuariosControlador
 
                             // Redirigir al formulario login
                             header('Location: UsuariosControlador.php?action=perfil');
+
+                            return;
                         }
 
                     } // <-- Fin del cambio de contraseña
