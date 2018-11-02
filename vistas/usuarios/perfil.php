@@ -17,7 +17,7 @@
 
 
 
-    <div class="container">
+    <main class="container">
 
         <div class="row" style="margin-top: 5rem;">
             <div class="col s12 card">
@@ -149,7 +149,7 @@
 
 
 
-    </div>
+    </main>
 
 
 
@@ -157,8 +157,8 @@
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
-    <!-- Llamando el php que contiene los scripts propios del grupo 3 -->
-    <?php include_once '../vistas/includes/grupo3.php'; ?>
+    <!-- Llamando el php que contiene los scripts propios de usuarios -->
+    <?php include_once '../vistas/includes/usuarios.php'; ?>
 
 
 </body>

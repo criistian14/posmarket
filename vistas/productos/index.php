@@ -19,7 +19,7 @@
 
 
 
-    <div class="container">
+    <main class="container">
         <div class="row">
 
             <div class="col s12">
@@ -158,7 +158,7 @@
 
 
 
-    </div>
+    </main>
 
 
 
@@ -168,6 +168,7 @@
 
     <!-- Llamando el php que contiene los scripts propios del grupo 3 -->
     <?php include_once '../vistas/includes/productos.php'; ?>
+
 
 </body>
 </html>

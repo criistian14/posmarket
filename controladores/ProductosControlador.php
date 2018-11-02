@@ -10,6 +10,10 @@ class ProductosControlador
     // Constructor de la clase que ejecutara las funciones segun se soliciten
     function __construct()
     {
+        if (empty($_GET)) {
+            header('Location: ProductosControlador.php?action=todos');
+        }
+
         // Se comprueba si se paso por metodo get una accion en concreto o sino se le asigna "todos"
         $action = ( isset($_GET["action"]) ? $_GET["action"] : "todos");
 
@@ -90,7 +94,7 @@ class ProductosControlador
         }
     }
 
-    
+
     /*  Funcion para registrar al usuario en la base de datos o en caso de que no haya enviado datos
         lo va a redirigir al registro
     */
@@ -124,7 +128,7 @@ class ProductosControlador
                     $carpeta_destinofinal = "../public/img/";
                     $producto->activo = $_POST["activo"];
                     $producto->imagen = $carpeta_destinofinal . rand(1, 10000) . $_POST['imagen'];
-                    
+
                     move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
 
                     // Guardar el usuario
@@ -139,12 +143,12 @@ class ProductosControlador
 
                     // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
                     setcookie('mensaje', $msg, time() + 5 );
-                    
+
                     // Redirigir a la lista de usuarios
                     header('Location: ProductosControlador.php');
 
 
-                
+
 
 
             } else {
@@ -249,7 +253,7 @@ class ProductosControlador
                     $producto->tamano  = $_POST['tamano'];
                     $producto->tipo_producto     = $_POST['tipo_producto'];
                     $carpeta_destinofinal = "../public/img/";
-                    
+
                     // Condicion
                     if(isset($_POST["activo"])){
 
@@ -263,7 +267,7 @@ class ProductosControlador
 
                     // Mover la imagen a su respectiva carpeta
                     move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
-                 
+
                     // Actualizar el usuario
                     $res = $producto->guardar();
 
@@ -313,7 +317,7 @@ class ProductosControlador
     public function error($action)
     {
         if ( empty($action) ) {
-            header('Location: ProductosControlador.php');
+            header('Location: ProductosControlador.php?action=todos');
         }
     }
 

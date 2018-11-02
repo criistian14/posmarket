@@ -37,7 +37,7 @@
 } /*Black color to the text*/
 
 .tabs .tab a:hover {
-    background-color: rgba(0, 105, 92, 0.2) ;
+    background-color: rgba(0, 105, 92, 0.2);
     color: #000;
 } /*Text color on hover*/
 
@@ -49,6 +49,45 @@
 .tabs .indicator {
     background-color: rgba(255, 109, 0, 1);
 } /*Color of underline*/
+
+
+
+
+header, main, footer {
+    padding-left: 180px;
+}
+
+.sidenav {
+    top: 64px;
+}
+
+.hover-teal-darken-3 li:hover {
+    background-color: rgba(255, 109, 0, .2) !important;
+}
+
+.menu-active {
+    border-style: solid;
+    border-width: 0 0 2px 0;
+    border-color: rgba(255, 109, 0, 1);
+}
+
+
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+
+    .hidden-s {
+        display: none;
+    }
+
+    .sidenav {
+        top: 0;
+    }
+}
+
+
 
 
 

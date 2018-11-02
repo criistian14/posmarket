@@ -44,10 +44,45 @@
   } else if(isset($_SESSION['admin'])){
 
 ?>
+
 <nav class="orange accent-4">
+    <div class="row" style="display: flex; justify-content: space-between;">
+        <div class="col s0 ">
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+
+        <div class="col s10 m10">
+            <h5>Panel de administrador</h5>
+        </div>
+
+        <div class="col m2 hidden-s">
+            <h5>Nombre</h5>
+        </div>
+
+    </div>
+
+
+
+</nav>
+
+<ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
+    <li><a href="#!">Inicio</a></li>
+    <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
+    <li><a href="./UsuariosControlador.php">Usuarios</a></li>
+    <li><a href="./ReportesControlador.php">Reportes</a></li>
+    <li><a href="#!">Ventas</a></li>
+    <li><a href="#!">Compras</a></li>
+    <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
+    <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+
+</ul>
+
+
+
+<!-- <nav class="orange accent-4">
   <div class="row" style="margin: 0px">
       <div class="col s3">
-        <a href="../vistas/indexAdmin.php" class="brand-logo"><img src="../public/img/logo.png" width="65" class="responsive-img"></a>
+        <a href="./UsuariosControlador.php?action=perfil" class="brand-logo"><img src="../public/img/logo.png" width="65" class="responsive-img"></a>
       </div>
       <div class="col s9">
 
@@ -59,15 +94,14 @@
               <li><a href="#">Ventas</a></li>
               <li><a href="./UsuariosControlador.php">Usuarios</a></li>
               <li><a href="./ReportesControlador.php">Reportes</a></li>
-              <li><a href="./UsuariosControlador.php?action=perfil">Cuenta</a></li>
-              <li><a href="#">Configuracion</a></li>
+              <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
               <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
             </ul>
           </div>
 
       </div>
   </div>
-</nav>
+</nav> -->
 
 <?php
   }else{

@@ -4,20 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script type="text/javascript" src="public/js/jquery.js"></script>
-<script type="text/javascript" src="public/js/materialize.min.js"></script>
-    <script src="public/js/main.js"></script>
-    <link rel="stylesheet" href="public/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Document</title>
-    <!-- Gitter Chat Link -->
-<!-- Script Materialice -->
+
+    <title>Inicio</title>
+
+
+    <!-- Llamando el php que contiene la hoja de estilos -->
+    <?php include_once '../vistas/includes/estilos.php'; ?>
 
 </head>
 <body>
-    <?php
-        require_once('vistas/includes/nav.php');
-    ?>
+
+    <?php require_once('vistas/includes/nav.php'); ?>
 
 
 <div class="slider">
@@ -56,12 +53,34 @@
 <div class="container">
 
     <!-- Todos los productos -->
-    <div class="row" id="productos">
+    <div class="row">
 
-            
-            
+<div class='col s12 m4'>
+<div class='card'>
+<div class='card-image'>
+<img src='https://picsum.photos/300/300/?random'>
+<span class='card-title'>
+sdsfsd
+</span>
+
+</div>
+<div class='card-content'>
+<p>
+asda
+</p>
+</div>
+<div class='card-action'>
+<button class='btn-floating btn-large waves-effect waves-light red'>
+<i class='material-icons'>add</i>
+</button>
+</div>
+</div>
+</div>
+
+
     </div>
-    
+
+    <?php print_r($productos) ?>
 
 </div>
 
@@ -72,17 +91,21 @@
 </div>
 
 
+
+
+
+<!-- JQUery viejo -->
+<script type="text/javascript" src="../public/js/jquery.js"></script>
+
 <script type="text/javascript">
 
 	 $(document).ready(function(){
         $('.slider').slider({full_width: true});
-        productos();
-
-        
-
     });
 </script>
 
+<!-- Llamando el php que contiene los scripts -->
+<?php include_once '../vistas/includes/scripts.php'; ?>
 
 
 

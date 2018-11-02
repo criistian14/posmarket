@@ -16,7 +16,7 @@
     <?php include_once '../vistas/includes/nav.php'; ?>
 
 
-    <div class="container">
+    <main class="container">
 
         <div class="row">
             <div class="col s12">
@@ -119,15 +119,15 @@
                 <button class="waves-effect waves-green btn-flat" type="submit">Crear</button>
             </div>
         </form>
-      </div>
+    </main>
 
 
 
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
-    <!-- Llamando el php que contiene los scripts propios del grupo 3 -->
-    <?php include_once '../vistas/includes/grupo3.php'; ?>
+    <!-- Llamando el php que contiene los scripts propios de reportes -->
+    <?php include_once '../vistas/includes/reportes.php'; ?>
 
 
 </body>
