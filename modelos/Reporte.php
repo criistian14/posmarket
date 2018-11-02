@@ -44,7 +44,7 @@ class Reporte
 	public static $numeroConsultasJoin = 0;
 
 	// Para especificar una consulta select
-	public static $consultaSelect = 'SELECT * FROM usuarios ';
+	public static $consultaSelect = 'SELECT * FROM reportes ';
 
 
 	// Para especificar un limite

@@ -37,15 +37,15 @@
 
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">email</i>
-                                    <input id="icon_prefix" type="text" class="validate" name="correo"
-                                            value="<?php echo ( isset($datosUsuario['correo']) ? $datosUsuario['correo'] : '') ?>" >
+                                    <input id="icon_prefix" type="email" class="validate" name="correo"
+                                            value="<?php echo ( isset($datosUsuario['correo']) ? $datosUsuario['correo'] : '') ?>" required>
                                     <label for="icon_prefix">Correo electronico</label>
                                 </div>
 
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">lock</i>
                                     <input id="icon_telephone" type="password" name="contra" class="validate"
-                                            value="<?php echo ( isset($datosUsuario['contra']) ? $datosUsuario['contra'] : '') ?>" >
+                                            value="<?php echo ( isset($datosUsuario['contra']) ? $datosUsuario['contra'] : '') ?>" required>
                                     <label for="icon_telephone">Contraseña</labe>
                                 </div>
 

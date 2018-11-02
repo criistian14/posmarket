@@ -593,7 +593,7 @@ class UsuariosControlador
     {
         session_destroy();
 
-        unset($_COOKIE['datos_usuario_login']);
+        setcookie('usuario_session', '', time() - 3600);
 
         header('Location: ../index.php');
     }

@@ -61,7 +61,7 @@ class TipoReporte
 		while ( $tipo_reporte = $resultado->fetch_assoc() ) {
 
 			// Crear un reporte temporal en cada vuelta
-			$tipoReporteTemporal = new Reporte();
+			$tipoReporteTemporal = new TipoReporte;
 
 			// Añadir los campos al reporte
 			$tipoReporteTemporal->id 	 	 = $tipo_reporte['id'];
@@ -197,7 +197,7 @@ class TipoReporte
 		$conexion = new Conexion;
 
 		// Variable que contiene la sentencia sql, uniendo si se uso la funcion donde y tambien ordenar
-		$sql = static::$consultaSelect . static::$consultasDonde . static::$consultaJoin . static::$consultaOrdenar . static::$consultaLimite;
+		$sql = static::$consultaSelect . static::$consultasDonde . static::$consultaOrdenar . static::$consultaLimite;
 
 
 		// Consulta para la base de datos y despues lo guarda en la variable
@@ -208,7 +208,7 @@ class TipoReporte
 		while ( $tipo_reporte = $resultado->fetch_assoc() ) {
 
 			// Crear un tipo de reporte temporal en cada vuelta
-			$tipoReporteTemporal = new Reporte();
+			$tipoReporteTemporal = new TipoReporte;
 
 			// Añadir los campos al tipo de reporte
 			$tipoReporteTemporal->id 	 	 = ( isset($tipo_reporte['id']) ? $tipo_reporte['id'] : '');
