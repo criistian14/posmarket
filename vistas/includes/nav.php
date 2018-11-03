@@ -1,46 +1,56 @@
 <?php
 
-
+ # Usuario que no esta logeado
 
   if(!isset($_SESSION['usuario']) && !isset($_SESSION['admin'])){
 
 ?>
 
-<nav class="orange accent-4">
-  <div class="row" style="margin: 0px">
-      <div class="col s3">
-        <a href="../" class="brand-logo"><img src="./public/img/logo.png" width="65" class="responsive-img"></a>
-      </div>
-      <div class="col s6">
+<nav>
+  <div class="nav-wrapper  orange accent-4">
 
-          <form style="margin-top: 10px">
-
-            <div class="input-field">
-
-              <input id="search" type="search" class="white" style="padding-left: 8px; border-radius: 25px">
-
-            </div>
-
-          </form>
-      </div>
-      <div class="col s3">
-
-          <div>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+    <ul class="right hide-on-med-and-down">
 
 
-            <li><a href="./controladores/UsuariosControlador.php?action=login">Cuenta</a></li>
+      <li><a href="UsuariosControlador.php?action=login">Mi Cuenta</a></li>
+      <li><a>Mi Carrito</a></li>
 
-              <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+    </ul>
 
-            </ul>
-          </div>
-
-      </div>
   </div>
+
 </nav>
+  <!-- Categorias -->
+  <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
+
+    <li style="padding: 40px">
+      <a href="../" class="brand-logo center"><img src="/posmarket/public/img/logo.png" width="75" class="responsive-img"></a>
+    </li>
+    <li class="search" style="margin-top: 30px">
+          <div class="search-wrapper">
+            <input id="search" placeholder="Buscar producto" style="padding: 7px">
+          </div>
+      </li>
+      <span style="padding: 10px">Categorias</span>
+      <li><a href="#!">Inicio</a></li>
+      <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
+      <li><a href="./UsuariosControlador.php">Usuarios</a></li>
+      <li><a href="./ReportesControlador.php">Reportes</a></li>
+      <li><a href="#!">Ventas</a></li>
+      <li><a href="#!">Compras</a></li>
+      <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
+      <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+
+  </ul>
+
+
+
+
+
 
 <?php
+
+########## ADMINISTRADOR ###############
   } else if(isset($_SESSION['admin'])){
 
 ?>

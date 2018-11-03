@@ -6,7 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const sideNavMaterializeElements = document.querySelectorAll('.sidenav');
     if (sideNavMaterializeElements) {
         let intancesSideNavElement = M.Sidenav.init(sideNavMaterializeElements);
+
     }
+
+    // Inicializar Drop Down de Materialize
+    const dropdownMaterializeElements = document.querySelectorAll('.dropdown-trigger');
+    if(dropdownMaterializeElements){
+
+        let instancesDropDownElement = M.Dropdown.init(dropdownMaterializeElements);
+        console.dir(dropdownMaterializeElements);
+
+    }
+
 
     // Inicializar selects de materialize
     const selectsMaterializeElements = document.querySelectorAll('select');

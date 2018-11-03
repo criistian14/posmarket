@@ -12,7 +12,7 @@ class IndexControlador
         $productos = Producto::todos();
 
         // Requerir la vista que muestra todos los usuarios registrados
-        include '../index.php';
+        include '../vistas/core/index.php';
     }
 
 
