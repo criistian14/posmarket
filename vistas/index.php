@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <?php require_once('vistas/includes/nav.php'); ?>
+    <?php require_once('../vistas/includes/nav.php'); ?>
 
 
 <div class="slider">
@@ -95,7 +95,7 @@ asda
 
 
 <!-- JQUery viejo -->
-<script type="text/javascript" src="../public/js/jquery.js"></script>
+<script type="text/javascript" src="public/js/jquery.js"></script>
 
 <script type="text/javascript">
 

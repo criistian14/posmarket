@@ -25,12 +25,12 @@
                 <div class="card-content">
                     <div class="row">
 
-                        <form class="col s12" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post">
+                        <form class="col s12" action="./login" method="post">
 
                             <input type="hidden" name="flag" value="1">
 
                             <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap">
-                                <img src="../public/img/logo.png" alt="carrito" style="width:100px; height: 100px">
+                                <img src="public/img/logo.png" alt="carrito" style="width:100px; height: 100px">
                             </div>
 
                             <div class="row">
@@ -65,7 +65,7 @@
 
                                 <button class="btn waves-effect deep-orange darken-1" style="width: 300px" type="submit" name="action">Iniciar Seccion</button>
 
-                                <a href="UsuariosControlador.php?action=registro">Registrarse</a>
+                                <a href="./registro">Registrarse</a>
                             </div>
 
                         </form>

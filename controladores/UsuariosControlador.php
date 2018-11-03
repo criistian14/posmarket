@@ -66,7 +66,7 @@ class UsuariosControlador
         } else {
 
             // Redirigir al login
-            header('Location: UsuariosControlador.php?action=login');
+            header('Location: login');
         }
     }
 
@@ -87,7 +87,7 @@ class UsuariosControlador
             include '../vistas/usuarios/registro.php';
 
         } else {
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -149,7 +149,7 @@ class UsuariosControlador
                     setcookie('mensaje', $msg, time() + 5 );
 
                     // Redirigir a la lista de usuarios
-                    header('Location: UsuariosControlador.php');
+                    header('Location: usuarios');
 
 
                 } else {
@@ -161,7 +161,7 @@ class UsuariosControlador
                     setcookie('mensaje', 'El correo ya se encuentra registrado', time() + 10 );
 
                     // Redirigir al formulario
-                    header('Location: UsuariosControlador.php?action=registro');
+                    header('Location: registro');
                 }
 
 
@@ -174,7 +174,7 @@ class UsuariosControlador
                 setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 );
 
                 // Redirigir al formulario
-                header('Location: UsuariosControlador.php?action=registro');
+                header('Location: registro');
             }
 
 
@@ -182,7 +182,7 @@ class UsuariosControlador
         } else {
 
             // Si aun no ha completado el formulario se va a redirigir al formulario
-            header('Location: UsuariosControlador.php?action=registro');
+            header('Location: registro');
         }
 
     }
@@ -204,7 +204,7 @@ class UsuariosControlador
                 $_SESSION['admin'] = serialize($usuario[0]);
 
                 // Redirigir a usuarios controlador
-                header('Location: UsuariosControlador.php');
+                header('Location: usuarios');
 
             } else {
 
@@ -212,7 +212,7 @@ class UsuariosControlador
                 $_SESSION['usuario'] = serialize($usuario[0]);
 
                 // Redirigir a perfil
-                header('Location: UsuariosControlador.php?action=perfil');
+                header('Location: perfil');
             }
 
         } else {
@@ -256,7 +256,7 @@ class UsuariosControlador
                         $_SESSION['admin'] = serialize($usuario[0]);
 
                         // Redirigir a usuarios controlador
-                        header('Location: UsuariosControlador.php');
+                        header('Location: usuarios');
 
                     } else {
 
@@ -264,7 +264,7 @@ class UsuariosControlador
                         $_SESSION['usuario'] = serialize($usuario[0]);
 
                         // Redirigir a perfil
-                        header('Location: UsuariosControlador.php?action=perfil');
+                        header('Location: perfil');
                     }
 
 
@@ -277,7 +277,7 @@ class UsuariosControlador
                     setcookie('mensaje', 'No coincide con ningun usuario', time() + 10 );
 
                     // Redirigir al formulario login
-                    header('Location: UsuariosControlador.php?action=login');
+                    header('Location: login');
                 }
 
 
@@ -287,7 +287,7 @@ class UsuariosControlador
                 if( isset($_SESSION['usuario']) || isset($_SESSION['admin']) ) {
 
                     // Ruta a la que va a ser redirigido el usuario
-                    $ruta = ( isset($_SESSION['admin']) ? 'UsuariosControlador.php' : 'UsuariosControlador.php?action=perfil' );
+                    $ruta = ( isset($_SESSION['admin']) ? 'usuarios' : 'perfil' );
 
                     // Redirigir al usuario
                     header("Location: $ruta");
@@ -584,7 +584,7 @@ class UsuariosControlador
         } else {
 
             // Redirigir al login
-            header('Location: UsuariosControlador.php?action=login');
+            header('Location: login');
         }
     }
 
@@ -595,14 +595,14 @@ class UsuariosControlador
 
         setcookie('usuario_session', '', time() - 3600);
 
-        header('Location: ../index.php');
+        header('Location: ./');
     }
 
 
     public function error($action)
     {
         if ( empty($action) ) {
-            header('Location: UsuariosControlador.php');
+            header('Location: usuarios');
         }
     }
 
