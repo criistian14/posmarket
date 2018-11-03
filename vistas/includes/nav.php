@@ -9,10 +9,16 @@
 <nav>
   <div class="nav-wrapper  orange accent-4">
 
+      <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
+          <ul>
+              <li><a href="./">Home</a></li>
+          </ul>
+      <?php endif; ?>
+
+
     <ul class="right hide-on-med-and-down">
 
-
-      <li><a href="UsuariosControlador.php?action=login">Mi Cuenta</a></li>
+      <li><a href="login">Mi Cuenta</a></li>
       <li><a>Mi Carrito</a></li>
 
     </ul>
@@ -20,31 +26,41 @@
   </div>
 
 </nav>
-  <!-- Categorias -->
-  <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
 
-    <li style="padding: 40px">
-      <a href="../" class="brand-logo center"><img src="/posmarket/public/img/logo.png" width="75" class="responsive-img"></a>
-    </li>
-    <li class="search" style="margin-top: 30px">
-          <div class="search-wrapper">
-            <input id="search" placeholder="Buscar producto" style="padding: 7px">
-          </div>
-      </li>
-      <span style="padding: 10px">Categorias</span>
-      <li><a href="#!">Inicio</a></li>
-      <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
-      <li><a href="./UsuariosControlador.php">Usuarios</a></li>
-      <li><a href="./ReportesControlador.php">Reportes</a></li>
-      <li><a href="#!">Ventas</a></li>
-      <li><a href="#!">Compras</a></li>
-      <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-      <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+    <?php if ($_SERVER['REQUEST_URI'] == '/posmarket/'): ?>
 
-  </ul>
+        <!-- Categorias -->
+        <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
+
+            <li style="height: 140px;">
+                <a href="./" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
+                    <img src="/posmarket/public/img/logo.png" width="75" class="responsive-img">
+                </a>
+            </li>
+
+            <li class="search" style="margin-top: 30px">
+                <div class="search-wrapper">
+                    <input id="search" placeholder="Buscar producto" style="padding: 7px">
+                </div>
+            </li>
+            <span style="padding: 10px">Categorias</span>
+            <li><a href="#!">Inicio</a></li>
+            <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
+            <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
+            <li><a href="./ReportesControlador.php">Reportes</a></li>
+            <li><a href="#!">Ventas</a></li>
+            <li><a href="#!">Compras</a></li>
+            <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
+            <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+
+        </ul>
 
 
-            <li><a href="./login">Cuenta</a></li>
+        <li><a href="./login">Cuenta</a></li>
+
+
+    <?php endif; ?>
+
 
 
 
@@ -79,7 +95,7 @@
 <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
     <li><a href="#!">Inicio</a></li>
     <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
-    <li><a href="./UsuariosControlador.php">Usuarios</a></li>
+    <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
     <li><a href="./ReportesControlador.php">Reportes</a></li>
     <li><a href="#!">Ventas</a></li>
     <li><a href="#!">Compras</a></li>

@@ -13,7 +13,9 @@
 
 </head>
 <body>
+    
 <div class="containedor"  style="padding-left: 300px">
+
     <?php include_once('../vistas/includes/nav.php'); ?>
 
 
@@ -95,7 +97,7 @@
 
 
 <!-- JQUery viejo -->
-<script type="text/javascript" src="../public/js/jquery.js"></script>
+<script type="text/javascript" src="public/js/jquery.js"></script>
 
 <script type="text/javascript">
 
@@ -107,7 +109,7 @@
 <!-- Llamando el php que contiene los scripts -->
 <?php include_once '../vistas/includes/scripts.php'; ?>
 
-<script src="../public/js/nav.js" charset="utf-8"></script>
+<script src="public/js/nav.js" charset="utf-8"></script>
 
 
 

@@ -61,7 +61,7 @@ header, main, footer {
     top: 64px;
 }
 
-.hover-teal-darken-3 li:hover {
+.hover-teal-darken-3 li:hover:not(:first-child) {
     background-color: rgba(255, 109, 0, .2) !important;
 }
 

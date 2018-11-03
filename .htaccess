@@ -1,25 +1,32 @@
 <IfModule mod_rewrite.c>
 
-
+    # Borrar extencion del archivo .php
     RewriteEngine on
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^(.*)$ $1.php
 
-    #Establecer index
+
+    # Establecer index
     DirectoryIndex  controladores/IndexControlador.php [L]
 
 
 
+    # Rutas personalizadas
+    RewriteRule ^registro$               controladores/UsuariosControlador.php?action=registro [L]
+    RewriteRule ^registrar$              controladores/UsuariosControlador.php?action=registrar [L]
+    RewriteRule ^login$                  controladores/UsuariosControlador.php?action=login [L]
+    RewriteRule ^cerrarSession$          controladores/UsuariosControlador.php?action=cerrar [L]
 
-    RewriteRule ^registro$              controladores/UsuariosControlador.php?action=registro [L]
-    RewriteRule ^registrar$             controladores/UsuariosControlador.php?action=registrar [L]
-    RewriteRule ^login$                 controladores/UsuariosControlador.php?action=login [L]
-    RewriteRule ^cerrarSession$         controladores/UsuariosControlador.php?action=cerrar [L]
+    RewriteRule ^perfil$                 controladores/UsuariosControlador.php?action=perfil [L]
 
-    RewriteRule ^perfil$         controladores/UsuariosControlador.php?action=perfil [L]
+    RewriteRule ^usuarios$                          controladores/UsuariosControlador.php?action=todos [L]
+    RewriteRule ^usuarios/crear$                    controladores/UsuariosControlador.php?action=registro [L]
+    RewriteRule ^usuarios/actualizar/(\w+)$         controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
 
-    RewriteRule ^usuarios$         controladores/UsuariosControlador.php?action=todos [L]
+
+    RewriteRule ^usuarios/pagina/(\w+)$        controladores/UsuariosControlador.php?action=todos&pagina=$1 [L]
+
 
 
 </IfModule>

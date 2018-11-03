@@ -1,5 +1,5 @@
 <?php
-    
+
     # Ip del servidor
     define("servidor", "localhost");
 
@@ -12,7 +12,7 @@
     # Nombre de la base de datos
     define("servidor_base_datos", "posmarket_db");
 
-   
+    define('ruta', '/posmarket');
 
 
 ?>

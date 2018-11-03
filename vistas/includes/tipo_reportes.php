@@ -1,2 +1,2 @@
 <!-- JS -->
-<script src="public/js/tipo_reportes.js" charset="utf-8"></script>
+<script src="<?php echo ruta ?>/public/js/tipo_reportes.js" charset="utf-8"></script>

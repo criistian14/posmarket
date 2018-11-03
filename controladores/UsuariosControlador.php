@@ -33,7 +33,7 @@ class UsuariosControlador
         if( isset($_SESSION['admin']) ){
 
             // La cantidad de usuarios que va a mostrar
-            $numeroUsuarios = 5;
+            $numeroUsuarios = 1;
 
             // Obtener que numero de pagina es
             $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
@@ -323,12 +323,12 @@ class UsuariosControlador
             $usuario->eliminar();
 
             // Redirigir a la tabla con todos los usuarios
-            header('Location: UsuariosControlador.php');
+            header('Location: ../usuarios');
 
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
