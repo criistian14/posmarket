@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php
+
+    #Establecer index
+    DirectoryIndex  controladores/IndexControlador.php [L]
+
+
+
+
+    RewriteRule ^registro$              controladores/UsuariosControlador.php?action=registro [L]
+    RewriteRule ^registrar$             controladores/UsuariosControlador.php?action=registrar [L]
+    RewriteRule ^login$                 controladores/UsuariosControlador.php?action=login [L]
+    RewriteRule ^cerrarSession$         controladores/UsuariosControlador.php?action=cerrar [L]
+
+    RewriteRule ^perfil$         controladores/UsuariosControlador.php?action=perfil [L]
+
+    RewriteRule ^usuarios$         controladores/UsuariosControlador.php?action=todos [L]
+
+
+</IfModule>

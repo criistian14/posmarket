@@ -44,6 +44,7 @@
   </ul>
 
 
+            <li><a href="./login">Cuenta</a></li>
 
 
 
@@ -83,7 +84,7 @@
     <li><a href="#!">Ventas</a></li>
     <li><a href="#!">Compras</a></li>
     <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-    <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+    <li><a href="./cerrarSession">Cerrar Seccion</a></li>
 
 </ul>
 
@@ -143,7 +144,7 @@
               <li><a href="./controladores/UsuariosControlador.php?action=login">Mi Cuenta</a></li>
 
               <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
-              <li><a href="./controladores/UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+              <li><a href="./cerrarSession">Cerrar Seccion</a></li>
 
             </ul>
           </div>

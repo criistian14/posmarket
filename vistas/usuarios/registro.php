@@ -20,7 +20,7 @@
 
         <div class="row" style="display: flex; justify-content: center; margin-top: 80px">
 
-            <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=registrar" class="col s12 m7 card" style="margin-left: 0;" >
+            <form method="POST" action="./registrar" class="col s12 m7 card" style="margin-left: 0;" >
 
                 <span class="card-title deep-orange-text titulo-cart-main">Registrar</span>
 
