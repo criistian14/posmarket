@@ -15,7 +15,7 @@
 <body>
 
     <!-- Llamando el php que contiene la navegacion -->
-    <?php include_once '../vistas/includes/nav.php'; ?>
+    <?php include '../vistas/includes/nav.php'; ?>
 
 
 
@@ -30,6 +30,7 @@
             <div class="col s12">
                 <p style="margin-top: 0;">Tabla con los todos los productos del sistema</p>
             </div>
+
 
         </div>
 
@@ -68,7 +69,7 @@
                                 <td> <?php echo $producto->activo ?> </td>
 
                                 <td>
-                                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=actualizar&id=<?php echo $producto->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></a>
+                                    <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></a>
                                 </td>
                                 <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
@@ -97,7 +98,7 @@
 
             <div class="col s12 l5">
 
-                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=registro" class="waves-effect waves-light">
+                <a href="productos/crear" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
@@ -128,11 +129,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 

@@ -19,11 +19,20 @@
     RewriteRule ^cerrarSession$          controladores/UsuariosControlador.php?action=cerrar [L]
 
     RewriteRule ^perfil$                 controladores/UsuariosControlador.php?action=perfil [L]
-
+   
+    # Rutas de usuarios
     RewriteRule ^usuarios$                          controladores/UsuariosControlador.php?action=todos [L]
     RewriteRule ^usuarios/crear$                    controladores/UsuariosControlador.php?action=registro [L]
     RewriteRule ^usuarios/actualizar/(\w+)$         controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
 
+    # Rutas de productos
+    RewriteRule ^productos$                          controladores/ProductosControlador.php?action=todos [L]
+    RewriteRule ^productos/crear$                    controladores/ProductosControlador.php?action=registro [L]
+    RewriteRule ^productos/actualizar/(\w+)$         controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
+
+
+    # Rutas de reportes
+    RewriteRule ^reportes$                          controladores/ReportesControlador.php?action=todos [L]  
 
     RewriteRule ^usuarios/pagina/(\w+)$        controladores/UsuariosControlador.php?action=todos&pagina=$1 [L]
 

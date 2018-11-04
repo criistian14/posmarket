@@ -14,7 +14,7 @@
 </head>
 <body>
     
-<div class="containedor"  style="padding-left: 300px">
+<div class="contenedor-div" >
 
     <?php include_once('../vistas/includes/nav.php'); ?>
 
@@ -53,36 +53,45 @@
       </ul>
   </div>
 
+<!-- Productos en oferta -->
+
+<h3 class="grey lighten-3" style="padding: 10px">Productos en oferta</h3>
 
   <div class="container">
 
       <!-- Todos los productos -->
     <div class="row">
-
+      
+        <?php foreach ($productos as $key => $value):
+        ?>
         <div class='col s12 m4'>
             <div class='card'>
                 <div class='card-image'>
-                <img src='https://picsum.photos/300/300/?random'>
-                <span class='card-title'>
-                sdsfsd
-                </span>
+
+                  <img src='<?php echo $value->imagen?>' style="width: 100%; height: 30vh">
+                  <span class='card-title'>
+                    <?php echo $value->nombre ?>
+                  </span>
 
                 </div>
                 <div class='card-content'>
-                <p>
-                asda
-                </p>
+                  <p>
+
+                    <?php echo $value->precio ?>
+
+                  </p>
                 </div>
                 <div class='card-action'>
-                <button class='btn-floating btn-large waves-effect waves-light red'>
-                <i class='material-icons'>add</i>
-                </button>
+                  <button class='btn-floating btn-large waves-effect waves-light red'>
+                  <i class='material-icons'>add</i>
+                  </button>
                 </div>
             </div>
         </div>
+        <?php endforeach;?>
     </div>
 
-      <?php print_r($productos) ?>
+      
 
   </div>
 
@@ -108,8 +117,6 @@
 
 <!-- Llamando el php que contiene los scripts -->
 <?php include_once '../vistas/includes/scripts.php'; ?>
-
-<script src="public/js/nav.js" charset="utf-8"></script>
 
 
 

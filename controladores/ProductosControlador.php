@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once '../modelos/Usuario.php';
 require_once '../modelos/Producto.php';
 
 
@@ -60,16 +61,18 @@ class ProductosControlador
 
 
             // Mensaje
-            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+            $msg = ( isset($_COOKIE['mensaje_producto']) ? $_COOKIE['mensaje_producto'] : null);
 
+                
+                
 
             // Requerir la vista que muestra todos los usuarios registrados
             include '../vistas/productos/index.php';
-
+            
         } else {
 
             // Redirigir a
-            header('Location: UsuariosControlador.php?action=login');
+            header('Location: login');
         }
     }
 
@@ -125,11 +128,15 @@ class ProductosControlador
                     $producto->oferta     = $_POST['oferta'];
                     $producto->tamano  = $_POST['tamano'];
                     $producto->tipo_producto     = $_POST['tipo_producto'];
-                    $carpeta_destinofinal = "../public/img/";
                     $producto->activo = $_POST["activo"];
-                    $producto->imagen = $carpeta_destinofinal . rand(1, 10000) . $_POST['imagen'];
+                    if(!empty($_POST['imagen'])){
+                        $carpeta_destinofinal = "/posmarket/public/img/";
+                        $imagen = rand(1, 10000) . $_POST['imagen'];
+                        $producto->imagen = $carpeta_destinofinal . $imagen;
 
-                    move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
+                     move_uploaded_file($_FILES['imagen_producto']['tmp_name'], "../public/img/" . $imagen);
+                    }
+                    
 
                     // Guardar el usuario
                     $res = $producto->guardar();
@@ -142,10 +149,10 @@ class ProductosControlador
                     }
 
                     // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
-                    setcookie('mensaje', $msg, time() + 5 );
+                    setcookie('mensaje_producto', $msg , time() + 5 );
 
                     // Redirigir a la lista de usuarios
-                    header('Location: ProductosControlador.php');
+                    header('Location: /posmarket/productos');
 
 
 
@@ -252,7 +259,17 @@ class ProductosControlador
                     $producto->oferta     = $_POST['oferta'];
                     $producto->tamano  = $_POST['tamano'];
                     $producto->tipo_producto     = $_POST['tipo_producto'];
-                    $carpeta_destinofinal = "../public/img/";
+
+                    // Validar si hay algo en $_POST
+                    if(!empty($_POST['imagen'])){
+
+                        $carpeta_destinofinal = "/posmarket/public/img/";
+                        $imagen = rand(1, 10000) . $_POST['imagen'];
+                        $producto->imagen = $carpeta_destinofinal . $imagen;
+
+                        move_uploaded_file($_FILES['imagen_producto']['tmp_name'], "../public/img/" . $imagen);
+                    }
+
 
                     // Condicion
                     if(isset($_POST["activo"])){
@@ -263,10 +280,6 @@ class ProductosControlador
                         $producto->activo = 0;
                     }
 
-                    $producto->imagen = $carpeta_destinofinal . rand(1, 10000) . $_POST['imagen'];
-
-                    // Mover la imagen a su respectiva carpeta
-                    move_uploaded_file($_FILES['imagen_producto']['tmp_name'], $producto->imagen);
 
                     // Actualizar el usuario
                     $res = $producto->guardar();
@@ -280,10 +293,10 @@ class ProductosControlador
                     }
 
                     // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-                    setcookie('mensaje', $msg, time() + 5 );
+                    setcookie('mensaje_producto', $msg, time() + 5, "/");
 
                     // Redirigir a la lista con todos los usuarios
-                    header('Location: ProductosControlador.php?action=todos');
+                    header('Location: /posmarket/productos');
 
 
 
@@ -293,7 +306,7 @@ class ProductosControlador
                     setcookie('mensaje', 'el codigo ya se encuentra registrado', time() + 10 );
 
                     // Redirigir al formulario
-                    header("Location: UsuariosControlador.php?action=actualizar&id=$id");
+                    header("Location: /posmarket/productos/actualizar/$id");
                 }
 
 
@@ -307,7 +320,7 @@ class ProductosControlador
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -317,7 +330,7 @@ class ProductosControlador
     public function error($action)
     {
         if ( empty($action) ) {
-            header('Location: ProductosControlador.php?action=todos');
+            header('Location: productos');
         }
     }
 

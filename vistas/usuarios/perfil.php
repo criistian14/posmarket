@@ -11,10 +11,10 @@
 
 </head>
 <body>
-
+     
     <!-- Llamando el php que contiene la navegacion -->
     <?php include_once '../vistas/includes/nav.php'; ?>
-
+   
 
 
     <main class="container">

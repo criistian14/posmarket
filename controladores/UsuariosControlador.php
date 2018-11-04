@@ -558,7 +558,7 @@ class UsuariosControlador
                     setcookie('mensaje_perfil_success', 'Pefil modificado satisfactoriamente', time() + 10 );
 
                     // Redirigir al formulario login
-                    header('Location: UsuariosControlador.php?action=perfil');
+                    header('Location: perfil');
 
                 } else {
 
@@ -568,7 +568,7 @@ class UsuariosControlador
                     setcookie('mensaje_perfil', 'El correo '. $_POST['correo'] .' ya esta en uso', time() + 10 );
 
                     // Redirigir al formulario login
-                    header('Location: UsuariosControlador.php?action=perfil');
+                    header('Location: perfil');
 
                 }
 
