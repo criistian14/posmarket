@@ -1,7 +1,7 @@
 # Posmarket
  This is an innovative project because a new currency is being implemented called Posmarketcoin
 
-![Posmarket Logo](https://github.com/criistian14/posmarket/tree/master/public/img/logo.png)
+![Posmarket Logo](https://github.com/criistian14/posmarket/blob/master/public/img/logo.png)
 
 # What is Posmarket
 Posmarket it's a aftersales system 
