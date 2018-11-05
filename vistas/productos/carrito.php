@@ -56,21 +56,21 @@
         <div class="row" style="margin-top: 4rem;">
 
             <div class="col s12">
-            
+
                 <table class="responsive-table centered">
 
                     <thead class="teal darken-3 white-text">
                         <th></th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
+                        <th class="hidden sm:block">Nombre</th>
+                        <th class="hidden sm:block">Precio</th>
+                        <th class="hidden sm:block">Cantidad</th>
                         <th></th>
 
                     </thead>
 
 
                     <tbody id="tablaCarrito">
-                      
+
                     </tbody>
                 </table>
 
@@ -110,7 +110,7 @@
     <!-- Llamando el php que contiene los scripts propios del grupo 3 -->
     <?php include_once '../vistas/includes/productos.php'; ?>
 
-    
+
 
 
 </body>

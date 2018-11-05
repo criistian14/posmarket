@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(dropdownMaterializeElements){
 
         let instancesDropDownElement = M.Dropdown.init(dropdownMaterializeElements);
-        console.dir(dropdownMaterializeElements);
-
     }
 
 
