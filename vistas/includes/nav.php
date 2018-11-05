@@ -1,9 +1,9 @@
 <?php
 
  # Usuario que no esta logeado
-
+    
   if(!isset($_SESSION['usuario']) && !isset($_SESSION['admin'])){
-
+    
 ?>
 
 <nav>
@@ -19,7 +19,7 @@
     <ul class="right">
 
       <li><a href="login">Mi Cuenta</a></li>
-      <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+      <li><a href="carrito">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
     </ul>
 
@@ -50,7 +50,7 @@
             <li><a href="#!">Ventas</a></li>
             <li><a href="#!">Compras</a></li>
             <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-            <li><a href="./cerrarSession">Cerrar Seccion</a></li>
+
 
         </ul>
 
@@ -66,6 +66,7 @@
 
 ########## ADMINISTRADOR ###############
   } else if(isset($_SESSION['admin'])){
+      
 
 ?>
 
@@ -91,7 +92,7 @@
 </nav>
 
 
-<ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
+<ul id="slide-out" class="sidenav sidenav-admin sidenav-fixed hover-teal-darken-3">
     <li><a href="/posmarket">Inicio</a></li>
     <li><a href="<?php echo ruta ?>/productos">Productos</a></li>
     <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
@@ -124,7 +125,7 @@
     <ul class="right">
 
       <li><a href="login">Mi Cuenta</a></li>
-      <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+      <li><a href="carrito">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
 
     </ul>

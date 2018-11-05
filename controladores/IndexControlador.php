@@ -1,6 +1,8 @@
 <?php
 
 require_once '../modelos/Producto.php';
+require_once '../modelos/Usuario.php';
+session_start();
 
 class IndexControlador
 {
@@ -14,6 +16,8 @@ class IndexControlador
         // Requerir la vista que muestra todos los usuarios registrados
         include '../vistas/core/index.php';
     }
+
+
 
 
 

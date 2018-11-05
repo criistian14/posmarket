@@ -325,6 +325,27 @@ class ProductosControlador
     }
 
 
+    // Funcion para ver el carrito 
+    public function carrito(){
+
+        
+        include '../vistas/productos/carrito.php';
+        
+    }
+
+    // Funcion de respuesta al ajax
+    public function respuesta(){
+
+        $producto = [];
+        foreach ($_POST as $key => $value) {
+            
+            $producto[] = Producto::encontrarPorID($value);
+        }
+
+        echo json_encode($producto);
+
+
+    }
 
 
     public function error($action)
@@ -333,6 +354,8 @@ class ProductosControlador
             header('Location: productos');
         }
     }
+
+
 
 
 }

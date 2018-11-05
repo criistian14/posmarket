@@ -60,12 +60,13 @@
   <div class="container">
 
       <!-- Todos los productos -->
-    <div class="row">
+    <div class="row" id="productos-oferta">
       
         <?php foreach ($productos as $key => $value):
         ?>
+          <?php if($value->oferta > 0): ?>
         <div class='col s12 m4'>
-            <div class='card'>
+            <div class='card' id="<?php echo $value->id ?>">
                 <div class='card-image'>
 
                   <img src='<?php echo $value->imagen?>' style="width: 100%; height: 30vh">
@@ -75,25 +76,50 @@
 
                 </div>
                 <div class='card-content'>
-                  <p>
+                  <p class="old-price" style="text-decoration: line-through;font-weight: bold; color: #6f6e6e;">
+                    <span style="font-size: 0.7875rem;">
+                      
+                     Precio Normal
 
-                    <?php echo $value->precio ?>
+                    </span>
+                    <span>
+                     $ <?php echo number_format($value->precio) ?>
+                    </span>
 
                   </p>
+
+                  <p class="new-price">
+                    <span style="font-size: 1rem; color: red; font-weight: 700;">
+
+                      Hoy
+
+                    </span>
+                    <span style="font-size: 2.125rem; color: red; font-weight: 600;">
+                      $ <?php echo number_format($value->oferta) ?>
+                    </span>
+                  </p>
+
                 </div>
+
                 <div class='card-action'>
                   <button class='btn-floating btn-large waves-effect waves-light red'>
                   <i class='material-icons'>add</i>
                   </button>
                 </div>
+
             </div>
         </div>
+
+          <?php endif; ?>
+
         <?php endforeach;?>
     </div>
 
       
 
   </div>
+
+
 
 </div>
 <!-- Gitter Chat Link -->
@@ -107,6 +133,7 @@
 
 <!-- JQUery viejo -->
 <script type="text/javascript" src="public/js/jquery.js"></script>
+<script src="/posmarket/public/js/carrito.js"></script>
 
 <script type="text/javascript">
 
@@ -117,6 +144,7 @@
 
 <!-- Llamando el php que contiene los scripts -->
 <?php include_once '../vistas/includes/scripts.php'; ?>
+
 
 
 

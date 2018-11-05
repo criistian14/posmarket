@@ -29,6 +29,8 @@
     RewriteRule ^productos$                          controladores/ProductosControlador.php?action=todos [L]
     RewriteRule ^productos/crear$                    controladores/ProductosControlador.php?action=registro [L]
     RewriteRule ^productos/actualizar/(\w+)$         controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
+    RewriteRule ^carrito$                          controladores/ProductosControlador.php?action=carrito [L]
+
 
 
     # Rutas de reportes
