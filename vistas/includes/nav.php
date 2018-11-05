@@ -11,14 +11,14 @@
 
       <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
           <ul>
-              <li><a href="./">Home</a></li>
+              <li><a href="<?php echo ruta ?>">Home</a></li>
           </ul>
       <?php endif; ?>
 
 
     <ul class="right hide-on-med-and-down">
 
-      <li><a href="login">Mi Cuenta</a></li>
+      <li><a href="<?php echo ruta . '/login' ?>">Mi Cuenta</a></li>
       <li><a>Mi Carrito</a></li>
 
     </ul>
@@ -27,14 +27,14 @@
 
 </nav>
 
-    <?php if ($_SERVER['REQUEST_URI'] == '/posmarket/'): ?>
+    <?php if ($_SERVER['REQUEST_URI'] == (ruta . '/') ): ?>
 
         <!-- Categorias -->
         <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
 
             <li style="height: 140px;">
-                <a href="./" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
-                    <img src="/posmarket/public/img/logo.png" width="75" class="responsive-img">
+                <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
+                    <img src="<?php echo ruta . '/public/img/logo.png' ?>" width="75" class="responsive-img">
                 </a>
             </li>
 
@@ -56,8 +56,6 @@
         </ul>
 
 
-        <li><a href="./login">Cuenta</a></li>
-
 
     <?php endif; ?>
 
@@ -72,7 +70,7 @@
 
 ?>
 
-<nav class="orange accent-4">
+<nav class="orange accent-4" style="position: sticky; top: 0; z-index: 10000;">
     <div class="row" style="display: flex; justify-content: space-between;">
         <div class="col s0 ">
             <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -93,14 +91,14 @@
 </nav>
 
 <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
-    <li><a href="#!">Inicio</a></li>
-    <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
-    <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
-    <li><a href="./ReportesControlador.php">Reportes</a></li>
-    <li><a href="#!">Ventas</a></li>
-    <li><a href="#!">Compras</a></li>
-    <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-    <li><a href="./cerrarSession">Cerrar Seccion</a></li>
+    <li><a href="<?php echo ruta . '/admin' ?>">Inicio</a></li>
+    <li><a href="<?php echo ruta . '/productos' ?>">Productos</a></li>
+    <li><a href="<?php echo ruta . '/usuarios' ?>">Usuarios</a></li>
+    <li><a href="<?php echo ruta . '/reportes' ?>">Reportes</a></li>
+    <li><a href="<?php echo ruta . '/ventas' ?>">Ventas</a></li>
+    <li><a href="<?php echo ruta . '/compras' ?>">Compras</a></li>
+    <li><a href="<?php echo ruta . '/perfil' ?>">Configuracion</a></li>
+    <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Seccion</a></li>
 
 </ul>
 

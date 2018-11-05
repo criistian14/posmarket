@@ -59,11 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         liElements.map( (li) => {
             let a = li.firstElementChild;
-            let url = location.href;
+            let url = location.href.split('/')[4];
 
-            if (a.href == url) {
+            if ( a.href.includes(url) ) {
                 a.classList.add('menu-active');
-                console.log(url, a);
+                console.log(url, a.href);
             }
 
         });
