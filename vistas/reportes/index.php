@@ -83,7 +83,7 @@
                                 <td> <?php echo $reporte->tipo_reporte->reporte ?> </td>
 
                                 <td>
-                                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=actualizar&id=<?php echo $reporte->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">remove_red_eye</i></a>
+                                    <a href="<?php echo ruta . '/reportes/actualizar/' . $reporte->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">remove_red_eye</i></a>
                                 </td>
                                 <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
@@ -114,7 +114,7 @@
 
             <div class="col s12 l5">
 
-                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?action=crear' ?>" class="waves-effect waves-light">
+                <a href="<?php echo ruta . '/reportes/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
@@ -130,7 +130,7 @@
 
                     <?php if ($pagina != 1): ?>
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina-1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/reportes/pagina/' . ($pagina-1) ) ?>">
                                 <i class="material-icons">chevron_left</i>
                             </a>
                         </li>
@@ -145,11 +145,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/reportes/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/reportes/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -161,8 +161,9 @@
                             <i class="material-icons">chevron_right</i></a>
                         </li>
                     <?php else: ?>
+
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina+1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/reportes/pagina/' . ($pagina+1) ) ?>">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>

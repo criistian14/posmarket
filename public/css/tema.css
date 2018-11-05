@@ -86,7 +86,7 @@ header, main, footer {
         display: none;
     }
 
-    .sidenav {
+    /* .sidenav {
         top: 0;
     }
 
