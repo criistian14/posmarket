@@ -59,7 +59,9 @@ header, main, footer {
 
 .sidenav {
     top: 64px;
+
 }
+
 
 .hover-teal-darken-3 li:hover:not(:first-child) {
     background-color: rgba(255, 109, 0, .2) !important;
@@ -84,7 +86,7 @@ header, main, footer {
         display: none;
     }
 
-    /* .sidenav {
+     .sidenav {
         top: 0;
     } */
 
@@ -95,7 +97,11 @@ header, main, footer {
 
 }
 
-
+/* SIDE NAV DE ADMINISTRADOR */
+.sidenav-admin{
+    position: absolute !important;
+    height: 250vh !important;
+}
 
 /* Pegar el sidenav */
 .sidenav-english {

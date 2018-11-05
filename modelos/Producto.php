@@ -66,7 +66,7 @@ class Producto {
     */
     public static function todos()
     {
-        // Arreglo que va a contener todos los usuarios
+        // Arreglo que va a contener todos los productos
         $lista_productos = [];
 
 

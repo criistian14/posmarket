@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Saber si dio click al boton de eliminar Usuario
+    // Saber si dio click al boton de eliminar Producto
     const tablaUsuariosElement = document.getElementById('tablaProductos');
 
     if (tablaUsuariosElement) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Eliminar Usuario
+    // Eliminar Producto
     function eliminarProducto(boton)
     {
         let elementosFila = [...boton.parentElement.parentElement.children],
