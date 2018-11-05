@@ -31,6 +31,14 @@
     RewriteRule ^usuarios/crear$                    controladores/UsuariosControlador.php?action=registro [L]
     RewriteRule ^usuarios/actualizar/(\w+)$         controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
 
+    # Rutas de productos
+    RewriteRule ^productos$                          controladores/ProductosControlador.php?action=todos [L]
+    RewriteRule ^productos/crear$                    controladores/ProductosControlador.php?action=registro [L]
+    RewriteRule ^productos/actualizar/(\w+)$         controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
+
+
+    # Rutas de reportes
+    RewriteRule ^reportes$                          controladores/ReportesControlador.php?action=todos [L]
 
 
 

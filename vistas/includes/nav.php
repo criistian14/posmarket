@@ -16,10 +16,10 @@
       <?php endif; ?>
 
 
-    <ul class="right hide-on-med-and-down">
+    <ul class="right">
 
       <li><a href="<?php echo ruta . '/login' ?>">Mi Cuenta</a></li>
-      <li><a>Mi Carrito</a></li>
+      <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
     </ul>
 
@@ -44,14 +44,13 @@
                 </div>
             </li>
             <span style="padding: 10px">Categorias</span>
-            <li><a href="#!">Inicio</a></li>
             <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
             <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
             <li><a href="./ReportesControlador.php">Reportes</a></li>
             <li><a href="#!">Ventas</a></li>
             <li><a href="#!">Compras</a></li>
             <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-            <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
+            <li><a href="./cerrarSession">Cerrar Seccion</a></li>
 
         </ul>
 
@@ -81,7 +80,8 @@
         </div>
 
         <div class="col m2 hidden-s">
-            <h5>Nombre</h5>
+            <?php $admin = unserialize($_SESSION['admin']);?>
+            <h5><?php echo $admin->nombre;?></h5>
         </div>
 
     </div>
@@ -89,6 +89,7 @@
 
 
 </nav>
+
 
 <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
     <li><a href="<?php echo ruta . '/admin' ?>">Inicio</a></li>
@@ -104,68 +105,65 @@
 
 
 
-<!-- <nav class="orange accent-4">
-  <div class="row" style="margin: 0px">
-      <div class="col s3">
-        <a href="./UsuariosControlador.php?action=perfil" class="brand-logo"><img src="../public/img/logo.png" width="65" class="responsive-img"></a>
-      </div>
-      <div class="col s9">
-
-          <div>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-
-              <li><a href="./ProductosControlador.php">Gestionar Productos</a></li>
-              <li><a href="#">Ventas</a></li>
-              <li><a href="./UsuariosControlador.php">Usuarios</a></li>
-              <li><a href="./ReportesControlador.php">Reportes</a></li>
-              <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-              <li><a href="./UsuariosControlador.php?action=cerrar">Cerrar Seccion</a></li>
-            </ul>
-          </div>
-
-      </div>
-  </div>
-</nav> -->
-
 <?php
   }else{
 
 ?>
 
-<nav class="orange accent-4">
-  <div class="row" style="margin: 0px">
-      <div class="col s3">
-        <a href="/proyecto/index.php" class="brand-logo"><img src="/posmarket/public/img/logo.png" width="65" class="responsive-img"></a>
-      </div>
-      <div class="col s5">
 
-          <form style="margin-top: 10px">
+<nav>
+  <div class="nav-wrapper  orange accent-4">
 
-            <div class="input-field">
+      <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
+          <ul>
+              <li><a href="./">Inicio</a></li>
+          </ul>
+      <?php endif; ?>
 
-              <input id="search" type="search" class="white" style="padding-left: 8px; border-radius: 25px">
 
-            </div>
+    <ul class="right">
 
-          </form>
-      </div>
-      <div class="col s4">
+      <li><a href="login">Mi Cuenta</a></li>
+      <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
-          <div>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-              <li><a href="./controladores/UsuariosControlador.php?action=login">Mi Cuenta</a></li>
+    </ul>
 
-              <li><a href="#">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
-              <li><a href="./cerrarSession">Cerrar Seccion</a></li>
-
-            </ul>
-          </div>
-
-      </div>
   </div>
+
 </nav>
+
+    <?php if ($_SERVER['REQUEST_URI'] == '/posmarket/'): ?>
+
+        <!-- Categorias -->
+        <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
+
+            <li style="height: 140px;">
+                <a href="./" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
+                    <img src="/posmarket/public/img/logo.png" width="75" class="responsive-img">
+                </a>
+            </li>
+
+            <li class="search" style="margin-top: 30px">
+                <div class="search-wrapper">
+                    <input id="search" placeholder="Buscar producto" style="padding: 7px">
+                </div>
+            </li>
+            <span style="padding: 10px">Categorias</span>
+            <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
+            <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
+            <li><a href="./ReportesControlador.php">Reportes</a></li>
+            <li><a href="#!">Ventas</a></li>
+            <li><a href="#!">Compras</a></li>
+            <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
+            <li><a href="./cerrarSession">Cerrar Seccion</a></li>
+
+        </ul>
+
+
+
+    <?php endif; ?>
+
 
 <?php
   }
