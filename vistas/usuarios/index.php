@@ -28,10 +28,16 @@
 
 
             <div class="col s12">
-                <p style="margin-top: 0;">Tabla con los todos los usuarios del sistema con sus roles</p>
+                <p style="margin-top: 0;">Tabla con todos los usuarios del sistema con sus datos basicos</p>
             </div>
 
         </div>
+
+
+        <div class="row">
+            <a href="<?php echo ruta . '/usuarios/roles' ?>" class="waves-effect waves-light btn deep-orange">Tipos de Roles<i class="material-icons right" style="color: white;">settings</i></a>
+        </div>
+
 
 
         <div class="row" style="margin-top: 4rem;">
@@ -95,9 +101,9 @@
         </div>
 
 
-        <div class="row" style="margin-top: 4rem;">
+        <div class="mt-16 flex justify-between flex-wrap" >
 
-            <div class="col s12 l5">
+            <div class="col s12 l5 flex items-center" >
 
                 <a href="<?php echo ruta . '/usuarios/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
@@ -110,7 +116,7 @@
             </div>
 
 
-            <div class="col s12 l7" style="display: flex; justify-content: flex-end;">
+            <div class="col s12 l7 mt-6 sm:mt-0" >
                 <ul class="pagination">
 
                     <?php if ($pagina != 1): ?>

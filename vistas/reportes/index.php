@@ -33,13 +33,16 @@
 
 
 
-        <div class="row">
+        <div class="flex flex-wrap justify-between">
 
-            <div class="col s12">
-                <!-- <a href="#" class="waves-effect waves-light btn deep-orange">Copiar</a> -->
+            <div >
                 <a href="#" class="waves-effect waves-light btn deep-orange">Excel <i class="material-icons right" style="color: white;">file_download</i></a>
                 <a href="#" class="waves-effect waves-light btn deep-orange">PDF <i class="material-icons right" style="color: white;">insert_drive_file</i></a>
-                <a href="#" class="waves-effect waves-light btn deep-orange">Imprimir <i class="material-icons right" style="color: white;">local_printshop</i></a>
+                <a href="#" class="waves-effect waves-light btn deep-orange mt-2 sm:mt-0">Imprimir <i class="material-icons right" style="color: white;">local_printshop</i></a>
+            </div>
+
+            <div class="mt-6 sm:mt-0">
+                <a href="<?php echo ruta . '/reportes/tipos_reporte' ?>" class="waves-effect waves-light btn deep-orange">Tipos de Reporte<i class="material-icons right" style="color: white;">settings</i></a>
             </div>
 
         </div>
@@ -110,9 +113,9 @@
         </div>
 
 
-        <div class="row" style="margin-top: 4rem;">
+        <div class="mt-16 flex justify-between flex-wrap" >
 
-            <div class="col s12 l5">
+            <div class="col s12 l5 flex items-center" >
 
                 <a href="<?php echo ruta . '/reportes/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
@@ -125,7 +128,7 @@
             </div>
 
 
-            <div class="col s12 l7" style="display: flex; justify-content: flex-end;">
+            <div class="col s12 l7 mt-6 sm:mt-0" >
                 <ul class="pagination">
 
                     <?php if ($pagina != 1): ?>

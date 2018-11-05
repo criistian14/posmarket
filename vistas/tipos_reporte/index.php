@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Tipos Reportes</title>
+    <title>Tipos Reporte</title>
 
 
     <!-- Llamando el php que contiene la hoja de estilos -->
@@ -89,11 +89,11 @@
         </div>
 
 
-        <div class="row" style="margin-top: 4rem;">
+        <div class="mt-16 flex justify-between flex-wrap" >
 
-            <div class="col s12 l5" >
+            <div class="col s12 l5 flex items-center" >
 
-                <a class="waves-effect waves-light" id="agregarTiposReporte">
+                <a class="waves-effect waves-light " id="agregarTiposReporte">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
@@ -104,12 +104,12 @@
             </div>
 
 
-            <div class="col s12 l7" style="display: flex; justify-content: flex-end;">
+            <div class="col s12 l7 mt-6 sm:mt-0" >
                 <ul class="pagination">
 
                     <?php if ($pagina != 1): ?>
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina-1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/reportes/tipos_reporte/pagina/' . ($pagina-1) ) ?>">
                                 <i class="material-icons">chevron_left</i>
                             </a>
                         </li>
@@ -124,11 +124,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/reportes/tipos_reporte/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?action=todos&pagina=$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/reportes/tipos_reporte/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -140,8 +140,9 @@
                             <i class="material-icons">chevron_right</i></a>
                         </li>
                     <?php else: ?>
+
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina+1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/reportes/tipos_reporte/pagina/' . ($pagina+1) ) ?>">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>
@@ -184,7 +185,7 @@
 
 
       <div id="modalActualizarTipoReporte" class="modal">
-            <form >
+            <form action="<?php echo ruta . '/tipos_reporte/actualizar' ?>" method="POST">
                 <div class="modal-content">
                     <h4 class="deep-orange-text">Actualizar Tipo De Reporte</h4>
 
@@ -201,7 +202,7 @@
                 <div class="modal-footer">
                     <a class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
 
-                    <button class="waves-effect waves-green btn-flat" id="btnActualizarTipoReporte">Crear</button>
+                    <button class="waves-effect waves-green btn-flat" id="btnActualizarTipoReporte">Actualizar</button>
                 </div>
             </form>
         </div>

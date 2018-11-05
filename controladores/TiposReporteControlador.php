@@ -37,8 +37,8 @@ class TiposReporteControlador
         // Comprobar si esta logeado como admin
         if( isset($_SESSION['admin']) ){
 
-            // La cantidad de usuarios que va a mostrar
-            $numeroTiposReporte = 5;
+            // La cantidad de tipos de reporte que va a mostrar
+            $numeroTiposReporte = 1;
 
             // Obtener que numero de pagina es
             $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
@@ -46,14 +46,14 @@ class TiposReporteControlador
             // Conocer el inicio de la consulta
             $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroTiposReporte * $pagina) - $numeroTiposReporte) );
 
-            // Contar la cantidad de usuarios
+            // Contar la cantidad de tipos de reporte
             $totalTiposReporte = count(TipoReporte::todos());
 
             // El numero de paginas que salen en total
             $cantidadDePaginas = ( ($totalTiposReporte == 0) ? 1 : ceil($totalTiposReporte / $numeroTiposReporte) );
 
 
-            // Peticion al modelo para recuperar todos los usuarios de la bd y guardarlos en una variable
+            // Peticion al modelo para recuperar todos los tipos de reporte de la bd y guardarlos en una variable
             $tiposReporte = TipoReporte::limite($inicioConsulta, $numeroTiposReporte)
                                 ->resultado();
 
@@ -72,9 +72,33 @@ class TiposReporteControlador
         } else {
 
             // Redirigir al login
-            header('Location: UsuariosControlador.php?action=login');
+            header('Location: ../login');
         }
     }
+
+
+    // Funcion para crear un reporte y guardarlo en la base de datos
+    public function crear()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
+
+            $tipoReporte = new TipoReporte;
+
+            $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
+
+            $tipoReporte->guardar();
+
+            header('Location: ../reportes/tipos_reporte');
+
+        } else {
+
+           // Redirigir al perfil
+           header('Location: ../perfil');
+       }
+
+    }
+
 
 
 
@@ -94,30 +118,30 @@ class TiposReporteControlador
             // Encontra el tipo de reporte por el id y capturarlo
             $tipoReporte = TipoReporte::encontrarPorID($id);
 
+
             if ( empty($comprobarForanea) ) {
 
                 // Eliminar el tipo de reporte
                 $tipoReporte->eliminar();
 
+
                 // Guardar un mensaje de que se elimino correctamente en una cookie
-                setcookie('mensaje', "Se elimino correctamente el tipo de reporte ($tipoReporte->reporte)", time() + 10 );
+                setcookie('mensaje', "Se elimino correctamente el tipo de reporte ($tipoReporte->reporte)", time() + 10, '/' );
 
             } else {
 
                 // Guardar un mensaje de que se no se pudo eliminar
-                setcookie('mensaje_error', "El tipo de reporte ($tipoReporte->reporte) esta siendo utilizado en un reporte", time() + 10 );
+                setcookie('mensaje_error', "El tipo de reporte ($tipoReporte->reporte) esta siendo utilizado en un reporte", time() + 10, '/' );
             }
 
 
-
-
-            // Redirigir a la tabla con todos los usuarios
-            header('Location: TiposReporteControlador.php');
+            // Redirigir a la tabla con todos los tipos de reporte
+            header('Location: ../reportes/tipos_reporte');
 
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: ../perfil');
         }
     }
 
@@ -132,14 +156,14 @@ class TiposReporteControlador
         if( isset($_SESSION['admin']) ){
 
             // Capturar el id enviado por GET
-            $id = $_GET['id'];
+            $id = $_POST['idTipoReporte'];
 
             // Encontra el usuario por el id capturado y guardarlo en una variable
             $tipoReporte = TipoReporte::encontrarPorID($id);
 
 
             // Pasarle los datos a la instancia
-            // $tipoReporte->reporte = $_POST['tipoReporte'];
+            $tipoReporte->reporte = $_POST['tipoReporte'];
 
 
             // Guardar el Reporte
@@ -154,11 +178,15 @@ class TiposReporteControlador
             }
 
             // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-            setcookie('mensaje', $msg, time() + 5 );
+            setcookie('mensaje', $msg, time() + 5, '/');
+
+            // Redirigir a la tabla con todos los tipos de reporte
+            header('Location: ../reportes/tipos_reporte');
 
 
-            // echo $res;
-            print_r($_POST);
+        } else {
+            // Redirigir al perfil
+            header('Location: ../perfil');
         }
 
     }
@@ -174,7 +202,7 @@ class TiposReporteControlador
     public function error($action)
     {
         if ( empty($action) ) {
-            header('Location: TiposReporteControlador.php');
+            header('Location: ../reportes/tipos_reporte');
         }
     }
 
