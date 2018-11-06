@@ -25,11 +25,19 @@
 
 
 
+
     # Rutas de Usuarios
     RewriteRule ^usuarios$                                      controladores/UsuariosControlador.php?action=todos [L]
     RewriteRule ^usuarios/pagina/(\w+)$                         controladores/UsuariosControlador.php?action=todos&pagina=$1 [L]
     RewriteRule ^usuarios/crear$                                controladores/UsuariosControlador.php?action=registro [L]
     RewriteRule ^usuarios/actualizar/(\w+)$                     controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
+
+    # Rutas de roles
+    RewriteRule ^usuarios/roles$                                controladores/RolesControlador.php?action=todos [L]
+    RewriteRule ^roles/actualizar$                              controladores/RolesControlador.php?action=actualizar [L]
+    RewriteRule ^usuarios/roles/pagina/(\w+)$                   controladores/RolesControlador.php?action=todos&pagina=$1 [L]
+
+
 
 
 
@@ -41,13 +49,13 @@
 
 
 
+
+
     # Rutas de reportes
     RewriteRule ^reportes$                                      controladores/ReportesControlador.php?action=todos [L]
     RewriteRule ^reportes/pagina/(\w+)$                         controladores/ReportesControlador.php?action=todos&pagina=$1 [L]
     RewriteRule ^reportes/crear$                                controladores/ReportesControlador.php?action=crear [L]
     RewriteRule ^reportes/actualizar/(\w+)$                     controladores/ReportesControlador.php?action=actualizar&id=$1 [L]
-
-
 
 
     # Rutas de tipos de reporte
