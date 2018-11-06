@@ -38,7 +38,7 @@ class TiposReporteControlador
         if( isset($_SESSION['admin']) ){
 
             // La cantidad de tipos de reporte que va a mostrar
-            $numeroTiposReporte = 1;
+            $numeroTiposReporte = 5;
 
             // Obtener que numero de pagina es
             $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );

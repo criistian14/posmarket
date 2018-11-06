@@ -115,3 +115,12 @@ header, main, footer {
 .ocultar {
     display: none
 }
+
+
+/* Position toast */
+#toast-container {
+  top: auto !important;
+  right: 7%;
+  bottom: 9%;
+  left: auto !important;
+}

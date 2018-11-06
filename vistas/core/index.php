@@ -13,7 +13,7 @@
 
 </head>
 <body>
-    
+
 <div class="contenedor-div" >
 
     <?php include_once('../vistas/includes/nav.php'); ?>
@@ -57,11 +57,11 @@
 
 <h3 class="grey lighten-3" style="padding: 10px">Productos en oferta</h3>
 
-  <div class="container">
+  <div class="container relative">
 
       <!-- Todos los productos -->
     <div class="row" id="productos-oferta">
-      
+
         <?php foreach ($productos as $key => $value):
         ?>
           <?php if($value->oferta > 0): ?>
@@ -78,7 +78,7 @@
                 <div class='card-content'>
                   <p class="old-price" style="text-decoration: line-through;font-weight: bold; color: #6f6e6e;">
                     <span style="font-size: 0.7875rem;">
-                      
+
                      Precio Normal
 
                     </span>
@@ -115,7 +115,7 @@
         <?php endforeach;?>
     </div>
 
-      
+
 
   </div>
 

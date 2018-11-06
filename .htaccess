@@ -50,6 +50,12 @@
 
 
 
+    # Rutas de ventas
+    RewriteRule ^ventas$                                        controladores/VentasControlador.php?action=todos [L]
+
+
+
+
 
     # Rutas de reportes
     RewriteRule ^reportes$                                      controladores/ReportesControlador.php?action=todos [L]

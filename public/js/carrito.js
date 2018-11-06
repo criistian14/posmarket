@@ -1,3 +1,4 @@
+const rutaApp = '/posmarket';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -199,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let valor_total = 0;
 
             tableProductsElement.map( (product) => {
-                
+
                 let price = product.dataset.valor;
                 let quantity = product.children[3].firstChild.firstChild.value;
 
@@ -229,11 +230,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if(respuesta){
 
-            localStorage.setItem(productoElement.id, productoElement.id);
+            if (!!localStorage.getItem(productoElement.id)) {
+
+                M.toast({html: 'Ya agregaste este producto', classes: 'bg-red'});
+
+
+            } else {
+
+                localStorage.setItem(productoElement.id, productoElement.id);
+
+                M.toast({html: 'Producto agregado satisfactoriamente', classes: 'bg-green-dark'});
+            }
+
 
             contadorCarritoElement.innerText = localStorage.length;
 
-            console.dir(localStorage.length);
+        } else {
+
+            location.href = `${rutaApp}/carrito`;
 
         }
 
