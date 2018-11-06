@@ -126,8 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
                        + "</td>"
                        + "</tr>"
                        ;
-                       
-
 
                }
 
@@ -183,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
         //////////////////// Suma de los productos ///////////////////
+
         let multiplicacion = 0;
         let value_target;
 
