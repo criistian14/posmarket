@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Usuarios</title>
+    <title>Tipos Reporte</title>
 
 
     <!-- Llamando el php que contiene la hoja de estilos -->
@@ -23,60 +23,41 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Usuarios registrados</h1>
+                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Tipos De Roles</h1>
             </div>
 
 
             <div class="col s12">
-                <p style="margin-top: 0;">Tabla con todos los usuarios del sistema con sus datos basicos</p>
+                <p style="margin-top: 0;">Tabla con todos los tipos de roles del sistema</p>
             </div>
 
         </div>
-
-
-        <div class="row">
-            <a href="<?php echo ruta . '/usuarios/roles' ?>" class="waves-effect waves-light btn deep-orange">Tipos de Roles<i class="material-icons right" style="color: white;">settings</i></a>
-        </div>
-
 
 
         <div class="row" style="margin-top: 4rem;">
 
             <div class="col s12">
 
-                <?php if($usuarios != null) : ?>
+                <?php if($roles != null) : ?>
 
 
                 <table class="responsive-table centered">
 
                     <thead class="teal darken-3 white-text">
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Celular</th>
-                        <th>Direccion</th>
-                        <th>Ciudad</th>
                         <th>Rol</th>
                         <th></th>
                         <th></th>
                     </thead>
 
 
-                    <tbody id="tablaUsuarios">
-                        <?php foreach ($usuarios as $key => $usuario) : ?>
+                    <tbody id="tablaRoles">
+                        <?php foreach ($roles as $key => $rol) : ?>
                             <tr>
-                                <input type="hidden" value="<?php echo $usuario->id ?>">
+                                <input type="hidden" value="<?php echo $rol->id ?>">
 
-                                <td data-nombre-usuario="<?php echo $usuario->nombre ?>"> <?php echo $usuario->nombre ?> </td>
-                                <td> <?php echo $usuario->apellido ?> </td>
-                                <td> <?php echo $usuario->correo ?> </td>
-                                <td> <?php echo $usuario->celular ?> </td>
-                                <td> <?php echo $usuario->direccion ?> </td>
-                                <td> <?php echo $usuario->ciudad ?> </td>
-                                <td> <?php echo $usuario->rol ?> </td>
-
+                                <td data-nombre-rol="<?php echo $rol->rol ?>"> <?php echo $rol->rol ?> </td>
                                 <td>
-                                    <a href="<?php echo ruta . '/usuarios/actualizar/' . $usuario->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></a>
+                                    <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></button>
                                 </td>
                                 <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
@@ -88,14 +69,21 @@
 
                 <?php else: ?>
 
-                    <div class="alerta alerta-teal-darken-3" >No hay usuarios</div>
+                    <div class="alerta alerta-teal-darken-3" >No existen roles</div>
 
                 <?php endif ?>
+
 
 
                 <?php if ( $msg != null ): ?>
                     <div class="alerta alerta-teal-darken-3" > <?php echo $msg ?> </div>
                 <?php endif ?>
+
+                <?php if ( $msgError != null ): ?>
+                    <div class="alerta alerta-red-darken-3" > <?php echo $msgError ?> </div>
+                <?php endif ?>
+
+
 
             </div>
         </div>
@@ -105,11 +93,11 @@
 
             <div class="col s12 l5 flex items-center" >
 
-                <a href="<?php echo ruta . '/usuarios/crear' ?>" class="waves-effect waves-light">
+                <a class="waves-effect waves-light " id="agregarRol">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
-                <a href="#" class="waves-effect waves-light">
+                <a href="#" class="waves-effect waves-light" id="buscarRol">
                     <i class="material-icons Small" style="color: #ff5722;">search</i>
                 </a>
 
@@ -121,7 +109,7 @@
 
                     <?php if ($pagina != 1): ?>
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars(ruta . '/usuarios/pagina/' . ($pagina-1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/usuarios/roles/pagina/' . ($pagina-1) ) ?>">
                                 <i class="material-icons">chevron_left</i>
                             </a>
                         </li>
@@ -136,11 +124,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo htmlspecialchars(ruta . "/usuarios/pagina/$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/usuarios/roles/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo htmlspecialchars(ruta . "/usuarios/pagina/$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/usuarios/roles/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -154,7 +142,7 @@
                     <?php else: ?>
 
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars(ruta . '/usuarios/pagina/' . ($pagina+1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/usuarios/roles/pagina/' . ($pagina+1) ) ?>">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>
@@ -171,12 +159,62 @@
 
 
 
+    <div id="modalCrearRol" class="modal">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?action=crear' ?>" method="POST">
+            <div class="modal-content">
+                <h4 class="deep-orange-text">Crear Rol</h4>
+
+                <input type="hidden" name="flagNuevoRol" value="1">
+
+                <div class="input-field mt-16">
+                    <input type="text" class="validate" id="txtNuevoRol" name="nuevoRol" required >
+                    <label for="txtNuevoRol">Rol</label>
+                    <span class="helper-text" data-error="Obligatorio"></span>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
+
+                <button class="waves-effect waves-green btn-flat" type="submit">Crear</button>
+            </div>
+        </form>
+      </div>
+
+
+
+    <div id="modalActualizarRol" class="modal">
+        <form action="<?php echo ruta . '/roles/actualizar' ?>" method="POST">
+            <div class="modal-content">
+                <h4 class="deep-orange-text">Actualizar Rol</h4>
+
+                <input type="hidden" name="idRol" id="idActualizarRol" value="0">
+
+                <div class="input-field" style="margin-top: 4rem;">
+                    <input type="text" class="validate" id="txtRol" autofocus name="rol" required >
+                    <label for="txtRol">Tipo Reporte</label>
+                    <span class="helper-text" data-error="Obligatorio"></span>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
+
+                <button class="waves-effect waves-green btn-flat" id="btnActualizarTipoReporte">Actualizar</button>
+            </div>
+        </form>
+    </div>
+
+
+
 
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
-    <!-- Llamando el php que contiene los scripts propios de usuarios -->
-    <?php include_once '../vistas/includes/usuarios.php'; ?>
+    <!-- Llamando el php que contiene los scripts propios de roles -->
+    <?php include_once '../vistas/includes/roles.php'; ?>
 
 </body>
 </html>

@@ -106,34 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Editar tipo de reporte
-    const btnActualizarTipoReporteElement = document.getElementById('btnActualizarTipoReporte');
-    if (btnActualizarTipoReporteElement) {
-        btnActualizarTipoReporteElement.addEventListener('click', async (e) => {
-
-            e.preventDefault();
-
-            let txtTipoReporte = document.getElementById('txtTipoReporte').value;
-            let id = document.getElementById('idActualizarTipoReporte').value;
-
-            let response = await fetch(`${url}/TiposReporteControlador.php?action=actualizar&id=${id}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({tipoReporte: txtTipoReporte}),
-                            });
-
-            let dataJson = await response.json();
-
-            dataJson.then( (response) => {
-                console.log(response);
-            });
-
-        });
-    }
-
 
 
 

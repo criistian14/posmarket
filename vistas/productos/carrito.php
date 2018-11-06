@@ -55,13 +55,13 @@
 
         <div class="row" style="margin-top: 4rem;">
 
-            <div class="col s12">
-            
+            <div class="col s12 card">
+
                 <table class="responsive-table centered">
 
-                    <thead class="teal darken-3 white-text">
+                    <thead class="teal darken-3 white-text hidden">
                         <th></th>
-                        <th>Nombre</th>
+                        <th class="hidden sm:block">Nombre</th>
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th></th>
@@ -70,7 +70,7 @@
 
 
                     <tbody id="tablaCarrito">
-                      
+
                     </tbody>
                 </table>
 
@@ -87,12 +87,12 @@
 
             <div class="col s2">
 
-                <a href="productos/crear" class="waves-effect waves-light">
+                <a href="/posmarket" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
                 <a href="#" class="waves-effect waves-light">
-                    <i class="material-icons Small" style="color: #ff5722;">search</i>
+                    <i class="material-icons Small" style="color: #ff5722;">send</i>
                 </a>
 
             </div>
@@ -110,7 +110,7 @@
     <!-- Llamando el php que contiene los scripts propios del grupo 3 -->
     <?php include_once '../vistas/includes/productos.php'; ?>
 
-    
+
 
 
 </body>

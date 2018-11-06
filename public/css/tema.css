@@ -86,9 +86,9 @@ header, main, footer {
         display: none;
     }
 
-     .sidenav {
+     /* .sidenav {
         top: 0;
-    }
+    } */
 
     .contenedor-div {
         padding-left: 0;

@@ -85,14 +85,14 @@ class TipoReporte
 
 
 		// Consulta para la base de datos y despues lo guarda en la variable
-		$resultado = $conexion->conn->query("SELECT * FROM ". static::$tablaConsulta . " where id = $id LIMIT 1");
+		$resultado = $conexion->conn->query("SELECT * FROM ". static::$tablaConsulta . " WHERE id = $id LIMIT 1");
 
 		// Guardar el reporte encontrado por id en la variable
 		$tipoReporteEncontrado = $resultado->fetch_assoc();
 
 
 		// Crear un tipo de reporte
-		$tipoReporte = new Reporte();
+		$tipoReporte = new TipoReporte();
 
 		// Añadir los campos al tipo de reporte
 		$tipoReporte->id 	 	 = $tipoReporteEncontrado['id'];
@@ -327,8 +327,16 @@ class TipoReporte
 		}
 
 
-		// Ejecutar la sentencia
-		$sentencia->execute();
+        // Ejecutar la sentencia
+		if ( $sentencia->execute() ) {
+
+			// Devolver un uno si fue un exito
+			return 1;
+		} else {
+
+			// Devolver un 0 si ocurrio un error
+			return 0;
+		}
 	}
 
 
@@ -359,7 +367,11 @@ class TipoReporte
 
 
 		// Elimina al reporte de la bd encontrado por id
-		$conexion->conn->query("DELETE FROM ". static::$tablaConsulta . " WHERE id = $id LIMIT 1");
+		if($conexion->conn->query("DELETE FROM ". static::$tablaConsulta . " WHERE id = $id LIMIT 1")) {
+            return 1;
+        } else {
+            return 0;
+        }
 	}
 
 

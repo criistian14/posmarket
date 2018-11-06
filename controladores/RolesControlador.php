@@ -1,11 +1,11 @@
 <?php
 
 session_start();
-require_once '../modelos/TipoReporte.php';
-require_once '../modelos/Reporte.php';
+require_once '../modelos/Rol.php';
+require_once '../modelos/Usuario.php';
 
 
-class TiposReporteControlador
+class RolesControlador
 {
 
     // Constructor de la clase que ejecutara las funciones segun se soliciten
@@ -38,23 +38,23 @@ class TiposReporteControlador
         if( isset($_SESSION['admin']) ){
 
             // La cantidad de tipos de reporte que va a mostrar
-            $numeroTiposReporte = 1;
+            $numeroRoles = 5;
 
             // Obtener que numero de pagina es
             $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
 
             // Conocer el inicio de la consulta
-            $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroTiposReporte * $pagina) - $numeroTiposReporte) );
+            $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroRoles * $pagina) - $numeroRoles) );
 
             // Contar la cantidad de tipos de reporte
-            $totalTiposReporte = count(TipoReporte::todos());
+            $totalRoles = count(Rol::todos());
 
             // El numero de paginas que salen en total
-            $cantidadDePaginas = ( ($totalTiposReporte == 0) ? 1 : ceil($totalTiposReporte / $numeroTiposReporte) );
+            $cantidadDePaginas = ( ($totalRoles == 0) ? 1 : ceil($totalRoles / $numeroRoles) );
 
 
             // Peticion al modelo para recuperar todos los tipos de reporte de la bd y guardarlos en una variable
-            $tiposReporte = TipoReporte::limite($inicioConsulta, $numeroTiposReporte)
+            $roles = Rol::limite($inicioConsulta, $numeroRoles)
                                 ->resultado();
 
 
@@ -67,7 +67,7 @@ class TiposReporteControlador
 
 
             // Requerir la vista que muestra todos los usuarios registrados
-            include '../vistas/tipos_reporte/index.php';
+            include '../vistas/roles/index.php';
 
         } else {
 
@@ -83,13 +83,13 @@ class TiposReporteControlador
         // Comprobar si esta logeado como admin
         if( isset($_SESSION['admin']) ){
 
-            $tipoReporte = new TipoReporte;
+            $rol = new Rol;
 
-            $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
+            $rol->rol = $_POST['nuevoRol'];
 
-            $tipoReporte->guardar();
+            $rol->guardar();
 
-            header('Location: ../reportes/tipos_reporte');
+            header('Location: ../usuarios/roles');
 
         } else {
 
@@ -112,31 +112,31 @@ class TiposReporteControlador
             $id = $_GET['id'];
 
             // Comprobar si no esta siendo utilizado en un reporte
-            $comprobarForanea = Reporte::donde('tipo_reporte_id', $id)
+            $comprobarForanea = Usuario::donde('rol_id', $id)
                                         ->resultado();
 
-            // Encontra el tipo de reporte por el id y capturarlo
-            $tipoReporte = TipoReporte::encontrarPorID($id);
+            // Encontra el rol por el id y capturarlo
+            $rol = Rol::encontrarPorID($id);
 
 
             if ( empty($comprobarForanea) ) {
 
-                // Eliminar el tipo de reporte
-                $tipoReporte->eliminar();
+                // Eliminar el rol
+                $rol->eliminar();
 
 
                 // Guardar un mensaje de que se elimino correctamente en una cookie
-                setcookie('mensaje', "Se elimino correctamente el tipo de reporte ($tipoReporte->reporte)", time() + 10, '/' );
+                setcookie('mensaje', "Se elimino correctamente el rol ($rol->rol)", time() + 10, '/' );
 
             } else {
 
                 // Guardar un mensaje de que se no se pudo eliminar
-                setcookie('mensaje_error', "El tipo de reporte ($tipoReporte->reporte) esta siendo utilizado en un reporte", time() + 10, '/' );
+                setcookie('mensaje_error', "El rol ($rol->rol) esta siendo utilizado en un Usuario", time() + 10, '/' );
             }
 
 
-            // Redirigir a la tabla con todos los tipos de reporte
-            header('Location: ../reportes/tipos_reporte');
+            // Redirigir a la tabla con todos los roles
+            header('Location: ../usuarios/roles');
 
         } else {
 
@@ -155,33 +155,33 @@ class TiposReporteControlador
         // Comprobar si esta logeado como admin
         if( isset($_SESSION['admin']) ){
 
-            // Capturar el id enviado por GET
-            $id = $_POST['idTipoReporte'];
+            // Capturar el id enviado por POST
+            $id = $_POST['idRol'];
 
             // Encontra el usuario por el id capturado y guardarlo en una variable
-            $tipoReporte = TipoReporte::encontrarPorID($id);
+            $rol = Rol::encontrarPorID($id);
 
 
             // Pasarle los datos a la instancia
-            $tipoReporte->reporte = $_POST['tipoReporte'];
+            $rol->rol = $_POST['rol'];
 
 
-            // Guardar el Reporte
-            $res = $tipoReporte->guardar();
+            // Guardar el rol
+            $res = $rol->guardar();
 
 
             // Comprobar si se actualizo correctamente el tipo de reporte en la db
             if ($res == 1) {
-                $msg = "El tipo de reporte se actualizo exitosamente";
+                $msg = "El Rol se actualizo exitosamente";
             } else {
-                $msg = "Error al actualizar el reporte";
+                $msg = "Error al actualizar el Rol";
             }
 
             // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
             setcookie('mensaje', $msg, time() + 5, '/');
 
             // Redirigir a la tabla con todos los tipos de reporte
-            header('Location: ../reportes/tipos_reporte');
+            header('Location: ../usuarios/roles');
 
 
         } else {
@@ -209,4 +209,4 @@ class TiposReporteControlador
 
 }
 
-new TiposReporteControlador;
+new RolesControlador;

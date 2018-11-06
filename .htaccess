@@ -13,42 +13,57 @@
 
 
     # Rutas basicas auth
-    RewriteRule ^registro$                          controladores/UsuariosControlador.php?action=registro [L]
-    RewriteRule ^registrar$                         controladores/UsuariosControlador.php?action=registrar [L]
-    RewriteRule ^login$                             controladores/UsuariosControlador.php?action=login [L]
-    RewriteRule ^cerrarSession$                     controladores/UsuariosControlador.php?action=cerrar [L]
+    RewriteRule ^registro$                                      controladores/UsuariosControlador.php?action=registro [L]
+    RewriteRule ^registrar$                                     controladores/UsuariosControlador.php?action=registrar [L]
+    RewriteRule ^login$                                         controladores/UsuariosControlador.php?action=login [L]
+    RewriteRule ^cerrarSession$                                 controladores/UsuariosControlador.php?action=cerrar [L]
 
 
 
     # Configuracion
-    RewriteRule ^perfil$                            controladores/UsuariosControlador.php?action=perfil [L]
+    RewriteRule ^perfil$                                        controladores/UsuariosControlador.php?action=perfil [L]
 
 
 
-    # Usuarios
-    RewriteRule ^usuarios$                          controladores/UsuariosControlador.php?action=todos [L]
-    RewriteRule ^usuarios/pagina/(\w+)$             controladores/UsuariosControlador.php?action=todos&pagina=$1 [L]
-    RewriteRule ^usuarios/crear$                    controladores/UsuariosControlador.php?action=registro [L]
-    RewriteRule ^usuarios/actualizar/(\w+)$         controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
+
+    # Rutas de Usuarios
+    RewriteRule ^usuarios$                                      controladores/UsuariosControlador.php?action=todos [L]
+    RewriteRule ^usuarios/pagina/(\w+)$                         controladores/UsuariosControlador.php?action=todos&pagina=$1 [L]
+    RewriteRule ^usuarios/crear$                                controladores/UsuariosControlador.php?action=registro [L]
+    RewriteRule ^usuarios/actualizar/(\w+)$                     controladores/UsuariosControlador.php?action=actualizar&id=$1 [L]
+
+    # Rutas de roles
+    RewriteRule ^usuarios/roles$                                controladores/RolesControlador.php?action=todos [L]
+    RewriteRule ^roles/actualizar$                              controladores/RolesControlador.php?action=actualizar [L]
+    RewriteRule ^usuarios/roles/pagina/(\w+)$                   controladores/RolesControlador.php?action=todos&pagina=$1 [L]
+
+
+
+
 
     # Rutas de productos
-    RewriteRule ^productos$                          controladores/ProductosControlador.php?action=todos [L]
-    RewriteRule ^productos/crear$                    controladores/ProductosControlador.php?action=registro [L]
-    RewriteRule ^productos/actualizar/(\w+)$         controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
-    RewriteRule ^carrito$                          controladores/ProductosControlador.php?action=carrito [L]
+    RewriteRule ^productos$                                     controladores/ProductosControlador.php?action=todos [L]
+    RewriteRule ^productos/crear$                               controladores/ProductosControlador.php?action=registro [L]
+    RewriteRule ^productos/actualizar/(\w+)$                    controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
+    RewriteRule ^carrito$                                       controladores/ProductosControlador.php?action=carrito [L]
+
+
 
 
 
     # Rutas de reportes
-    RewriteRule ^reportes$                          controladores/ReportesControlador.php?action=todos [L]
+    RewriteRule ^reportes$                                      controladores/ReportesControlador.php?action=todos [L]
+    RewriteRule ^reportes/pagina/(\w+)$                         controladores/ReportesControlador.php?action=todos&pagina=$1 [L]
+    RewriteRule ^reportes/crear$                                controladores/ReportesControlador.php?action=crear [L]
+    RewriteRule ^reportes/actualizar/(\w+)$                     controladores/ReportesControlador.php?action=actualizar&id=$1 [L]
 
 
+    # Rutas de tipos de reporte
+    RewriteRule ^reportes/tipos_reporte$                        controladores/TiposReporteControlador.php?action=todos [L]
+    RewriteRule ^tipos_reporte/actualizar$                      controladores/TiposReporteControlador.php?action=actualizar [L]
+    RewriteRule ^reportes/tipos_reporte/pagina/(\w+)$           controladores/TiposReporteControlador.php?action=todos&pagina=$1 [L]
 
-    # Reportes
-    RewriteRule ^reportes$                          controladores/ReportesControlador.php?action=todos [L]
-    RewriteRule ^reportes/pagina/(\w+)$             controladores/ReportesControlador.php?action=todos&pagina=$1 [L]
-    RewriteRule ^reportes/crear$                    controladores/ReportesControlador.php?action=crear [L]
-    RewriteRule ^reportes/actualizar/(\w+)$         controladores/ReportesControlador.php?action=actualizar&id=$1 [L]
+
 
 
 

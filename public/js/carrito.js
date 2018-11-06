@@ -34,11 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
        });
 
-       
+
 
     }
 
-    
+
     // Tabla de carrito de compras
     const tablaCarritoElement = document.getElementById('tablaCarrito');
      // Variable del precio total para sumarlo y restarlo
@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         //--- Ulta necesario para almacenar los datos ---//
         let formData = new FormData();
 
-       
-        
+
+
 
 
         Object.keys(localStorage).forEach((key) => {
 
             formData.append(key, localStorage.getItem(key));
-            
+
         });
 
 
@@ -69,18 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => data.json())
 
         .then(responseJson => {
-            
-            
+
+
             Array.prototype.forEach.call(responseJson, (val, index, array) => {
 
                 // Inner de los productos en el carrito
 
-               if(val.oferta > 0){ 
+               if(val.oferta > 0){
                    // Sumar el total
                    precio_total += parseInt(val.oferta);
 
                 tablaCarritoElement.innerHTML +=
-                    "<tr id='"+val.id+"'>"
+                    "<tr id='"+val.id+"' data-valor='"+ val.oferta +"' >"
                         +"<td>"
                         + "<img src='"+val.imagen+"' style='width: 30vh; height: 20vh'>"
                         +"</td>"
@@ -94,8 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                        + "<td>"
                             +"<div class='input-field' >"
                             + "<select style='display: block' id='"+ val.codigo+"'>"
-
-                                
                             + "</select>"
                             +"</div>"
                        + "</td>"
@@ -109,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     precio_total += val.precio;
 
                    tablaCarritoElement.innerHTML +=
-                       "<tr>"
+                       "<tr data-valor='" + val.precio + "'>"
                        + "<td>"
                        + "<img src='" + val.imagen + "' style='width: 30vh; height: 20vh'>"
                        + "</td>"
@@ -127,11 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
                        + "</tr>"
                        ;
 
+
+
                }
 
                // Sirve para recorrer todo el select y poder agregarle las opciones de cantidad
 
-                
+
                 let cantidadElement = document.getElementById(val.codigo);
 
                 for(let i = 1; i <= val.cantidad; i++){
@@ -141,11 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     + i
                     +"</option>";
 
-                    
+
 
                 }
-               
-                
+
+
 
 
             });
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch((error) => {
             console.dir(error);
         });
-    
+
         // Recibir el boton eliminar
         tablaCarritoElement.addEventListener('click', (event) => {
 
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            
+
 
         });
         //////////////////// Suma de los productos ///////////////////
@@ -187,35 +187,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tablaCarritoElement.addEventListener('change', (event) => {
 
-            // Valor del target
-            // console.dir(event.target.value);
+
             let data = event.target.parentElement;
-            
+
             let arreglo = [...data.parentElement.parentElement.children];
 
 
-            if(value_target < event.target.value){
 
- 
+            let tableProductsElement = [...document.getElementById('tablaCarrito').children];
 
-            }else{
+            let valor_total = 0;
+
+            tableProductsElement.map( (product) => {
+                
+                let price = product.dataset.valor;
+                let quantity = product.children[3].firstChild.firstChild.value;
+
+                valor_total += price * quantity;
+
+            });
 
 
-            }
-            
-            multiplicacion = arreglo[2].innerText * event.target.value;
-
-
-
-            precioTotalElement.innerHTML = ` $ ${new Intl.NumberFormat({ style: 'currency' }).format(multiplicacion)}`;
-
-
-            value_target = event.target.value;
-
+            precioTotalElement.innerHTML = `$ ${new Intl.NumberFormat({ style: 'currency' }).format(valor_total)}`;
         });
 
-        
-        
+
+
 
     }
 
@@ -226,14 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let productoElement = boton.parentElement.parentElement;
         const contadorCarritoElement = document.getElementById("contador_productos");
 
-       
+
 
         let respuesta = window.confirm(`Quieres seguir comprando?`);
 
         if(respuesta){
 
             localStorage.setItem(productoElement.id, productoElement.id);
-            
+
             contadorCarritoElement.innerText = localStorage.length;
 
             console.dir(localStorage.length);
@@ -262,19 +259,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         localStorage.removeItem(key);
 
-                        
+
 
                         location.reload();
-                        
+
 
                     }
 
-                    
+
 
                 });
 
             }
-           
+
 
     }
 
