@@ -204,7 +204,7 @@ class UsuariosControlador
                 $_SESSION['admin'] = serialize($usuario[0]);
 
                 // Redirigir a usuarios controlador
-                header('Location: usuarios');
+                header('Location: admin');
 
             } else {
 
@@ -256,7 +256,7 @@ class UsuariosControlador
                         $_SESSION['admin'] = serialize($usuario[0]);
 
                         // Redirigir a usuarios controlador
-                        header('Location: usuarios');
+                        header('Location: admin');
 
                     } else {
 

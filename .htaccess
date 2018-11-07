@@ -7,8 +7,27 @@
     RewriteRule ^(.*)$ $1.php
 
 
+
+    # Proteger rutas
+    RewriteRule ^modelos/(.*)$ [R=404]
+    RewriteRule ^configuracion/(.*)$ [R=404]
+
+
+
+    # Establecer paginas de errores
+    ErrorDocument 404                                           /posmarket/vistas/errores/404.html
+    ErrorDocument 403                                           /posmarket/vistas/errores/403.html
+    ErrorDocument 500                                           /posmarket/vistas/errores/500.html
+
+
+
     # Establecer index
-    DirectoryIndex  controladores/IndexControlador.php [L]
+    DirectoryIndex                                              controladores/IndexControlador.php [L]
+
+
+    # Index Admin
+    RewriteRule ^admin$                                         controladores/IndexControlador.php?action=indexAdmin [L]
+
 
 
 
@@ -69,6 +88,14 @@
     RewriteRule ^tipos_reporte/actualizar$                      controladores/TiposReporteControlador.php?action=actualizar [L]
     RewriteRule ^reportes/tipos_reporte/pagina/(\w+)$           controladores/TiposReporteControlador.php?action=todos&pagina=$1 [L]
 
+
+
+
+
+    # Rutas de medios de pago
+    RewriteRule ^medios_pago$                                   controladores/MediosPagoControlador.php?action=todos [L]
+    RewriteRule ^medios_pago/actualizar$                      controladores/MediosPagoControlador.php?action=actualizar [L]
+    RewriteRule ^medios_pago/pagina/(\w+)$                      controladores/MediosPagoControlador.php?action=todos&pagina=$1 [L]
 
 
 

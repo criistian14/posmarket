@@ -1,15 +1,15 @@
 <?php
 
  # Usuario que no esta logeado
-    
+
   if(!isset($_SESSION['usuario']) && !isset($_SESSION['admin'])){
-    
+
 ?>
 
 <nav>
   <div class="nav-wrapper  orange accent-4">
 
-      <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
+      <?php if ($_SERVER['REQUEST_URI'] != '/'. ruta .'/'): ?>
           <ul>
               <li><a href="<?php echo ruta ?>">Home</a></li>
           </ul>
@@ -66,7 +66,7 @@
 
 ########## ADMINISTRADOR ###############
   } else if(isset($_SESSION['admin'])){
-      
+
 
 ?>
 
@@ -99,6 +99,7 @@
     <li><a href="<?php echo ruta . '/reportes' ?>">Reportes</a></li>
     <li><a href="<?php echo ruta . '/ventas' ?>">Ventas</a></li>
     <li><a href="<?php echo ruta . '/compras' ?>">Compras</a></li>
+    <li><a href="<?php echo ruta . '/medios_pago' ?>">Medio De Pago</a></li>
     <li><a href="<?php echo ruta . '/perfil' ?>">Configuracion</a></li>
     <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Seccion</a></li>
 

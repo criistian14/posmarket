@@ -3,7 +3,7 @@ const url = '/posmarket/controladores';
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // |---------- TIPOS REPORTE ----------|
+    // |---------- TIPOS DE REPORTE ----------|
 
 
     // Mostrar modal crear tipo de reporte
