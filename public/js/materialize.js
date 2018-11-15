@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sideNavMaterializeElements) {
         let intancesSideNavElement = M.Sidenav.init(sideNavMaterializeElements);
 
+        // Abrir SideNav con el boton
+        let botonAbrirSideNavElement = document.getElementById('abrirSidenavCategorias');
+
+        if (botonAbrirSideNavElement) {
+            botonAbrirSideNavElement.addEventListener('click', () => {
+                intancesSideNavElement[0].open();
+            });
+        }
     }
 
     // Inicializar Drop Down de Materialize
@@ -50,10 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Pintar el color en el menu jejej
+    // Pintar el color en el sidenav admin
     const slideOutElement = document.getElementById('slide-out');
     if (slideOutElement) {
         let liElements = [...slideOutElement.children];
+
 
         liElements.map( (li) => {
             let a = li.firstElementChild;
@@ -61,11 +70,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if ( a.href.includes(url) ) {
                 a.classList.add('menu-active');
-                console.log(url, a.href);
             }
 
         });
 
     }
+
+    // Pintar el color en el sidenav categorias
+    const sidenavCategoriasElement = document.getElementById('sidenavCategorias');
+    if (sidenavCategoriasElement) {
+        let liElements = [...sidenavCategoriasElement.children];
+
+
+        liElements.map( (li) => {
+
+            if (li.tagName == 'LI') {
+
+                let a = li.firstElementChild;
+                let url = location.href.split('/')[5];
+
+                if ( a.href.includes(url) ) {
+                    a.classList.add('menu-active');
+                }
+
+            }
+
+        });
+
+    }
+
+
+
+
+    // Buscardor del index
+    const buscarProductoNavElement = document.getElementById('buscarProductoNav');
+    if (buscarProductoNavElement) {
+        buscarProductoNavElement.addEventListener('keyup', (event) => {
+            if (event.key == 'Enter') {
+                let busqueda = buscarProductoNavElement.value.split(' ').join('-').toLowerCase();
+
+                location.href = `${rutaApp}/buscar/${busqueda}`;
+            }
+        });
+    }
+
+
 
 });

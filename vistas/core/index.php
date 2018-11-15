@@ -124,7 +124,7 @@
 </div>
 <!-- Gitter Chat Link -->
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red" href="vistas/contacto.php"><i class="large material-icons">chat</i></a>
+    <a class="btn-floating btn-large red" href="<?php echo ruta . '/contacto' ?>"><i class="large material-icons">chat</i></a>
 </div>
 
 

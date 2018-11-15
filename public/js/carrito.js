@@ -3,7 +3,7 @@ const rutaApp = '/posmarket';
 document.addEventListener('DOMContentLoaded', () => {
 
     const contadorCarritoElement = document.getElementById("contador_productos");
-    contadorCarritoElement.innerText = localStorage.length;
+    contadorCarritoElement.innerText = (!localStorage.getItem('carrito')) ? 0 : JSON.parse(localStorage.getItem('carrito')).length;
 
     // Constante del boton de añadir al carrito
     const getproductoElement = document.getElementById('productos-oferta');
@@ -53,14 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let formData = new FormData();
 
 
+        if (localStorage.getItem('carrito') != null) {
+            JSON.parse(localStorage.getItem('carrito')).map( (producto) => {
+                formData.append(producto.producto, producto.producto);
+            });
+        }
 
 
-
-        Object.keys(localStorage).forEach((key) => {
-
-            formData.append(key, localStorage.getItem(key));
-
-        });
 
 
         fetch('/posmarket/controladores/ProductosControlador?action=respuesta', {
@@ -105,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ;
                }else{
 
-                    precio_total += val.precio;
+                    precio_total += parseInt(val.precio);
 
                    tablaCarritoElement.innerHTML +=
-                       "<tr data-valor='" + val.precio + "'>"
+                       "<tr id='"+val.id+"' data-valor='"+ val.precio +"' >"
                        + "<td>"
                        + "<img src='" + val.imagen + "' style='width: 30vh; height: 20vh'>"
                        + "</td>"
@@ -119,7 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
                        + "<td>"
                        + val.precio
                        + "</td>"
-
+                       + "<td>"
+                          +"<div class='input-field' >"
+                          + "<select style='display: block' id='"+ val.codigo+"'>"
+                          + "</select>"
+                          +"</div>"
+                       + "</td>"
                        + "<td>"
                        + "<button class='waves-effect waves-light btn-flat'><i class='material-icons' style='color: #ff5722;'>delete</i></button>"
                        + "</td>"
@@ -137,19 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for(let i = 1; i <= val.cantidad; i++){
 
-                    cantidadElement.innerHTML +=
-                    "<option>"
-                    + i
-                    +"</option>";
+                    if(cantidadElement != null) {
 
-
+                        cantidadElement.innerHTML +=
+                        "<option>"
+                        + i
+                        +"</option>";
+                    }
 
                 }
 
-
-
-
             });
+
+
             precioTotalElement.innerHTML = ` $ ${new Intl.NumberFormat({ style: 'currency' }).format(precio_total)}`;
         })
         .catch((error) => {
@@ -225,33 +229,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const contadorCarritoElement = document.getElementById("contador_productos");
 
 
+        let productos = JSON.parse(localStorage.getItem('carrito'));
 
-        let respuesta = window.confirm(`Quieres seguir comprando?`);
+        if (!productos) {
 
-        if(respuesta){
+            productos = [{producto: productoElement.id}];
 
-            if (!!localStorage.getItem(productoElement.id)) {
+            M.toast({html: 'Producto agregado satisfactoriamente', classes: 'bg-green-dark'});
+
+
+        } else {
+
+            if ( JSON.parse(localStorage.getItem('carrito')).find((producto) => producto.producto == productoElement.id) ) {
 
                 M.toast({html: 'Ya agregaste este producto', classes: 'bg-red'});
 
-
             } else {
 
-                localStorage.setItem(productoElement.id, productoElement.id);
+                productos.push({producto: productoElement.id});
 
                 M.toast({html: 'Producto agregado satisfactoriamente', classes: 'bg-green-dark'});
             }
 
 
-            contadorCarritoElement.innerText = localStorage.length;
-
-        } else {
-
-            location.href = `${rutaApp}/carrito`;
-
         }
 
+        localStorage.setItem('carrito', JSON.stringify(productos));
+
+
+        contadorCarritoElement.innerText = productos.length;
+
+
+        // let respuesta = window.confirm(`Quieres seguir comprando?`);
+        //
+        // if(!respuesta){
+        //     location.href = `${rutaApp}/carrito`;
+        // }
+
     }
+
+
 
     function eliminarProductos(boton){
 
@@ -262,27 +279,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(respuesta){
 
-                // localStorage.removeItem(elementosFila.id);
+                let productos = JSON.parse(localStorage.getItem('carrito'));
 
-                // location.reload();
-                Object.keys(localStorage).forEach((key) => {
+                productos.map( (producto) => {
 
-                    // formData.append(key, localStorage.getItem(key));
+                    if (producto.producto == elementosFila.id) {
 
-                    if(localStorage.getItem(key) == elementosFila.id){
+                        let posicion = productos.map((productTemp) => productTemp.producto).indexOf(producto.producto);
 
-                        localStorage.removeItem(key);
-
-
-
-                        location.reload();
-
+                        productos.splice(posicion, 1);
 
                     }
 
-
-
                 });
+
+                localStorage.setItem('carrito', JSON.stringify(productos));
+
+                location.reload();
+
 
             }
 

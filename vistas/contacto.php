@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../public/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="../public/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Contacto</title>
-  </head>
+
+
+    <!-- Llamando el php que contiene la hoja de estilos -->
+    <?php include_once '../vistas/includes/estilos.php'; ?>
+
+</head>
   <body>
+
+    <?php include_once('../vistas/includes/nav.php'); ?>
+
     <div class="container">
       <center>
       <h2>Contactanos</h2>
@@ -55,5 +62,11 @@
   </form>
   </div>
     </div>
+
+
+
+    <!-- Llamando el php que contiene los scripts -->
+    <?php include_once '../vistas/includes/scripts.php'; ?>
+
   </body>
 </html>

@@ -20,6 +20,10 @@
     ErrorDocument 500                                           /posmarket/vistas/errores/500.html
 
 
+    # Ruta de Contacto
+    RewriteRule ^contacto$                                      controladores/IndexControlador.php?action=contacto [L]
+
+
 
     # Establecer index
     DirectoryIndex                                              controladores/IndexControlador.php [L]
@@ -27,6 +31,17 @@
 
     # Index Admin
     RewriteRule ^admin$                                         controladores/IndexControlador.php?action=indexAdmin [L]
+
+
+
+    # Buscar Producto Index
+    RewriteRule ^buscar/([^/]+)$                                controladores/IndexControlador.php?action=buscarProducto&busqueda=$1 [L]
+
+
+
+    # Buscar Producto Por Categoria Index
+    RewriteRule ^categoria/([^/]+)$                             controladores/IndexControlador.php?action=productoCategoria&categoria=$1 [L]
+
 
 
 
@@ -94,7 +109,7 @@
 
     # Rutas de medios de pago
     RewriteRule ^medios_pago$                                   controladores/MediosPagoControlador.php?action=todos [L]
-    RewriteRule ^medios_pago/actualizar$                      controladores/MediosPagoControlador.php?action=actualizar [L]
+    RewriteRule ^medios_pago/actualizar$                        controladores/MediosPagoControlador.php?action=actualizar [L]
     RewriteRule ^medios_pago/pagina/(\w+)$                      controladores/MediosPagoControlador.php?action=todos&pagina=$1 [L]
 
 

@@ -73,6 +73,35 @@ class IndexControlador
 
 
 
+    public function buscarProducto()
+    {
+        $busqueda = join(' ' ,explode('-' ,$_GET['busqueda']));
+
+        $productos = Producto::donde('nombre', 'LIKE', "%$busqueda%")
+                            ->resultado();
+
+        include '../vistas/core/busqueda.php';
+    }
+
+
+
+    public function productoCategoria()
+    {
+        $categoria = $_GET['categoria'];
+
+        $productos = Producto::donde('tipo_producto', 'LIKE', "%$categoria%")
+                            ->resultado();
+
+
+        include '../vistas/core/categoria.php';
+    }
+
+
+
+    public function contacto()
+    {
+        include '../vistas/contacto.php';
+    }
 
 
 }
