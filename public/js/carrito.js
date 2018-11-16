@@ -1,3 +1,4 @@
+'use stric'
 const rutaApp = '/posmarket';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -154,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
 
-            precioTotalElement.innerHTML = ` $ ${new Intl.NumberFormat({ style: 'currency' }).format(precio_total)}`;
+            precioTotalElement.innerHTML = `${new Intl.NumberFormat({ style: 'currency' }).format(precio_total)}`;
         })
         .catch((error) => {
             console.dir(error);
@@ -165,7 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let boton;
 
-            if(event.target.tagName = "I"){
+           
+
+            if(event.target.tagName == "I"){
                 boton = event.target.parentElement;
             } else if (event.target.tagName == 'BUTTON'){
 
@@ -185,10 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         });
+
+
         //////////////////// Suma de los productos ///////////////////
 
-        let multiplicacion = 0;
-        let value_target;
 
         tablaCarritoElement.addEventListener('change', (event) => {
 
@@ -213,13 +216,61 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
 
-            precioTotalElement.innerHTML = `$ ${new Intl.NumberFormat({ style: 'currency' }).format(valor_total)}`;
+            precioTotalElement.innerHTML = `${new Intl.NumberFormat({ style: 'currency' }).format(valor_total)}`;
+        });
+
+
+        const filaCompraElement = document.querySelector("#filaCompra");
+
+        filaCompraElement.addEventListener("click", (event) => {
+
+            let formData = new FormData();
+            let tableProductsElement = [...document.getElementById('tablaCarrito').children];
+
+
+
+            if (event.target.tagName == "I" && event.target.textContent == "send") {
+
+                for (let i = 0; i < tableProductsElement.length; i++) {
+
+                    formData.append("id", tableProductsElement[i].id);
+                    formData.append("total_producto", tableProductsElement[i].childNodes[3].firstChild.firstChild.value);
+
+
+
+                    fetch('/posmarket/controladores/VentasControlador?action=registrar', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(data => data.json())
+
+                        .then(responseJson => {
+
+                            console.dir(responseJson);
+
+                        })
+                        .catch((error) => {
+                            console.dir(error);
+                        });
+
+                }
+
+                
+
+
+            
+
+
+            }
+
         });
 
 
 
 
     }
+
+
 
 
 

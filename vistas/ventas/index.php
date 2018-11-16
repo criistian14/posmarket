@@ -70,7 +70,7 @@
 
                 <?php else: ?>
 
-                    <div class="alerta alerta-teal-darken-3" >No existen roles</div>
+                    <div class="alerta alerta-teal-darken-3" >No existen ventas</div>
 
                 <?php endif ?>
 

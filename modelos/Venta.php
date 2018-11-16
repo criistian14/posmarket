@@ -439,15 +439,15 @@ class Venta
 		if ($this->update) {
 
 			// Preparar la sentencia para actualizar el usuario en la bd
-			$sentencia = $conexion->conn->prepare("UPDATE ventas SET descripcion= ?, fecha= ?, producto_id= ?, tipo_reporte_id= ?, usuario_id= ? WHERE id= ?");
+			$sentencia = $conexion->conn->prepare("UPDATE ventas SET valor_total= ?, fecha= ?, producto_id= ?, medio_pago_id= ?, usuario_id= ? WHERE id= ?");
 
 			// Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-					'ssisii',
-					$this->descripcion,
+					'isiiii',
+					$this->valor_total,
 					$this->fecha,
 					$this->producto_id,
-					$this->tipo_reporte_id,
+					$this->medio_pago_id,
 					$this->usuario_id,
 					$this->id
 			);
@@ -459,12 +459,14 @@ class Venta
 
 			// Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-					'ssisi',
-					$this->descripcion,
+					'isiiii',
+					$this->id,
 					$this->fecha,
+					$this->medio_pago_id,
 					$this->producto_id,
-					$this->tipo_reporte_id,
-					$this->usuario_id
+					$this->usuario_id,
+					$this->valor_total
+
 			);
 		}
 

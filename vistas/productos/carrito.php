@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" id="filaCompra">
 
             <div class="col s10">
                     <span style="font-size: 20px; font-weight: 700;">Total de compra :</span>
@@ -91,7 +91,7 @@
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
-                <a href="#" class="waves-effect waves-light">
+                <a class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">send</i>
                 </a>
 

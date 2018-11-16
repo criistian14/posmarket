@@ -66,7 +66,51 @@ class VentasControlador
 
         // Requerir la vista que muestra todos los usuarios registrados
         include '../vistas/ventas/index.php';
+
     }
+
+
+        public function registrar()
+    {
+                // Crear una instancia (Objeto) de Usuario
+                    $venta = new Venta;
+                    
+
+                    
+
+                    
+
+                    // Pasarle los datos a la instancia
+                    $venta->id   = null;
+                    $venta->fecha     = null;
+                    $venta->medio_pago_id    = 1;
+                    $venta->producto_id     = $_POST['id'];
+                    // $venta->usuario_id     = $_POST['usuario_id'];
+                    // $venta->valor_total  = $_POST['valor_total'];
+
+
+                    // // Guardar el usuario
+                    // $res = $venta->guardar();
+
+
+                    // // Comprobar si se guardo correctamente el usuario en la db
+                    // if ($res == 1) {
+                    //     $msg = "Usuario creado exitosamente";
+                    // } else {
+                    //     $msg = "Error al crear el usuario";
+                    // }
+
+                    // // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
+                    // setcookie('mensaje', $msg, time() + 5 );
+
+                    // // Redirigir a la lista de usuarios
+                    // header('Location: usuarios');
+
+
+               
+
+    }
+
 
 
 
