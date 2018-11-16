@@ -231,34 +231,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (event.target.tagName == "I" && event.target.textContent == "send") {
 
+                filaCompraElement.innerHTML = '<div class="preloader-wrapper big active" id="preload">'
+                    + ' <div class="spinner-layer spinner-blue">'
+                    + '   <div class="circle-clipper left">'
+                    + '      <div class="circle"></div>'
+                    + ' </div><div class="gap-patch">'
+                    + '     <div class="circle"></div>'
+                    + ' </div><div class="circle-clipper right">'
+                    + '<div class="circle"></div>'
+                    + '</div>'
+                    + '</div>';
+                setTimeout(() => {
                 for (let i = 0; i < tableProductsElement.length; i++) {
 
                     formData.append("id", tableProductsElement[i].id);
                     formData.append("total_producto", tableProductsElement[i].childNodes[3].firstChild.firstChild.value);
 
+                   
 
-
-                    fetch('/posmarket/controladores/VentasControlador?action=registrar', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(data => data.json())
-
-                        .then(responseJson => {
-
-                            console.dir(responseJson);
-
+                   
+                        fetch('/posmarket/controladores/VentasControlador?action=registrar', {
+                            method: 'POST',
+                            body: formData
                         })
-                        .catch((error) => {
-                            console.dir(error);
-                        });
+                            .then(data => data.json())
+
+                            .then(responseJson => {
+
+                                if (responseJson != 1) {
+                                    M.toast({ html: `El producto no se pudo comprar `, classes: 'bg-red' });
+                                  
+                                } 
+
+                            })
+                            .catch((error) => {
+                                console.dir(error);
+                            });
+
+
+
+
+                  
+
+                    
+  
 
                 }
 
+                    let element = document.getElementById("preload");
+                    filaCompraElement.removeChild(element);
+                    M.toast({ html: 'Compra completada!', classes: 'bg-green-dark' });
+                    localStorage.clear();
+                    location.reload();
+
+
+
+                }, 3000);
+
                 
 
+               
 
-            
 
 
             }

@@ -454,37 +454,39 @@ class Venta
 
 		} else {
 
-			$resultado = $conexion->conn->query("SELECT * FROM producto WHERE id = $this->producto_id LIMIT 1");
+			$resultado = Producto::encontrarPorID($this->producto_id);
 
-			$resultadoProducto = $resultado->fetch_assoc();
+			if($resultado->oferta > 0){
+				$this->valor_total = $this->valor_total * $resultado->oferta;
+			}else {
+				$this->valor_total = $this->valor_total * $resultado->precio;
+			}
 
-			print_r($resultadoProducto);
+			// Preparar la sentencia para isertar el usuario en la bd
+			$sentencia = $conexion->conn->prepare("INSERT INTO ventas VALUES (null, null, ?, ?, ?, ?)");
 
-			// // Preparar la sentencia para isertar el usuario en la bd
-			// $sentencia = $conexion->conn->prepare("INSERT INTO ventas VALUES (null, null, ?, ?, ?, ?)");
+			// Pasar los campos del objecto a la sentencia
+			$sentencia->bind_param(
+					'iiii',
+					$this->medio_pago_id,
+					$this->producto_id,
+					$this->usuario_id,
+					$this->valor_total
 
-			// // Pasar los campos del objecto a la sentencia
-			// $sentencia->bind_param(
-			// 		'iiii',
-			// 		$this->medio_pago_id,
-			// 		$this->producto_id,
-			// 		$this->usuario_id,
-			// 		$this->valor_total
-
-			// );
+			);
 		}
 
 
-		// // Ejecutar la sentencia
-		// if ( $sentencia->execute() ) {
+		// Ejecutar la sentencia
+		if ( $sentencia->execute() ) {
 
-		// 	// Devolver un uno si fue un exito
-		// 	return 1;
-		// } else {
+			// Devolver un uno si fue un exito
+			return 1;
+		} else {
 
-		// 	// Devolver un 0 si ocurrio un error
-		// 	return 0;
-		// }
+			// Devolver un 0 si ocurrio un error
+			return 0;
+		}
 	}
 
 

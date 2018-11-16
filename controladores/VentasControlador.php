@@ -76,32 +76,30 @@ class VentasControlador
                     $venta = new Venta;
                     
 
-                    $venta->guardar();
-
-                    
-                    // $usuario = unserialize($_SESSION["usuario"]);
+                    $usuario = unserialize($_SESSION["usuario"]);
 
 
-                    // // Pasarle los datos a la instancia
-                    // $venta->medio_pago_id    = 1;
-                    // $venta->producto_id     = $_POST['id'];
-                    // $venta->usuario_id     = $usuario->id;
-                    // $venta->valor_total  = $_POST['total_producto'];
+                    // Pasarle los datos a la instancia
+                    $venta->medio_pago_id    = 1;
+                    $venta->producto_id     = $_POST['id'];
+                    $venta->usuario_id     = $usuario->id;
+                    $venta->valor_total  = $_POST['total_producto'];
+
+                     
+
+                    // Guardar el usuario
+                    $res = $venta->guardar();
 
 
-                    // // Guardar el usuario
-                    // $res = $venta->guardar();
+                    // Comprobar si se guardo correctamente el usuario en la db
+                    if ($res == 1) {
+                        $msg = 1;
 
-
-                    // // Comprobar si se guardo correctamente el usuario en la db
-                    // if ($res == 1) {
-                    //     $msg = "Usuario creado exitosamente";
-
-                    //     echo $msg;
-                    // } else {
-                    //     $msg = "Error al crear el usuario";
-                    //     echo $msg;
-                    // }
+                        echo $msg;
+                    } else {
+                        $msg = 0;
+                        echo $msg;
+                    }
 
                     // // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
                     // setcookie('mensaje', $msg, time() + 5 );
