@@ -28,6 +28,7 @@
     <ul class="right">
 
       <li><a href="<?php echo ruta . '/login' ?>">Mi Cuenta</a></li>
+
       <li><a href="<?php echo ruta . '/carrito' ?>">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
     </ul>
@@ -136,15 +137,16 @@
 
       <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
           <ul>
-              <li><a href="./">Inicio</a></li>
+              <li><a href="<?php echo ruta ?>">Inicio</a></li>
           </ul>
       <?php endif; ?>
 
 
     <ul class="right">
 
-      <li><a href="login">Mi Cuenta</a></li>
-      <li><a href="carrito">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+      <li><a href="<?php echo ruta . '/login'?>">Mi Cuenta</a></li>
+      <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
+      <li><a href="<?php echo ruta . '/carrito'?>">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
 
     </ul>

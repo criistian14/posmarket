@@ -14,28 +14,8 @@
 
 <body>
 
-    <!-- Llamando el php que contiene la navegacion -->
-    <nav>
-  <div class="nav-wrapper  orange accent-4">
+    <?php include_once '../vistas/includes/nav.php'; ?>
 
-      <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
-          <ul>
-              <li><a href="./">Inicio</a></li>
-          </ul>
-      <?php endif; ?>
-
-
-    <ul class="right">
-
-      <li><a href="login">Mi Cuenta</a></li>
-      <li><a href="carrito">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
-
-
-    </ul>
-
-  </div>
-
-</nav>
 
 <div class="container">
         <div class="row">

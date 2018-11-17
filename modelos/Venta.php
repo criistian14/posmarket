@@ -249,17 +249,18 @@ class Venta
 		$conexion = new Conexion;
 
 		// Variable que contiene la sentencia sql, uniendo si se uso la funcion donde y tambien ordenar
-		$sql = static::$consultaSelect . static::$consultasDonde . static::$consultaJoin . static::$consultaOrdenar . static::$consultaLimite;
+		$sql = static::$consultaSelect . static::$consultaJoin . static::$consultaOrdenar . static::$consultasDonde . static::$consultaLimite;
 
-
+		
 		// Consulta para la base de datos y despues lo guarda en la variable
 		$resultado = $conexion->conn->query($sql);
 
-
+		
 		// Recorrer todos los ventas que llegaron de la bd
 		while ( $venta = $resultado->fetch_assoc() ) {
 
 
+			
 			// Crear un reporte temporal en cada vuelta
 			$ventasTemporal = new Venta();
 
@@ -269,6 +270,7 @@ class Venta
             $ventasTemporal->medio_pago_id 	 = ( isset($venta['medio_pago_id']) ? $venta['medio_pago_id'] : '');
 			$ventasTemporal->producto_id	 = ( isset($venta['producto_id']) ? $venta['producto_id'] : '');
 			$ventasTemporal->usuario_id	 	 = ( isset($venta['usuario_id']) ? $venta['usuario_id'] : '');
+			$ventasTemporal->valor_total	 = ( isset($venta['valor_total']) ? $venta['valor_total'] : '');
 
 
 			if( isset($venta['nombreUsuario']) ) {
@@ -456,12 +458,26 @@ class Venta
 
 			$resultado = Producto::encontrarPorID($this->producto_id);
 
-			if($resultado->oferta > 0){
-				$this->valor_total = $this->valor_total * $resultado->oferta;
-			}else {
-				$this->valor_total = $this->valor_total * $resultado->precio;
-			}
+			$resultado->cantidad = $resultado->cantidad - $this->valor_total;
 
+			// Sentencia para restar la cantidad del producto
+				$productoSentencia = $conexion->conn->prepare("UPDATE productos SET cantidad = ? WHERE id = ?");
+
+				$productoSentencia->bind_param(
+					'ii',
+					$resultado->cantidad,
+					$this->producto_id
+				);
+			
+			// Validacion de oferta y precio base
+
+				if($resultado->oferta > 0){
+					$this->valor_total = $this->valor_total * $resultado->oferta;
+				}else {
+					$this->valor_total = $this->valor_total * $resultado->precio;
+				}
+
+				
 			// Preparar la sentencia para isertar el usuario en la bd
 			$sentencia = $conexion->conn->prepare("INSERT INTO ventas VALUES (null, null, ?, ?, ?, ?)");
 
@@ -478,7 +494,7 @@ class Venta
 
 
 		// Ejecutar la sentencia
-		if ( $sentencia->execute() ) {
+		if ( $sentencia->execute() && $productoSentencia->execute()) {
 
 			// Devolver un uno si fue un exito
 			return 1;

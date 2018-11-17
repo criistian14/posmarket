@@ -49,14 +49,19 @@ class VentasControlador
 
 
         // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $ventas = Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio')
+        $ventas = Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio, ventas.id')
                             ->unir('ventas', 'usuarios', 'usuario_id', 'id')
                             ->unir('ventas', 'productos', 'producto_id', 'id')
                             ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
                             ->limite($inicioConsulta, $numeroVentas)
                             ->resultado();
 
+    
+        
+       
+
         // Mensaje
+        
         $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
         // Mensaje Error
@@ -72,9 +77,13 @@ class VentasControlador
 
         public function registrar()
     {
+
+            if(isset($_SESSION["usuario"])){
+
+            
                 // Crear una instancia (Objeto) de Usuario
                     $venta = new Venta;
-                    
+
 
                     $usuario = unserialize($_SESSION["usuario"]);
 
@@ -96,10 +105,12 @@ class VentasControlador
                         $msg = 1;
 
                         echo $msg;
-                    } else {
-                        $msg = 0;
-                        echo $msg;
                     }
+            }else{
+
+                echo 0;
+
+            }        
 
                     // // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
                     // setcookie('mensaje', $msg, time() + 5 );
@@ -112,6 +123,91 @@ class VentasControlador
 
     }
 
+    public function historial(){
+
+        // La cantidad de reportes que va a mostrar
+        $numeroVentas = 5;
+
+        // Unserializar usuario
+        $usuario = unserialize($_SESSION["usuario"]);
+
+        // Obtener que numero de pagina es
+        $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
+
+        // Conocer el inicio de la consulta
+        $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroVentas * $pagina) - $numeroVentas) );
+
+        // Contar la cantidad de reportes
+        $totalVentas = count(Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio')
+                            ->unir('ventas', 'usuarios', 'usuario_id', 'id')
+                            ->unir('ventas', 'productos', 'producto_id', 'id')
+                            ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
+                            ->donde('ventas.usuario_id', $usuario->id)
+                            ->resultado());
+        
+        
+
+        // El numero de paginas que salen en total
+        $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
+
+
+        // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
+        $ventas = Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio')
+                            ->unir('ventas', 'usuarios', 'usuario_id', 'id')
+                            ->unir('ventas', 'productos', 'producto_id', 'id')
+                            ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
+                            ->donde('ventas.usuario_id', $usuario->id)
+                            ->limite($inicioConsulta, $numeroVentas)
+                            ->resultado();
+
+        // Mensaje
+        $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+        // Mensaje Error
+        $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
+
+
+        include '../vistas/usuarios/historial.php';
+
+
+    }
+
+
+        // Funcion para eliminar un medio de pago de la base de datos
+    public function eliminar()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
+
+            // Capturar el id enviado por GET
+            $id = $_GET['id'];
+
+            // Comprobar si no esta siendo utilizado en una venta
+            
+
+
+            // Encontra el medio de pago por el id y guardarlo
+            $venta = Venta::encontrarPorID($id);
+
+            
+
+                // Eliminar medio de pago
+                $venta->eliminar();
+
+                // Guardar un mensaje de que se elimino correctamente en una cookie
+                setcookie('mensaje', "Se elimino correctamente la venta ($venta->id)", time() + 10, '/');
+
+                header('Location: ../ventas');
+            
+
+
+        } else {
+
+            // Redirigir al perfil
+            header('Location: ../perfil');
+        }
+    }
 
 
 
