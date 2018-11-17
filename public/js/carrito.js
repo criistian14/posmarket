@@ -231,16 +231,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (event.target.tagName == "I" && event.target.textContent == "send") {
 
-                    filaCompraElement.innerHTML = '<div class="preloader-wrapper big active" id="preload">'
-                        + ' <div class="spinner-layer spinner-blue">'
-                        + '   <div class="circle-clipper left">'
-                        + '      <div class="circle"></div>'
-                        + ' </div><div class="gap-patch">'
-                        + '     <div class="circle"></div>'
-                        + ' </div><div class="circle-clipper right">'
-                        + '<div class="circle"></div>'
-                        + '</div>'
-                        + '</div>';
+                    if(tableProductsElement.length > 0){
+
+                        filaCompraElement.innerHTML = '<div class="preloader-wrapper big active" id="preload">'
+                            + ' <div class="spinner-layer spinner-blue">'
+                            + '   <div class="circle-clipper left">'
+                            + '      <div class="circle"></div>'
+                            + ' </div><div class="gap-patch">'
+                            + '     <div class="circle"></div>'
+                            + ' </div><div class="circle-clipper right">'
+                            + '<div class="circle"></div>'
+                            + '</div>'
+                            + '</div>';
+
+                    }
+
                         
                     setTimeout(() => {
                     for (let i = 0; i < tableProductsElement.length; i++) {

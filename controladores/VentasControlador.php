@@ -125,6 +125,8 @@ class VentasControlador
 
     public function historial(){
 
+        if(isset($_SESSION["usuario"])){
+
         // La cantidad de reportes que va a mostrar
         $numeroVentas = 5;
 
@@ -169,6 +171,12 @@ class VentasControlador
 
 
         include '../vistas/usuarios/historial.php';
+
+        }else{
+
+            header('Location: login');
+
+        }  
 
 
     }
