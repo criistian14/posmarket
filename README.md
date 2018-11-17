@@ -9,8 +9,8 @@ Posmarket it's a aftersales system
 # Changes
 - Change the addresses of productos, users and reports
 - Change db column fecha in ventas to timestamp
-- Create Historial complete
-- Car terminated
+- Historial of users complete
+- Car complete
 
 # Resources you need, and what is included.
 Well, u will need depends on what are you want to do.
