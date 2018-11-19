@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let boton;
 
-           
+
 
             if(event.target.tagName == "I"){
                 boton = event.target.parentElement;
@@ -246,29 +246,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     }
 
-                        
+
                     setTimeout(() => {
                     for (let i = 0; i < tableProductsElement.length; i++) {
 
                         formData.append("id", tableProductsElement[i].id);
                         formData.append("total_producto", tableProductsElement[i].childNodes[3].firstChild.firstChild.value);
 
-                    
 
-                    
+
+
                             fetch('/posmarket/controladores/VentasControlador?action=registrar', {
                                 method: 'POST',
-                                body: formData
+                                body: formData,
+                                header: {
+                                    'ContentType': 'Application/json',
+                                },
                             })
                                 .then(data => data.json())
 
                                 .then(responseJson => {
 
                                     if (responseJson != 1) {
-                                    
-                                        location.href = "login";
-                                        
-                                    
+
+                                        //location.href = "login";
+
+
                                     }else{
 
                                         let element = document.getElementById("preload");
@@ -277,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         localStorage.clear();
                                         location.href = "historial";
 
-                                    } 
+                                    }
 
                                 })
                                 .catch((error) => {
@@ -291,9 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     }, 3000);
 
-                    
 
-                
+
+
 
 
 

@@ -7,7 +7,7 @@
 ?>
 
 <nav>
-  <div class="nav-wrapper  orange accent-4">
+  <div class="nav-wrapper orange accent-4">
 
       <?php if ($_SERVER['REQUEST_URI'] != ruta .'/'
                 && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'buscar'
@@ -18,7 +18,7 @@
 
      <?php else: ?>
 
-         <ul class="lg:hidden ml-4">
+         <ul class="cursor-pointer ml-4">
              <li id="abrirSidenavCategorias"><i class="material-icons">menu</i></li>
          </ul>
       <?php endif; ?>
@@ -42,7 +42,7 @@
                 || explode('/' ,$_SERVER['REQUEST_URI'])[2] == 'categoria'): ?>
 
         <!-- Categorias -->
-        <ul id="sidenavCategorias" class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
+        <ul id="sidenavCategorias" class="sidenav sidenav-english  hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
 
             <li style="height: 140px;">
                 <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">

@@ -2,6 +2,7 @@
 
 session_start();
 require_once '../modelos/Venta.php';
+require_once '../modelos/Usuario.php';
 
 
 class VentasControlador
@@ -56,12 +57,12 @@ class VentasControlador
                             ->limite($inicioConsulta, $numeroVentas)
                             ->resultado();
 
-    
-        
-       
+
+
+
 
         // Mensaje
-        
+
         $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
         // Mensaje Error
@@ -78,9 +79,12 @@ class VentasControlador
         public function registrar()
     {
 
+            print_r($_SESSION);
+
+
             if(isset($_SESSION["usuario"])){
 
-            
+
                 // Crear una instancia (Objeto) de Usuario
                     $venta = new Venta;
 
@@ -94,7 +98,7 @@ class VentasControlador
                     $venta->usuario_id     = $usuario->id;
                     $venta->valor_total  = $_POST['total_producto'];
 
-                     
+
 
                     // Guardar el usuario
                     $res = $venta->guardar();
@@ -110,7 +114,7 @@ class VentasControlador
 
                 echo 0;
 
-            }        
+            }
 
                     // // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
                     // setcookie('mensaje', $msg, time() + 5 );
@@ -119,7 +123,7 @@ class VentasControlador
                     // header('Location: usuarios');
 
 
-               
+
 
     }
 
@@ -146,8 +150,8 @@ class VentasControlador
                             ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
                             ->donde('ventas.usuario_id', $usuario->id)
                             ->resultado());
-        
-        
+
+
 
         // El numero de paginas que salen en total
         $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
@@ -176,7 +180,7 @@ class VentasControlador
 
             header('Location: login');
 
-        }  
+        }
 
 
     }
@@ -192,13 +196,13 @@ class VentasControlador
             $id = $_GET['id'];
 
             // Comprobar si no esta siendo utilizado en una venta
-            
+
 
 
             // Encontra el medio de pago por el id y guardarlo
             $venta = Venta::encontrarPorID($id);
 
-            
+
 
                 // Eliminar medio de pago
                 $venta->eliminar();
@@ -207,7 +211,7 @@ class VentasControlador
                 setcookie('mensaje', "Se elimino correctamente la venta ($venta->id)", time() + 10, '/');
 
                 header('Location: ../ventas');
-            
+
 
 
         } else {

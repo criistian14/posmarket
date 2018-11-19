@@ -73,9 +73,9 @@ header, main, footer {
     border-color: rgba(255, 109, 0, 1);
 }
 
-.contenedor-div {
+/*.contenedor-div {
     padding-left: 300px;
-}
+}*/
 
 @media only screen and (max-width : 992px) {
     header, main, footer {
@@ -98,10 +98,10 @@ header, main, footer {
 }
 
 /* SIDE NAV DE ADMINISTRADOR */
-.sidenav-admin{
+/*.sidenav-admin{
     position: absolute !important;
     height: 250vh !important;
-}
+}*/
 
 /* Pegar el sidenav */
 .sidenav-english {
