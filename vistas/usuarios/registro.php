@@ -126,6 +126,9 @@
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
+    <!-- Llamando el php que contiene los scripts de carrito -->
+    <?php include_once '../vistas/includes/carrito.php'; ?>
+
     <!-- Llamando el php que contiene los scripts propios de usuarios -->
     <?php include_once '../vistas/includes/usuarios.php'; ?>
 

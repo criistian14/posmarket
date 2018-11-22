@@ -84,7 +84,11 @@
 <?php
 
 ########## ADMINISTRADOR ###############
-  } else if(isset($_SESSION['admin'])){
+  } else if(isset($_SESSION['admin'])
+            && $_SERVER['REQUEST_URI'] != (ruta . '/')
+            && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'buscar'
+            && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'categoria'
+            && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'carrito'){
 
 
 ?>
@@ -132,19 +136,42 @@
 ?>
 
 
-<nav>
-  <div class="nav-wrapper  orange accent-4">
+<nav class="sticky z-50 pin-t">
+  <div class="nav-wrapper orange accent-4">
 
-      <?php if ($_SERVER['REQUEST_URI'] != '/posmarket/'): ?>
-          <ul>
-              <li><a href="<?php echo ruta ?>">Inicio</a></li>
-          </ul>
+      <?php if ($_SERVER['REQUEST_URI'] != ruta .'/'
+                && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'buscar'
+                && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'categoria'
+                && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'carrito'):?>
+
+        <ul class="flex justify-between">
+            <li><a href="<?php echo ruta ?>">Inicio</a></li>
+            <li id="abrirSidenavUsuario" class="cursor-pointer ml-4 lg:hidden"><i class="material-icons mr-4">menu</i></li>
+        </ul>
+
+        <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
+
+            <li><a href="<?php echo ruta . '/perfil'?>">Pefil</a></li>
+            <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
+            <li><a href="<?php echo ruta . '/carrito'?>">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+            <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Seccion</a></li>
+
+        </ul>
+
+        <!-- </ul> -->
+
+     <?php else: ?>
+
+         <ul class="cursor-pointer ml-4 ">
+            <li id="abrirSidenavCategorias" class="md:hidden"><i class="material-icons">menu</i></li>
+            <li><a href="<?php echo ruta ?>">Inicio</a></li>
+         </ul>
       <?php endif; ?>
 
 
-    <ul class="right">
+    <ul class="right hidden md:block">
 
-      <li><a href="<?php echo ruta . '/login'?>">Mi Cuenta</a></li>
+      <li><a href="<?php echo ruta . '/perfil'?>">Pefil</a></li>
       <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
       <li><a href="<?php echo ruta . '/carrito'?>">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
 
@@ -155,30 +182,54 @@
 
 </nav>
 
-    <?php if ($_SERVER['REQUEST_URI'] == '/posmarket/'): ?>
+     <?php if ($_SERVER['REQUEST_URI'] == (ruta . '/')
+                || explode('/' ,$_SERVER['REQUEST_URI'])[2] == 'buscar'
+                || explode('/' ,$_SERVER['REQUEST_URI'])[2] == 'categoria'): ?>
 
         <!-- Categorias -->
-        <ul class="sidenav sidenav-english sidenav-fixed hover-teal-darken-3">
+        <ul id="sidenavCategorias" class="sidenav sidenav-english  hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
 
             <li style="height: 140px;">
-                <a href="./" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
-                    <img src="/posmarket/public/img/logo.png" width="75" class="responsive-img">
+                <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
+                    <img src="<?php echo ruta . '/public/img/logo.png' ?>" width="75" class="responsive-img">
                 </a>
             </li>
 
-            <li class="search" style="margin-top: 30px">
-                <div class="search-wrapper">
-                    <input id="search" placeholder="Buscar producto" style="padding: 7px">
+            <?php if (explode('/' ,$_SERVER['REQUEST_URI'])[2] == 'buscar'): ?>
+                <div class="search-wrapper mt-8">
+                    <input id="buscarProductoNav" value="<?php echo $busqueda ?>" placeholder="Buscar producto" style="padding: 7px">
                 </div>
-            </li>
-            <span style="padding: 10px">Categorias</span>
-            <li><a href="./ProductosControlador.php?action=todos">Productos</a></li>
-            <li><a href="<?php echo ruta ?>/usuarios">Usuarios</a></li>
-            <li><a href="./ReportesControlador.php">Reportes</a></li>
-            <li><a href="#!">Ventas</a></li>
-            <li><a href="#!">Compras</a></li>
-            <li><a href="./UsuariosControlador.php?action=perfil">Configuracion</a></li>
-            <li><a href="./cerrarSession">Cerrar Seccion</a></li>
+            <?php else: ?>
+                <div class="search-wrapper mt-8">
+                    <input id="buscarProductoNav" placeholder="Buscar producto" style="padding: 7px">
+                </div>
+            <?php endif; ?>
+
+
+            <div class="sm:hidden">
+                <span class="ml-4 mt-8 mb-2 block text-grey-dark font-bold">Cuenta</span>
+
+                <li><a href="<?php echo ruta . '/perfil'?>">Pefil</a></li>
+                <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
+                <li><a href="<?php echo ruta . '/carrito'?>">Mi Carrito <span class="red" style="padding: 6px; border-radius: 15px" id="contador_productos">0</span></a></li>
+                <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Seccion</a></li>
+            </div>
+
+
+
+
+            <span class="ml-4 mt-8 mb-2 block text-grey-dark font-bold">Categorias</span>
+
+
+            <li><a href="<?php echo ruta . '/categoria/aseo' ?>">Aseo</a></li>
+            <li><a href="<?php echo ruta . '/categoria/cocina' ?>">Cocina</a></li>
+            <li><a href="<?php echo ruta . '/categoria/niños' ?>">Niños</a></li>
+            <li><a href="<?php echo ruta . '/categoria/tecnologia' ?>">Tecnologia</a></li>
+            <li><a href="<?php echo ruta . '/categoria/hogar' ?>">Hogar</a></li>
+            <li><a href="<?php echo ruta . '/categoria/ropa' ?>">Ropa</a></li>
+            <li><a href="<?php echo ruta . '/categoria/accesorios' ?>">Accesorios</a></li>
+
+
 
         </ul>
 

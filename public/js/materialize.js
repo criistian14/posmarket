@@ -7,11 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sideNavMaterializeElements) {
         let intancesSideNavElement = M.Sidenav.init(sideNavMaterializeElements);
 
-        // Abrir SideNav con el boton
-        let botonAbrirSideNavElement = document.getElementById('abrirSidenavCategorias');
+        // Abrir SideNav Categorias con el boton
+        let botonAbrirSideNavCategoriasElement = document.getElementById('abrirSidenavCategorias');
 
-        if (botonAbrirSideNavElement) {
-            botonAbrirSideNavElement.addEventListener('click', () => {
+        if (botonAbrirSideNavCategoriasElement) {
+            botonAbrirSideNavCategoriasElement.addEventListener('click', () => {
+                intancesSideNavElement[0].open();
+            });
+        }
+
+        // Abrir SideNav Usuario con el boton
+        let botonAbrirSideNavUsuarioElement = document.getElementById('abrirSidenavUsuario');
+
+        if (botonAbrirSideNavUsuarioElement) {
+            botonAbrirSideNavUsuarioElement.addEventListener('click', () => {
                 intancesSideNavElement[0].open();
             });
         }
@@ -81,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidenavCategoriasElement) {
         let liElements = [...sidenavCategoriasElement.children];
 
-
         liElements.map( (li) => {
 
             if (li.tagName == 'LI') {
@@ -92,12 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if ( a.href.includes(url) ) {
                     a.classList.add('menu-active');
                 }
-
             }
-
         });
 
     }
+
+
+
+    abrirSidenavUsuario
 
 
 
