@@ -107,9 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    abrirSidenavUsuario
-
-
 
 
     // Buscardor del index

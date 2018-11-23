@@ -3,8 +3,12 @@ const rutaApp = '/posmarket';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const contadorCarritoElement = document.getElementById("contador_productos");
-    contadorCarritoElement.innerText = (!localStorage.getItem('carrito')) ? 0 : JSON.parse(localStorage.getItem('carrito')).length;
+    const contadorCarritoElement = [...document.querySelectorAll("#contador_productos")];
+    contadorCarritoElement.map((element) => {
+        element.innerText = (!localStorage.getItem('carrito')) ? 0 : JSON.parse(localStorage.getItem('carrito')).length;
+    });
+
+
 
     // Constante del boton de añadir al carrito
     const getproductoElement = document.getElementById('productos-oferta');
@@ -269,8 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                     if (responseJson != 1) {
 
-                                        //location.href = "login";
-
+                                        location.href = "login";
 
                                     }else{
 
@@ -316,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function agregarProducto(boton){
 
         let productoElement = boton.parentElement.parentElement;
-        const contadorCarritoElement = document.getElementById("contador_productos");
+        const contadorCarritoElement = [...document.querySelectorAll("#contador_productos")];
 
 
         let productos = JSON.parse(localStorage.getItem('carrito'));
@@ -347,7 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('carrito', JSON.stringify(productos));
 
 
-        contadorCarritoElement.innerText = productos.length;
+        contadorCarritoElement.map((element) => {
+            element.innerText = productos.length;
+        });
 
 
         // let respuesta = window.confirm(`Quieres seguir comprando?`);

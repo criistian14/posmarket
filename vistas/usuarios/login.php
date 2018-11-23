@@ -63,9 +63,9 @@
                                     <span>¿Recordar los datos?</span>
                                 </label>
 
-                                <button class="btn waves-effect deep-orange darken-1" style="width: 300px" type="submit" name="action">Iniciar Seccion</button>
+                                <button class="btn waves-effect deep-orange darken-1 mt-8 md:mt-0 w-full md:w-64" type="submit" name="action">Iniciar Seccion</button>
 
-                                <a href="./registro">Registrarse</a>
+                                <a href="./registro" class="mt-8 md:mt-0">Registrarse</a>
                             </div>
 
                         </form>

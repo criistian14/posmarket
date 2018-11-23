@@ -79,17 +79,15 @@ class VentasControlador
         public function registrar()
     {
 
-            print_r($_SESSION);
 
-
-            if(isset($_SESSION["usuario"])){
+            if(isset($_SESSION["usuario"]) || isset($_SESSION["admin"])){
 
 
                 // Crear una instancia (Objeto) de Usuario
                     $venta = new Venta;
 
 
-                    $usuario = unserialize($_SESSION["usuario"]);
+                    $usuario = unserialize( isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : $_SESSION["admin"] );
 
 
                     // Pasarle los datos a la instancia
@@ -129,13 +127,13 @@ class VentasControlador
 
     public function historial(){
 
-        if(isset($_SESSION["usuario"])){
+        if(isset($_SESSION["usuario"]) || isset($_SESSION["admin"])){
 
         // La cantidad de reportes que va a mostrar
         $numeroVentas = 5;
 
         // Unserializar usuario
-        $usuario = unserialize($_SESSION["usuario"]);
+        $usuario = unserialize( isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : $_SESSION["admin"] );
 
         // Obtener que numero de pagina es
         $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );

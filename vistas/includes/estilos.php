@@ -1,3 +1,8 @@
+<!-- Favicon -->
+<link rel="shortcut icon" href="<?php echo ruta . '/favicon.png' ?>" />
+
+
+
 <!-- Materialize -->
 <link rel="stylesheet" href="<?php echo ruta ?>/public/css/materialize.min.css">
 

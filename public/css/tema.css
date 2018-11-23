@@ -59,7 +59,6 @@ header, main, footer {
 
 .sidenav {
     top: 64px;
-
 }
 
 
@@ -86,9 +85,15 @@ header, main, footer {
         display: none;
     }
 
-     /* .sidenav {
+
+    .sidenav {
         top: 0;
-    } */
+    }
+
+    .sidenav-admin {
+        top: 64px;
+    }
+
 
     .contenedor-div {
         padding-left: 0;

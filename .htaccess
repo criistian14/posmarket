@@ -6,6 +6,8 @@
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^(.*)$ $1.php
 
+    RewriteRule ^favicon\.png$                                  /posmarket/public/img/logo.png
+
 
 
     # Proteger rutas

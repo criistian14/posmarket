@@ -24,7 +24,7 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Administrador</h1>
+                <h2 style="margin-bottom: .8rem;" class="deep-orange-text">Administrador</h2>
             </div>
 
 
@@ -40,7 +40,7 @@
         <div class="row">
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal">
+                <div class="card horizontal cursor-pointer">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">person</i>
@@ -60,7 +60,7 @@
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal">
+                <div class="card horizontal cursor-pointer">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">assignment</i>
@@ -80,7 +80,7 @@
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal">
+                <div class="card horizontal cursor-pointer">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">local_grocery_store</i>
@@ -100,14 +100,14 @@
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal">
+                <div class="card horizontal cursor-pointer">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">card_giftcard</i>
                     </div>
 
                     <div class="col s8 p-0">
-                        <div class="card-content">
+                        <div class="card-content pl-0">
 
                             <h4 class="mt-0 uppercase text-grey-darker text-center">Productos</h4>
                             <p class="font-bold text-4xl deep-orange-text text-center"><?php echo $numeroProductos ?></p>
