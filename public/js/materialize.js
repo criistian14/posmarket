@@ -114,9 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (buscarProductoNavElement) {
         buscarProductoNavElement.addEventListener('keyup', (event) => {
             if (event.key == 'Enter') {
-                let busqueda = buscarProductoNavElement.value.split(' ').join('-').toLowerCase();
 
-                location.href = `${rutaApp}/buscar/${busqueda}`;
+
+                if (buscarProductoNavElement.value.trim().length <= 3) {
+
+                    M.toast({html: 'Minimo 4 caracteres', classes: 'bg-red'});
+
+                } else {
+
+                    let busqueda = buscarProductoNavElement.value.split(' ').join('-').toLowerCase();
+
+                    location.href = `${rutaApp}/buscar/${busqueda}`;
+                }
+
             }
         });
     }
