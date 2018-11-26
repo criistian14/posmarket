@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Ventas</title>
+    <title>Historial</title>
 
 
     <!-- Llamando el php que contiene la hoja de estilos -->
@@ -23,12 +23,12 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Ventas</h1>
+                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Historial</h1>
             </div>
 
 
             <div class="col s12">
-                <p style="margin-top: 0;">Tabla con todas las ventas del sistema con sus datos basicos</p>
+                <p style="margin-top: 0;">Tabla con todas tus compras de productos con sus datos basicos</p>
             </div>
 
         </div>
@@ -66,7 +66,7 @@
                                 <td> <?php echo $venta->fecha ?> </td>
 
                                 <td>
-                                    <a href="<?php echo ruta . '/ventas/actualizar/' . $venta->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">remove_red_eye</i></a>
+                                    <a href="<?php echo ruta . '/historial/compra/' . $venta->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">remove_red_eye</i></a>
                                 </td>
                                 <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
@@ -78,7 +78,7 @@
 
                 <?php else: ?>
 
-                    <div class="alerta alerta-teal-darken-3" >No hay ventas</div>
+                    <div class="alerta alerta-teal-darken-3" >No has comprado nada</div>
 
                 <?php endif ?>
 

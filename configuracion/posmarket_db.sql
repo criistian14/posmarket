@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2018 a las 03:39:33
+-- Tiempo de generación: 27-11-2018 a las 00:29:54
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -39,14 +39,6 @@ CREATE TABLE `compras` (
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `valor_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `compras`
---
-
-INSERT INTO `compras` (`id`, `cantidad`, `fecha`, `medio_pago_id`, `producto_id`, `usuario_id`, `valor_total`) VALUES
-(3, 20, '2018-11-25', 1, 7, 21, 22000),
-(4, 25, '2018-11-25', 1, 8, 21, 37500);
 
 -- --------------------------------------------------------
 
@@ -84,14 +76,6 @@ CREATE TABLE `productos` (
   `imagen` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id`, `codigo`, `nombre`, `precio`, `cantidad`, `oferta`, `tamano`, `tipo_producto`, `imagen`, `activo`) VALUES
-(7, 'Arroz1', 'Arroz', 1200, 10, 0, 'PequeÃ±o', 'Comida', '/img/334568145953_p3_master1200.jpg', 1),
-(8, 'Lentejas1', 'Lentejas', 1800, 20, 0, 'PequeÃ±o', 'Comida', '/img/83259171403_p0.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -182,19 +166,12 @@ INSERT INTO `usuarios` (`id`, `apellido`, `cedula`, `celular`, `ciudad`, `contra
 
 CREATE TABLE `ventas` (
   `id` int(10) UNSIGNED NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha` date NOT NULL,
   `medio_pago_id` int(10) UNSIGNED NOT NULL,
   `datos` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `valor_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `ventas`
---
-
-INSERT INTO `ventas` (`id`, `fecha`, `medio_pago_id`, `datos`, `usuario_id`, `valor_total`) VALUES
-(18, '2018-11-25 05:00:00', 1, 'a:2:{i:0;a:3:{s:2:\"id\";s:1:\"8\";s:5:\"valor\";s:4:\"1800\";s:8:\"cantidad\";s:1:\"3\";}i:1;a:3:{s:2:\"id\";s:1:\"7\";s:5:\"valor\";s:4:\"1200\";s:8:\"cantidad\";s:1:\"8\";}}', 22, 15000);
 
 --
 -- Índices para tablas volcadas
@@ -287,7 +264,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `reportes`
 --
 ALTER TABLE `reportes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -311,7 +288,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas

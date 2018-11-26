@@ -211,7 +211,7 @@
            <li><a href="<?php echo ruta . '/compras' ?>">Compras</a></li>
            <li><a href="<?php echo ruta . '/medios_pago' ?>">Medio De Pago</a></li>
            <li><a href="<?php echo ruta . '/perfil' ?>">Configuracion</a></li>
-           <li><a href="<?php echo ruta . '/historial' ?>">Mis Compras</a></li>
+           <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
            <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Sesion</a></li>
 
        </ul>

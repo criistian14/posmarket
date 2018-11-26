@@ -35,24 +35,26 @@ class VentasControlador
     // Funcion que muestra todos los usuarios en una tabla
     public function todos()
     {
-        // La cantidad de reportes que va a mostrar
-        $numeroVentas = 5;
+        if (isset($_SESSION['admin'])) {
 
-        // Obtener que numero de pagina es
-        $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
+            // La cantidad de reportes que va a mostrar
+            $numeroVentas = 5;
 
-        // Conocer el inicio de la consulta
-        $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroVentas * $pagina) - $numeroVentas) );
+            // Obtener que numero de pagina es
+            $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
 
-        // Contar la cantidad de reportes
-        $totalVentas = count(Venta::todos());
+            // Conocer el inicio de la consulta
+            $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroVentas * $pagina) - $numeroVentas) );
 
-        // El numero de paginas que salen en total
-        $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
+            // Contar la cantidad de reportes
+            $totalVentas = count(Venta::todos());
+
+            // El numero de paginas que salen en total
+            $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
 
 
-        // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $ventas = Venta::seleccionar('ventas.*, usuarios.nombre AS nombreUsuario, medios_pago.medio')
+            // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
+            $ventas = Venta::seleccionar('ventas.*, usuarios.nombre AS nombreUsuario, medios_pago.medio')
                             ->unir('ventas', 'usuarios', 'usuario_id', 'id')
                             ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
                             ->limite($inicioConsulta, $numeroVentas)
@@ -60,17 +62,25 @@ class VentasControlador
 
 
 
-        // Mensaje
+            // Mensaje
 
-        $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
-        // Mensaje Error
-        $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+            // Mensaje Error
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
 
 
 
-        // Requerir la vista que muestra todos los usuarios registrados
-        include '../vistas/ventas/index.php';
+            // Requerir la vista que muestra todos los usuarios registrados
+            include '../vistas/ventas/index.php';
+
+
+        } else {
+
+            // Redirigir al perfil
+            header('Location: perfil');
+
+        }
 
     }
 
@@ -148,52 +158,47 @@ class VentasControlador
 
         if(isset($_SESSION["usuario"]) || isset($_SESSION["admin"])){
 
-        // La cantidad de reportes que va a mostrar
-        $numeroVentas = 5;
+            /// La cantidad de reportes que va a mostrar
+            $numeroVentas = 5;
 
-        // Unserializar usuario
-        $usuario = unserialize( isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : $_SESSION["admin"] );
+            // Obtener que numero de pagina es
+            $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
 
-        // Obtener que numero de pagina es
-        $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
+            // Conocer el inicio de la consulta
+            $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroVentas * $pagina) - $numeroVentas) );
 
-        // Conocer el inicio de la consulta
-        $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroVentas * $pagina) - $numeroVentas) );
+            // Contar la cantidad de reportes
+            $totalVentas = count(Venta::todos());
 
-        // Contar la cantidad de reportes
-        $totalVentas = count(Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio')
+            // El numero de paginas que salen en total
+            $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
+
+
+            $usuarioActual = isset($_SESSION['usuario']) ? unserialize($_SESSION['usuario']) : unserialize($_SESSION['admin']);
+
+            // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
+            $ventas = Venta::seleccionar('ventas.*, usuarios.nombre AS nombreUsuario, medios_pago.medio')
                             ->unir('ventas', 'usuarios', 'usuario_id', 'id')
-                            ->unir('ventas', 'productos', 'producto_id', 'id')
                             ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
-                            ->donde('ventas.usuario_id', $usuario->id)
-                            ->resultado());
-
-
-
-        // El numero de paginas que salen en total
-        $cantidadDePaginas = ( ($totalVentas == 0) ? 1 : ceil($totalVentas / $numeroVentas) );
-
-
-        // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $ventas = Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio')
-                            ->unir('ventas', 'usuarios', 'usuario_id', 'id')
-                            ->unir('ventas', 'productos', 'producto_id', 'id')
-                            ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
-                            ->donde('ventas.usuario_id', $usuario->id)
                             ->limite($inicioConsulta, $numeroVentas)
+                            ->donde('usuario_id', $usuarioActual->id)
                             ->resultado();
 
-        // Mensaje
-        $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
-
-        // Mensaje Error
-        $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
 
 
+            // Mensaje
 
-        include '../vistas/usuarios/historial.php';
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
-        }else{
+            // Mensaje Error
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
+
+
+            // Requerir la vista que muestra todos los usuarios registrados
+            include '../vistas/ventas/historial.php';
+
+        } else {
 
             header('Location: login');
 
@@ -212,29 +217,24 @@ class VentasControlador
             // Capturar el id enviado por GET
             $id = $_GET['id'];
 
-            // Comprobar si no esta siendo utilizado en una venta
-
-
 
             // Encontra el medio de pago por el id y guardarlo
             $venta = Venta::encontrarPorID($id);
 
+            // Eliminar medio de pago
+            $venta->eliminar();
 
+            // Guardar un mensaje de que se elimino correctamente en una cookie
+            setcookie('mensaje', "Se elimino correctamente la venta con id ($venta->id)", time() + 10, '/');
 
-                // Eliminar medio de pago
-                $venta->eliminar();
-
-                // Guardar un mensaje de que se elimino correctamente en una cookie
-                setcookie('mensaje', "Se elimino correctamente la venta ($venta->id)", time() + 10, '/');
-
-                header('Location: ../ventas');
+            header('Location: ' . ruta . '/ventas');
 
 
 
         } else {
 
             // Redirigir al perfil
-            header('Location: ../perfil');
+            header('Location: perfil');
         }
     }
 
@@ -245,14 +245,13 @@ class VentasControlador
     public function actualizar()
     {
         // Comprobar si esta logeado como admin
-        if( isset($_SESSION['admin']) ){
+        if( isset($_SESSION['admin']) || isset($_SESSION['usuario']) ){
 
             // Capturar el id enviado por GET
             $id = $_GET['id'];
 
             // Encontra el usuario por el id capturado y guardarlo en una variable
             $venta = Venta::encontrarPorID($id);
-
 
             // Consultar usuario
             $usuarios = Usuario::todos();
@@ -280,27 +279,39 @@ class VentasControlador
 
 
 
+                $datos = [];
+
+                foreach ($_POST['datos'] as $key => $value) {
+
+                    array_push($datos, [
+                        'id' => $value['id'],
+                        'valor' => $value['valor'],
+                        'cantidad' => $value['cantidad']
+                    ]);
+                }
+
+
 
                 // Pasarle los datos a la instancia
-                $venta->fecha = $_POST['medio_pago'];
-                $venta->medio_pago_id = $_POST['medio_pago'];
-                $venta->usuario_id = isset($_SESSION['usuario']) ? unserialize($_SESSION['usuario'])->id : unserialize($_SESSION['admin'])->id ;
-                $venta->valor_total = $valorTotal;
+                $venta->fecha           = $_POST['fecha'];
+                $venta->medio_pago_id   = $_POST['medio_pago'];
+                $venta->usuario_id      = $_POST['usuario'];
+                $venta->valor_total     = $_POST['valor_total'];
+                $venta->datos           = serialize($datos);
 
 
+                // Comprobar si se actualizo correctamente la venta en la db
+                if ($venta->guardar() == 1) {
 
-                // Comprobar si se actualizo correctamente la compra en la db
-                if ($compra->guardar() == 1) {
-
-                    setcookie('mensaje', 'Se actualizo la compra', time() + 5, '/' );
+                    setcookie('mensaje', 'Se actualizo la venta', time() + 5, '/' );
 
                 } else {
 
-                    setcookie('mensaje_error', "Error al actualizar la compra", time() + 10, '/' );
+                    setcookie('mensaje_error', "Error al actualizar la venta", time() + 10, '/' );
                 }
 
                 // Redirigir a la lista con todos los reportes
-                header('Location: ' . ruta . '/compras');
+                header('Location: ' . ruta . '/ventas');
 
 
             } else {

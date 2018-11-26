@@ -255,7 +255,7 @@ class Venta
 		// Consulta para la base de datos y despues lo guarda en la variable
 		$resultado = $conexion->conn->query($sql);
 
-
+ 
 		// Recorrer todos los ventas que llegaron de la bd
 		while ( $venta = $resultado->fetch_assoc() ) {
 

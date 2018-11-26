@@ -28,11 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (boton.innerText == 'delete') {
 
-                    eliminarMedioPago(boton);
-
-                } else if (boton.innerText == 'create') {
-
-                    mostrarModalEditarMedioPago(boton);
+                    eliminarVenta(boton);
 
                 }
             }
@@ -42,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Eliminar el medio de pago
-    function eliminarMedioPago(boton) {
+    function eliminarVenta(boton) {
         let elementosFila = [...boton.parentElement.parentElement.children],
             id;
 
@@ -52,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        let respuesta = window.confirm('Estas seguro que deseas eliminar el medio de pago');
+        let respuesta = window.confirm('Estas seguro que deseas eliminar la venta');
 
         if (respuesta) {
             location.href = `${url}/VentasControlador.php?action=eliminar&id=${id}`;
