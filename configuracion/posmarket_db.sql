@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-11-2018 a las 00:58:16
+-- Tiempo de generación: 26-11-2018 a las 03:39:33
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -39,6 +39,14 @@ CREATE TABLE `compras` (
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `valor_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` (`id`, `cantidad`, `fecha`, `medio_pago_id`, `producto_id`, `usuario_id`, `valor_total`) VALUES
+(3, 20, '2018-11-25', 1, 7, 21, 22000),
+(4, 25, '2018-11-25', 1, 8, 21, 37500);
 
 -- --------------------------------------------------------
 
@@ -77,32 +85,13 @@ CREATE TABLE `productos` (
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `promociones`
+-- Volcado de datos para la tabla `productos`
 --
 
-CREATE TABLE `promociones` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `nombre` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `producto_id` int(10) UNSIGNED NOT NULL,
-  `tiempo_desc` date NOT NULL,
-  `total_desc` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `proveedores_productos`
---
-
-CREATE TABLE `proveedores_productos` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `factura` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `producto_id` int(10) UNSIGNED NOT NULL,
-  `usuario_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `productos` (`id`, `codigo`, `nombre`, `precio`, `cantidad`, `oferta`, `tamano`, `tipo_producto`, `imagen`, `activo`) VALUES
+(7, 'Arroz1', 'Arroz', 1200, 10, 0, 'PequeÃ±o', 'Comida', '/img/334568145953_p3_master1200.jpg', 1),
+(8, 'Lentejas1', 'Lentejas', 1800, 20, 0, 'PequeÃ±o', 'Comida', '/img/83259171403_p0.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +103,7 @@ CREATE TABLE `reportes` (
   `id` int(10) UNSIGNED NOT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha` date NOT NULL,
-  `producto_id` int(10) UNSIGNED NOT NULL,
+  `producto_id` int(10) UNSIGNED DEFAULT NULL,
   `tipo_reporte_id` int(10) UNSIGNED NOT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -150,6 +139,13 @@ CREATE TABLE `tipo_reportes` (
   `reporte` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `tipo_reportes`
+--
+
+INSERT INTO `tipo_reportes` (`id`, `reporte`) VALUES
+(1, 'Contacto');
+
 -- --------------------------------------------------------
 
 --
@@ -174,8 +170,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `apellido`, `cedula`, `celular`, `ciudad`, `contrasena`, `correo`, `direccion`, `nombre`, `rol_id`) VALUES
-(18, 'Posmarket', 123, '123', 'Cali', 'e10adc3949ba59abbe56e057f20f883e', 'admin@hotmail.com', 'Carrera a', 'Admin', 1),
-(19, 'Normal', 987, '123', 'Bogota', 'e10adc3949ba59abbe56e057f20f883e', 'usuario@hotmail.com', 'Carrera b', 'Usuario', 2);
+(1, 'Posmarket', 123, '123', 'Cali', 'e10adc3949ba59abbe56e057f20f883e', 'admin@hotmail.com', 'Carrera a', 'Admin', 1),
+(21, 'Prueba', 456, '123456', 'Medellin', 'e10adc3949ba59abbe56e057f20f883e', 'proveedor@hotmail.com', 'Carrera d', 'Proveedor', 3),
+(22, 'Prueba', 4567, '123456', 'Bogota', 'e10adc3949ba59abbe56e057f20f883e', 'usuario@hotmail.com', 'Carrera b', 'Usuario', 2);
 
 -- --------------------------------------------------------
 
@@ -187,10 +184,17 @@ CREATE TABLE `ventas` (
   `id` int(10) UNSIGNED NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `medio_pago_id` int(10) UNSIGNED NOT NULL,
-  `producto_id` int(10) UNSIGNED NOT NULL,
+  `datos` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `valor_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id`, `fecha`, `medio_pago_id`, `datos`, `usuario_id`, `valor_total`) VALUES
+(18, '2018-11-25 05:00:00', 1, 'a:2:{i:0;a:3:{s:2:\"id\";s:1:\"8\";s:5:\"valor\";s:4:\"1800\";s:8:\"cantidad\";s:1:\"3\";}i:1;a:3:{s:2:\"id\";s:1:\"7\";s:5:\"valor\";s:4:\"1200\";s:8:\"cantidad\";s:1:\"8\";}}', 22, 15000);
 
 --
 -- Índices para tablas volcadas
@@ -217,21 +221,6 @@ ALTER TABLE `medios_pago`
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `productos_codigo_unique` (`codigo`);
-
---
--- Indices de la tabla `promociones`
---
-ALTER TABLE `promociones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `promociones_producto_id_foreign` (`producto_id`);
-
---
--- Indices de la tabla `proveedores_productos`
---
-ALTER TABLE `proveedores_productos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `proveedores_productos_producto_id_foreign` (`producto_id`),
-  ADD KEY `proveedores_productos_usuario_id_foreign` (`usuario_id`);
 
 --
 -- Indices de la tabla `reportes`
@@ -268,7 +257,7 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ventas_producto_id_foreign` (`producto_id`),
+  ADD KEY `ventas_producto_id_foreign` (`datos`(191)),
   ADD KEY `ventas_medio_pago_id_foreign` (`medio_pago_id`),
   ADD KEY `ventas_usuario_id_foreign` (`usuario_id`);
 
@@ -280,7 +269,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `medios_pago`
@@ -292,25 +281,13 @@ ALTER TABLE `medios_pago`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `promociones`
---
-ALTER TABLE `promociones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `proveedores_productos`
---
-ALTER TABLE `proveedores_productos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `reportes`
 --
 ALTER TABLE `reportes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -322,19 +299,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tipo_reportes`
 --
 ALTER TABLE `tipo_reportes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
@@ -347,19 +324,6 @@ ALTER TABLE `compras`
   ADD CONSTRAINT `compras_medio_pago_id_foreign` FOREIGN KEY (`medio_pago_id`) REFERENCES `medios_pago` (`id`),
   ADD CONSTRAINT `compras_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `compras_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
-
---
--- Filtros para la tabla `promociones`
---
-ALTER TABLE `promociones`
-  ADD CONSTRAINT `promociones_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`);
-
---
--- Filtros para la tabla `proveedores_productos`
---
-ALTER TABLE `proveedores_productos`
-  ADD CONSTRAINT `proveedores_productos_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`),
-  ADD CONSTRAINT `proveedores_productos_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `reportes`
@@ -380,7 +344,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ventas`
   ADD CONSTRAINT `ventas_medio_pago_id_foreign` FOREIGN KEY (`medio_pago_id`) REFERENCES `medios_pago` (`id`),
-  ADD CONSTRAINT `ventas_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `ventas_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
 COMMIT;
 
