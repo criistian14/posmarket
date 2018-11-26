@@ -60,7 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Date Pickers de materialize
     const datepickerMaterializeElements = document.querySelectorAll('.datepicker');
     if (datepickerMaterializeElements) {
-        let intancesSelectsElement = M.Datepicker.init(datepickerMaterializeElements, { format: 'yyyy-mm-dd' });
+        let intancesDatepickerElement = M.Datepicker.init(datepickerMaterializeElements, { format: 'yyyy-mm-dd' });
+
+        intancesDatepickerElement.map( (picker) => {
+            if (picker.el.value != '') {
+                let fecha_modificada = picker.el.value.split('-');
+                picker.setDate(`${fecha_modificada[0]}-${fecha_modificada[1]}-${++fecha_modificada[2]}`);
+            }
+        });
+
     }
 
 

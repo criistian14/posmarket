@@ -268,7 +268,7 @@ class Venta
 			$ventasTemporal->id 	 	 	 = ( isset($venta['id']) ? $venta['id'] : '');
 			$ventasTemporal->fecha 	 	 	 = ( isset($venta['fecha']) ? $venta['fecha'] : '');
             $ventasTemporal->medio_pago_id 	 = ( isset($venta['medio_pago_id']) ? $venta['medio_pago_id'] : '');
-			$ventasTemporal->datos	 = ( isset($venta['datos']) ? $venta['datos'] : '');
+			$ventasTemporal->datos	         = ( isset($venta['datos']) ? $venta['datos'] : '');
 			$ventasTemporal->usuario_id	 	 = ( isset($venta['usuario_id']) ? $venta['usuario_id'] : '');
 			$ventasTemporal->valor_total	 = ( isset($venta['valor_total']) ? $venta['valor_total'] : '');
 

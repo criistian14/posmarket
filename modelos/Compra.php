@@ -442,16 +442,17 @@ class Compra
 		if ($this->update) {
 
 			// Preparar la sentencia para actualizar el usuario en la bd
-			$sentencia = $conexion->conn->prepare("UPDATE ". static::$tablaConsulta ." SET valor_total= ?, fecha= ?, producto_id= ?, medio_pago_id= ?, usuario_id= ? WHERE id= ?");
+			$sentencia = $conexion->conn->prepare("UPDATE ". static::$tablaConsulta ." SET cantidad= ?, fecha= ?, medio_pago_id= ?, producto_id= ?, usuario_id= ?, valor_total= ? WHERE id= ?");
 
 			// Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-					'isiiii',
-					$this->valor_total,
-					$this->fecha,
-					$this->producto_id,
-					$this->medio_pago_id,
-					$this->usuario_id,
+                    'isiiiii',
+                    $this->cantidad,
+                    $this->fecha,
+                    $this->medio_pago_id,
+                    $this->producto_id,
+                    $this->usuario_id,
+                    $this->valor_total,
 					$this->id
 			);
 

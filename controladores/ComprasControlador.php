@@ -195,23 +195,26 @@ class ComprasControlador
             $id = $_GET['id'];
 
             // Encontra el usuario por el id capturado y guardarlo en una variable
-            $reporte = Reporte::encontrarPorID($id);
+            $compra = Compra::encontrarPorID($id);
 
-            // Consultar tipos de reporte
-            $tiposReporte = TipoReporte::todos();
+
+            // Consultar proveedores
+            $proveedores = Usuario::donde('rol_id', 3)
+                                    ->resultado();
 
             // Consultar productos
             $productos = Producto::todos();
 
-            // Consultar usuarios
-            $usuarios = Usuario::todos();
+            // Consultar medios de pago
+            $medios_pago = MedioPago::todos();
+
 
 
             // Cargar mensaje de error si es que existe
             $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
             // Cargar mensaje de correcto si es que existe
-            $msgSuccess = ( isset($_COOKIE['mensaje_reporte_actualizar_success']) ? $_COOKIE['mensaje_reporte_actualizar_success'] : null);
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
 
 
 
@@ -219,57 +222,35 @@ class ComprasControlador
             if (isset($_POST["flag"])) {
 
 
+
+
                 // Pasarle los datos a la instancia
-                $reporte->descripcion       = $_POST['descripcion'];
-                $reporte->tipo_reporte_id   = $_POST['tipoReporte'];
-                $reporte->fecha             = $_POST['fecha'];
-                $reporte->usuario_id        = $_POST['usuario'];
+                $compra->cantidad          = $_POST['cantidad'];
+                $compra->fecha             = $_POST['fecha'];
+                $compra->medio_pago_id     = $_POST['medio'];
+                $compra->producto_id       = $_POST['producto'];
+                $compra->usuario_id        = $_POST['proveedor'];
+                $compra->valor_total       = ($_POST['cantidad'] * $_POST['valor']);
 
 
-                // Si el reporte es de un Producto
-                if( isset($_POST['productoConfirmar']) ) {
-                    $reporte->producto_id = $_POST['producto'];
+                // Comprobar si se actualizo correctamente la compra en la db
+                if ($compra->guardar() == 1) {
+
+                    setcookie('mensaje', 'Se actualizo la compra', time() + 5, '/' );
+
                 } else {
-                    $reporte->producto_id = null;
+
+                    setcookie('mensaje_error', "Error al actualizar la compra", time() + 10, '/' );
                 }
-
-
-
-                // Guardar el Reporte
-                $res = $reporte->guardar();
-
-
-                // Comprobar si se actualizo correctamente el usuario en la db
-                if ($res == 1) {
-                    $msg = "El reporte se actualizo exitosamente";
-                } else {
-                    $msg = "Error al actualizar el reporte";
-                }
-
-                // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-                setcookie('mensaje', $msg, time() + 5 , '/');
 
                 // Redirigir a la lista con todos los reportes
-                header('Location: ../reportes');
-
-
-
-            // Si se envio el formulario para crear un Tipo de Reporte
-            } elseif( isset($_POST['flagNuevoTipoReporte']) ) {
-
-                $tipoReporte = new TipoReporte;
-
-                $tipoReporte->reporte = $_POST['nuevoTipoReporte'];
-
-                $tipoReporte->guardar();
-
-                header("Location: " . ruta . "/reportes/actualizar/$id");
+                header('Location: ' . ruta . '/compras');
 
 
             } else {
 
                 // Requerir la vista que muestra el formulario para actualizar un reporte
-                include '../vistas/reportes/actualizar.php';
+                include '../vistas/compras/actualizar.php';
             }
 
         } else {

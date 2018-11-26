@@ -91,6 +91,7 @@
     # Rutas de ventas
     RewriteRule ^ventas$                                        controladores/VentasControlador.php?action=todos [L]
     RewriteRule ^ventas/pagina/(\w+)$                           controladores/VentasControlador.php?action=todos&pagina=$1 [L]
+    RewriteRule ^ventas/actualizar/(\w+)$                       controladores/VentasControlador.php?action=actualizar&id=$1 [L]
     RewriteRule ^historial$                                     controladores/VentasControlador.php?action=historial [L]
     RewriteRule ^historial/pagina/(\w+)$                        controladores/VentasControlador.php?action=historial&pagina=$1 [L]
 

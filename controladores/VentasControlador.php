@@ -4,6 +4,7 @@ session_start();
 require_once '../modelos/Venta.php';
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Producto.php';
+require_once '../modelos/MedioPago.php';
 
 
 class VentasControlador
@@ -51,14 +52,11 @@ class VentasControlador
 
 
         // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $ventas = Venta::seleccionar('*, usuarios.nombre AS nombreUsuario, productos.nombre as nombreProducto, productos.codigo, medios_pago.medio, ventas.id')
+        $ventas = Venta::seleccionar('ventas.*, usuarios.nombre AS nombreUsuario, medios_pago.medio')
                             ->unir('ventas', 'usuarios', 'usuario_id', 'id')
-                            ->unir('ventas', 'productos', 'producto_id', 'id')
                             ->unir('ventas', 'medios_pago', 'medio_pago_id', 'id')
                             ->limite($inicioConsulta, $numeroVentas)
                             ->resultado();
-
-
 
 
 
@@ -240,6 +238,83 @@ class VentasControlador
         }
     }
 
+
+
+
+    // Funcion para actualizar una venta de la base de datos
+    public function actualizar()
+    {
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
+
+            // Capturar el id enviado por GET
+            $id = $_GET['id'];
+
+            // Encontra el usuario por el id capturado y guardarlo en una variable
+            $venta = Venta::encontrarPorID($id);
+
+
+            // Consultar usuario
+            $usuarios = Usuario::todos();
+
+            // Consultar productos
+            $productos = Producto::todos();
+
+            // Consultar medios de pago
+            $medios_pago = MedioPago::todos();
+
+
+            $datos = unserialize($venta->datos);
+
+
+            // Cargar mensaje de error si es que existe
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+            // Cargar mensaje de correcto si es que existe
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
+
+
+            // Si se envio el formulario para crear Reporte
+            if (isset($_POST["flag"])) {
+
+
+
+
+                // Pasarle los datos a la instancia
+                $venta->fecha = $_POST['medio_pago'];
+                $venta->medio_pago_id = $_POST['medio_pago'];
+                $venta->usuario_id = isset($_SESSION['usuario']) ? unserialize($_SESSION['usuario'])->id : unserialize($_SESSION['admin'])->id ;
+                $venta->valor_total = $valorTotal;
+
+
+
+                // Comprobar si se actualizo correctamente la compra en la db
+                if ($compra->guardar() == 1) {
+
+                    setcookie('mensaje', 'Se actualizo la compra', time() + 5, '/' );
+
+                } else {
+
+                    setcookie('mensaje_error', "Error al actualizar la compra", time() + 10, '/' );
+                }
+
+                // Redirigir a la lista con todos los reportes
+                header('Location: ' . ruta . '/compras');
+
+
+            } else {
+
+                // Requerir la vista que muestra el formulario para actualizar un reporte
+                include '../vistas/ventas/actualizar.php';
+            }
+
+        } else {
+
+            // Redirigir al perfil
+            header('Location: perfil');
+        }
+    }
 
 
 

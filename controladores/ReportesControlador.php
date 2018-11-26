@@ -126,7 +126,7 @@ class ReportesControlador
                 setcookie('mensaje', $msg, time() + 5 , '/');
 
                 // Redirigir a la lista de reportes
-                header('Location: ../reportes');
+                header('Location: '. ruta . '/reportes');
 
 
 
@@ -140,7 +140,7 @@ class ReportesControlador
 
                 $tipoReporte->guardar();
 
-                header('Location: ../reportes/crear');
+                header('Location: '. ruta . '/reportes/crear');
 
 
             } else {
@@ -181,7 +181,7 @@ class ReportesControlador
 
 
             // Redirigir a la tabla con todos los usuarios
-            header('Location: ../reportes');
+            header('Location: '. ruta . '/reportes');
 
         } else {
 
@@ -257,7 +257,7 @@ class ReportesControlador
                 setcookie('mensaje', $msg, time() + 5 , '/');
 
                 // Redirigir a la lista con todos los reportes
-                header('Location: ../reportes');
+                header('Location: '. ruta . '/reportes');
 
 
 

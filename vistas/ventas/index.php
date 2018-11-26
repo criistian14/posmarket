@@ -23,15 +23,17 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Ventas de productos</h1>
+                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Ventas</h1>
             </div>
 
 
             <div class="col s12">
-                <p style="margin-top: 0;">Tabla con todas las ventas del sistema</p>
+                <p style="margin-top: 0;">Tabla con todas las ventas del sistema con sus datos basicos</p>
             </div>
 
         </div>
+
+
 
 
         <div class="row" style="margin-top: 4rem;">
@@ -44,28 +46,31 @@
                 <table class="responsive-table centered">
 
                     <thead class="teal darken-3 white-text">
-                        <th>Nombre Usuaurio</th>
-                        <th>Nombre Producto</th>
+                        <th>Usuario</th>
+                        <th>Valor Total</th>
+                        <th>Medio Pago</th>
                         <th>Fecha</th>
-                        <th>Valor</th>
+                        <th></th>
                         <th></th>
                     </thead>
 
-                    <tbody id="tablaVentas">
+
+                    <tbody id="tablaCompras">
                         <?php foreach ($ventas as $key => $venta) : ?>
                             <tr>
                                 <input type="hidden" value="<?php echo $venta->id ?>">
 
-                                <td data-nombre-rol="<?php echo $venta->usuario->nombre ?>"> <?php echo $venta->usuario->nombre ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->producto->nombre ?>"> <?php echo $venta->producto->nombre ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->fecha ?>"> <?php echo $venta->fecha ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->valor_total ?>"> <?php echo $venta->valor_total ?> </td>
-                                 <td>
+                                <td data-nombre-usuario="<?php echo $venta->usuario->nombre ?>"> <?php echo $venta->usuario->nombre ?> </td>
+                                <td> <?php echo $venta->valor_total ?> </td>
+                                <td> <?php echo $venta->medio_pago->medio ?> </td>
+                                <td> <?php echo $venta->fecha ?> </td>
+
+                                <td>
+                                    <a href="<?php echo ruta . '/ventas/actualizar/' . $venta->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">remove_red_eye</i></a>
+                                </td>
+                                <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
                                 </td>
-
-
-
                             </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -73,7 +78,7 @@
 
                 <?php else: ?>
 
-                    <div class="alerta alerta-teal-darken-3" >No existen ventas</div>
+                    <div class="alerta alerta-teal-darken-3" >No hay ventas</div>
 
                 <?php endif ?>
 
@@ -87,21 +92,19 @@
                     <div class="alerta alerta-red-darken-3" > <?php echo $msgError ?> </div>
                 <?php endif ?>
 
-
             </div>
         </div>
 
 
+        <div class="mt-16 flex md:justify-end flex-wrap" >
 
-        <div class="mt-16 flex justify-between flex-wrap" >
+            <!-- <div class="col s12 l5 flex items-center" >
 
-            <div class="col s12 l5 flex items-center" >
-
-                <!-- <a href="<?php echo ruta . '/usuarios/crear' ?>" class="waves-effect waves-light">
+                <a href="<?php echo ruta . '/ventas/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
-                </a> -->
+                </a>
 
-            </div>
+            </div> -->
 
 
             <div class="col s12 l7 mt-6 sm:mt-0" >
@@ -160,13 +163,10 @@
 
 
 
-
-
-
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
-    <!-- Llamando el php que contiene los scripts propios de roles -->
+    <!-- Llamando el php que contiene los scripts propios de ventas -->
     <?php include_once '../vistas/includes/ventas.php'; ?>
 
 </body>
