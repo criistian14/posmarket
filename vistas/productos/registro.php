@@ -30,8 +30,8 @@
 
 
                 <div class="input-field">
-                    <i class="material-icons prefix">fingerprint</i>
-                    <input type="number" class="validate" id="txtCedula" name="codigo" required
+                    <!-- <i class="material-icons prefix">fingerprint</i> -->
+                    <input type="text" class="validate" id="txtCedula" name="codigo" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['codigo'] : '') ?>">
                     <label for="txtCedula">Codigo</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
@@ -39,7 +39,7 @@
 
 
                 <div class="input-field">
-                    <i class="material-icons prefix">perm_identity</i>
+                    <!-- <i class="material-icons prefix">perm_identity</i> -->
                     <input type="text" class="validate" id="txtNombre" name="nombre" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['nombre'] : '') ?>">
                     <label for="txtNombre">Nombre del producto</label>
@@ -48,26 +48,25 @@
 
 
                 <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">perm_identity</i>
-                    <input type="text" class="validate" id="txtApellido" name="precio" required
+                    <!-- <i class="material-icons prefix">perm_identity</i> -->
+                    <input type="number" min="0" class="validate" id="txtApellido" name="precio" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['precio'] : '') ?>">
                     <label for="txtApellido">Precio</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
                 </div>
 
 
-                <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">email</i>
-                    <input type="text" class="validate" id="txtCorreo" name="cantidad" required
+                <!-- <div class="input-field" style="margin-top: 25px;">
+                    <input type="number" min="0" class="validate" id="txtCorreo" name="cantidad" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['cantidad'] : '') ?>">
                     <label for="txtCorreo">Cantidad</label>
                     <span class="helper-text" data-error="Correo valido"></span>
-                </div>
+                </div> -->
 
 
                 <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">location_city</i>
-                    <input type="text" class="validate" id="txtCiudad" name="oferta" required
+                    <!-- <i class="material-icons prefix">location_city</i> -->
+                    <input type="number" min="0" value="0" class="validate" id="txtCiudad" name="oferta" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['oferta'] : '') ?>">
                     <label for="txtCiudad">Oferta</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
@@ -75,13 +74,13 @@
 
 
                 <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">location_on</i>
+                    <!-- <i class="material-icons prefix">location_on</i> -->
                     <input type="text" class="validate" id="txtDireccion" name="tamano" required
                             value="<?php echo ( ($datosProducto != null) ? $datosProducto['tamano'] : '') ?>">
                     <label for="txtDireccion">Tamaño</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
                 </div>
-                
+
                 <!-- IMAGEN -->
                 <div class="file-field input-field">
                     <div class="btn deep-orange darken-1">
@@ -94,14 +93,20 @@
                 </div>
 
 
-                <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">local_phone</i>
-                    <input type="number" class="validate" id="txtCelular" name="tipo_producto" required
-                            value="<?php echo ( ($datosProducto != null) ? $datosProducto['tipo_producto'] : '') ?>">
-                    <label for="txtCelular">Tipo del producto</label>
-                    <span class="helper-text" data-error="Obligatorio"></span>
+                <div class="input-field" style="margin-top: 2rem; margin-bottom: 3rem;">
+
+                    <select name="tipo_producto" >
+                        <option disabled >Escoge un tipo</option>
+
+                        <?php foreach ($categorias as $categoria): ?>
+                            <option value="<?php echo $categoria ?>"><?php echo $categoria ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                    <label>Tipo De Producto</label>
                 </div>
-              
+
+
                 <p>
                     <label>
                         <input id="indeterminate-checkbox" type="checkbox" value="1" name="activo" />

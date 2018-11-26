@@ -54,7 +54,7 @@
                 || explode('/' ,$_SERVER['REQUEST_URI'])[2] == 'registro'): ?>
 
         <!-- Categorias -->
-        <ul id="sidenavCategorias" class="sidenav sidenav-english  hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
+        <ul id="sidenavCategorias" class="sidenav sidenav-english  hover-teal-darken-3 overflow-y-auto overflow-x-hidden pb-24">
 
             <li style="height: 140px;">
                 <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
@@ -75,13 +75,11 @@
             <span class="ml-4 mt-8 mb-2 block text-grey-dark font-bold">Categorias</span>
 
 
-            <li><a href="<?php echo ruta . '/categoria/aseo' ?>">Aseo</a></li>
-            <li><a href="<?php echo ruta . '/categoria/cocina' ?>">Cocina</a></li>
-            <li><a href="<?php echo ruta . '/categoria/niños' ?>">Niños</a></li>
-            <li><a href="<?php echo ruta . '/categoria/tecnologia' ?>">Tecnologia</a></li>
-            <li><a href="<?php echo ruta . '/categoria/hogar' ?>">Hogar</a></li>
-            <li><a href="<?php echo ruta . '/categoria/ropa' ?>">Ropa</a></li>
-            <li><a href="<?php echo ruta . '/categoria/accesorios' ?>">Accesorios</a></li>
+
+            <?php foreach (categorias as $categoria): ?>
+                <li><a href="<?php echo ruta . '/categoria/' . join('-', explode(' ', strtolower($categoria))) ?>"><?php echo $categoria ?></a></li>
+            <?php endforeach; ?>
+
 
 
 
@@ -158,7 +156,7 @@
 
 
        <!-- Categorias -->
-       <ul id="sidenavCategorias" class="sidenav sidenav-english hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
+       <ul id="sidenavCategorias" class="sidenav sidenav-english hover-teal-darken-3 overflow-y-auto overflow-x-hidden pb-24">
 
            <li style="height: 140px;">
                <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
@@ -192,13 +190,9 @@
            <span class="ml-4 mt-8 mb-2 block text-grey-dark font-bold">Categorias</span>
 
 
-           <li><a href="<?php echo ruta . '/categoria/aseo' ?>">Aseo</a></li>
-           <li><a href="<?php echo ruta . '/categoria/cocina' ?>">Cocina</a></li>
-           <li><a href="<?php echo ruta . '/categoria/niños' ?>">Niños</a></li>
-           <li><a href="<?php echo ruta . '/categoria/tecnologia' ?>">Tecnologia</a></li>
-           <li><a href="<?php echo ruta . '/categoria/hogar' ?>">Hogar</a></li>
-           <li><a href="<?php echo ruta . '/categoria/ropa' ?>">Ropa</a></li>
-           <li><a href="<?php echo ruta . '/categoria/accesorios' ?>">Accesorios</a></li>
+           <?php foreach (categorias as $categoria): ?>
+               <li><a href="<?php echo ruta . '/categoria/' . join('-', explode(' ', strtolower($categoria))) ?>"><?php echo $categoria ?></a></li>
+           <?php endforeach; ?>
 
 
 
@@ -208,7 +202,8 @@
 
 
        <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3 sidenav-admin">
-           <li><a href="<?php echo ruta . '/admin' ?>">Inicio</a></li>
+           <li><a href="<?php echo ruta ?>">Inicio</a></li>
+           <li><a href="<?php echo ruta . '/admin' ?>">Admin</a></li>
            <li><a href="<?php echo ruta . '/productos' ?>">Productos</a></li>
            <li><a href="<?php echo ruta . '/usuarios' ?>">Usuarios</a></li>
            <li><a href="<?php echo ruta . '/reportes' ?>">Reportes</a></li>
@@ -216,6 +211,7 @@
            <li><a href="<?php echo ruta . '/compras' ?>">Compras</a></li>
            <li><a href="<?php echo ruta . '/medios_pago' ?>">Medio De Pago</a></li>
            <li><a href="<?php echo ruta . '/perfil' ?>">Configuracion</a></li>
+           <li><a href="<?php echo ruta . '/historial' ?>">Mis Compras</a></li>
            <li><a href="<?php echo ruta . '/cerrarSession' ?>">Cerrar Sesion</a></li>
 
        </ul>
@@ -234,7 +230,7 @@
 ?>
 
 
-<nav class="sticky z-50 pin-t">
+<nav class="sticky z-50 pin-t justify-between">
   <div class="nav-wrapper orange accent-4">
 
       <?php if ($_SERVER['REQUEST_URI'] != ruta .'/'
@@ -242,10 +238,16 @@
                 && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'categoria'
                 && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'carrito'):?>
 
-        <ul class="">
-            <li id="abrirSidenavUsuario" class="cursor-pointer ml-4 lg:hidden"><i class="material-icons mr-4">menu</i></li>
-            <li><a href="<?php echo ruta ?>">Inicio</a></li>
-        </ul>
+
+        <div class="flex justify-between">
+            <ul class="">
+                <li id="abrirSidenavUsuario" class="cursor-pointer ml-4 lg:hidden"><i class="material-icons mr-4">menu</i></li>
+                <li><a href="<?php echo ruta ?>">Inicio</a></li>
+            </ul>
+
+            <span class="text-xl font-bold mr-5"><?php echo unserialize($_SESSION['usuario'])->nombre ?></span>
+        </div>
+
 
 
 
@@ -253,7 +255,7 @@
 
          <ul class="cursor-pointer ml-4 flex justify-between">
             <div>
-                <li id="abrirSidenavCategorias" class="md:hidden"><i class="material-icons">menu</i></li>
+                <li id="abrirSidenavCategorias" ><i class="material-icons">menu</i></li>
                 <li><a href="<?php echo ruta ?>">Posmarket</a></li>
             </div>
 
@@ -286,7 +288,7 @@
                 && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'categoria'
                 && explode('/' ,$_SERVER['REQUEST_URI'])[2] != 'carrito'):?>
 
-        <ul  class="sidenav sidenav-fixed hover-teal-darken-3">
+        <ul id="slide-out" class="sidenav sidenav-fixed hover-teal-darken-3">
 
             <li><a href="<?php echo ruta . '/perfil'?>">Perfil</a></li>
             <li><a href="<?php echo ruta . '/historial' ?>">Mi Historial</a></li>
@@ -305,7 +307,7 @@
 
 
         <!-- Categorias -->
-        <ul id="sidenavCategorias" class="sidenav sidenav-english hover-teal-darken-3 overflow-y-auto overflow-x-hidden">
+        <ul id="sidenavCategorias" class="sidenav sidenav-english hover-teal-darken-3 overflow-y-auto overflow-x-hidden pb-24">
 
             <li style="height: 140px;">
                 <a href="<?php echo ruta ?>" class="center" style="display: flex; justify-content: center; align-items: center; height: 100%">
@@ -339,13 +341,9 @@
             <span class="ml-4 mt-8 mb-2 block text-grey-dark font-bold">Categorias</span>
 
 
-            <li><a href="<?php echo ruta . '/categoria/aseo' ?>">Aseo</a></li>
-            <li><a href="<?php echo ruta . '/categoria/cocina' ?>">Cocina</a></li>
-            <li><a href="<?php echo ruta . '/categoria/niños' ?>">Niños</a></li>
-            <li><a href="<?php echo ruta . '/categoria/tecnologia' ?>">Tecnologia</a></li>
-            <li><a href="<?php echo ruta . '/categoria/hogar' ?>">Hogar</a></li>
-            <li><a href="<?php echo ruta . '/categoria/ropa' ?>">Ropa</a></li>
-            <li><a href="<?php echo ruta . '/categoria/accesorios' ?>">Accesorios</a></li>
+            <?php foreach (categorias as $categoria): ?>
+                <li><a href="<?php echo ruta . '/categoria/' . join('-', explode(' ', strtolower($categoria))) ?>"><?php echo $categoria ?></a></li>
+            <?php endforeach; ?>
 
 
 

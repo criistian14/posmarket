@@ -6,7 +6,8 @@
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^(.*)$ $1.php
 
-    RewriteRule ^favicon\.png$                                  /posmarket/public/img/logo.png
+    RewriteRule ^favicon\.png$                                  ./public/img/logo.png
+    RewriteRule ^img/([^/]+)$                                   ./public/img/$1
 
 
 
@@ -79,6 +80,7 @@
 
     # Rutas de productos
     RewriteRule ^productos$                                     controladores/ProductosControlador.php?action=todos [L]
+    RewriteRule ^productos/pagina/(\w+)$                        controladores/ProductosControlador.php?action=todos&pagina=$1 [L]
     RewriteRule ^productos/crear$                               controladores/ProductosControlador.php?action=registro [L]
     RewriteRule ^productos/actualizar/(\w+)$                    controladores/ProductosControlador.php?action=actualizar&id=$1 [L]
     RewriteRule ^carrito$                                       controladores/ProductosControlador.php?action=carrito [L]
@@ -116,6 +118,16 @@
     RewriteRule ^medios_pago$                                   controladores/MediosPagoControlador.php?action=todos [L]
     RewriteRule ^medios_pago/actualizar$                        controladores/MediosPagoControlador.php?action=actualizar [L]
     RewriteRule ^medios_pago/pagina/(\w+)$                      controladores/MediosPagoControlador.php?action=todos&pagina=$1 [L]
+
+
+
+
+
+    # Rutas de compras
+    RewriteRule ^compras$                                      controladores/ComprasControlador.php?action=todos [L]
+    RewriteRule ^compras/pagina/(\w+)$                         controladores/ComprasControlador.php?action=todos&pagina=$1 [L]
+    RewriteRule ^compras/crear$                                controladores/ComprasControlador.php?action=crear [L]
+    RewriteRule ^compras/actualizar/(\w+)$                     controladores/ComprasControlador.php?action=actualizar&id=$1 [L]
 
 
 

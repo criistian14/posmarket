@@ -14,7 +14,7 @@ require_once '../modelos/TipoReporte.php';
  */
 class Reporte
 {
-
+ 
 	// Variables, campos de referencia con la tabla reportes
 	public $id;
 	public $descripcion;

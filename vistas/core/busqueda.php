@@ -30,54 +30,59 @@
 
         <?php foreach ($productos as $key => $value): ?>
 
-            <div class='col s12 m4'>
-                <div class='card' id="<?php echo $value->id ?>">
-                    <div class='card-image'>
+            <?php if ($value->activo == 1): ?>
 
-                      <img src='<?php echo $value->imagen?>' style="width: 100%; height: 30vh">
-                      <span class='card-title'>
-                        <?php echo $value->nombre ?>
-                      </span>
+                <div class='col s12 m4'>
+                    <div class='card' id="<?php echo $value->id ?>">
+                        <div class='card-image'>
 
-                    </div>
+                            <img src='<?php echo ruta . $value->imagen?>' style="width: 100%; height: 30vh">
+                            <span class='card-title'>
+                                <?php echo $value->nombre ?>
+                            </span>
 
-                    <?php if ($value->oferta > 0): ?>
-
-
-                        <div class='card-content'>
-                            <p class="old-price line-through font-bold text-grey-darker">
-                                <span class="text-sm">Precio Normal</span>
-                                <span>$<?php echo number_format($value->precio) ?></span>
-                            </p>
-
-                            <p class="new-price text-red font-bold">
-                                <span class="text-xl">Hoy</span>
-                                <span class="text-4xl ml-3">$<?php echo number_format($value->oferta) ?></span>
-                            </p>
                         </div>
 
+                        <?php if ($value->oferta > 0): ?>
 
-                    <?php else: ?>
 
-                        <div class='card-content'>
-                            <p class="new-price text-red font-bold">
-                                <span class="text-xl">Precio</span>
-                                <span class="text-4xl ml-3">$<?php echo number_format($value->precio) ?></span>
-                            </p>
+                            <div class='card-content'>
+                                <p class="old-price line-through font-bold text-grey-darker">
+                                    <span class="text-sm">Precio Normal</span>
+                                    <span>$<?php echo number_format($value->precio) ?></span>
+                                </p>
+
+                                <p class="new-price text-red font-bold">
+                                    <span class="text-xl">Hoy</span>
+                                    <span class="text-4xl ml-3">$<?php echo number_format($value->oferta) ?></span>
+                                </p>
+                            </div>
+
+
+                        <?php else: ?>
+
+                            <div class='card-content'>
+                                <p class="new-price text-red font-bold">
+                                    <span class="text-xl">Precio</span>
+                                    <span class="text-4xl ml-3">$<?php echo number_format($value->precio) ?></span>
+                                </p>
+                            </div>
+
+
+                        <?php endif; ?>
+
+
+                        <div class='card-action'>
+                            <button class='btn-floating btn-large waves-effect waves-light red'>
+                                <i class='material-icons'>add</i>
+                            </button>
                         </div>
 
-
-                    <?php endif; ?>
-
-
-                    <div class='card-action'>
-                      <button class='btn-floating btn-large waves-effect waves-light red'>
-                      <i class='material-icons'>add</i>
-                      </button>
                     </div>
-
                 </div>
-            </div>
+
+            <?php endif; ?>
+
 
         <?php endforeach;?>
     </div>

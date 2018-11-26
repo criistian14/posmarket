@@ -3,6 +3,7 @@
 session_start();
 require_once '../modelos/Venta.php';
 require_once '../modelos/Usuario.php';
+require_once '../modelos/Producto.php';
 
 
 class VentasControlador
@@ -76,54 +77,74 @@ class VentasControlador
     }
 
 
-        public function registrar()
+
+    public function crear()
     {
+        if (isset($_SESSION['usuario']) || isset($_SESSION['admin'])) {
 
+            $datos = [];
 
-            if(isset($_SESSION["usuario"]) || isset($_SESSION["admin"])){
+            foreach ($_POST as $key => $value) {
 
+                if ($key !== 'medio_pago') {
 
-                // Crear una instancia (Objeto) de Usuario
-                    $venta = new Venta;
+                    $dato = explode(',', $value);
 
-
-                    $usuario = unserialize( isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : $_SESSION["admin"] );
-
-
-                    // Pasarle los datos a la instancia
-                    $venta->medio_pago_id    = 1;
-                    $venta->producto_id     = $_POST['id'];
-                    $venta->usuario_id     = $usuario->id;
-                    $venta->valor_total  = $_POST['total_producto'];
-
-
-
-                    // Guardar el usuario
-                    $res = $venta->guardar();
-
-
-                    // Comprobar si se guardo correctamente el usuario en la db
-                    if ($res == 1) {
-                        $msg = 1;
-
-                        echo $msg;
-                    }
-            }else{
-
-                echo 0;
-
+                    array_push($datos, [
+                        'id' => $dato[0],
+                        'valor' => $dato[1],
+                        'cantidad' => $dato[2]
+                    ]);
+                }
             }
 
-                    // // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
-                    // setcookie('mensaje', $msg, time() + 5 );
 
-                    // // Redirigir a la lista de usuarios
-                    // header('Location: usuarios');
+            $valorTotal = 0;
+
+            foreach ($datos as $value) {
+                $valorTotal += $value['valor'] * $value['cantidad'];
+            }
 
 
+            $venta = new Venta;
+
+            $venta->fecha = date('Y-m-d');
+            $venta->medio_pago_id = $_POST['medio_pago'];
+            $venta->usuario_id = isset($_SESSION['usuario']) ? unserialize($_SESSION['usuario'])->id : unserialize($_SESSION['admin'])->id ;
+            $venta->valor_total = $valorTotal;
+
+
+            $venta->datos = serialize($datos);
+
+
+            if ($venta->guardar() == 1) {
+
+                foreach ($datos as $value) {
+                    $producto = Producto::encontrarPorID($value['id']);
+
+                    $producto->cantidad = ($producto->cantidad - $value['cantidad']);
+
+                    $producto->guardar();
+                }
+
+
+                echo json_encode(['isLogged' => true, 'error' => false]);
+
+            } else {
+
+                echo json_encode(['isLogged' => true, 'error' => true, 'message' => 'Error al registrar la compra']);
+            }
+
+
+        } else {
+
+            echo json_encode(['isLogged' => false]);
+        }
 
 
     }
+
+
 
     public function historial(){
 

@@ -97,10 +97,6 @@
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
                 </a>
 
-                <a href="#" class="waves-effect waves-light" id="buscarTiposReporte">
-                    <i class="material-icons Small" style="color: #ff5722;">search</i>
-                </a>
-
             </div>
 
 

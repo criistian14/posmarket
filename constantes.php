@@ -19,12 +19,11 @@
         'Bebes',
         'Celulares',
         'Comida',
-        'Herramientas',
+        'Ferreteria y vehiculos',
         'Hogar',
         'Salud y belleza',
         'Tecnologia',
         'Televisores',
-        'Ropa',
     ]);
 
 

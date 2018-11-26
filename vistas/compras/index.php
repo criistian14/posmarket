@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Ventas</title>
+    <title>Compras</title>
 
 
     <!-- Llamando el php que contiene la hoja de estilos -->
@@ -23,49 +23,58 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Ventas de productos</h1>
+                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Compras</h1>
             </div>
 
 
             <div class="col s12">
-                <p style="margin-top: 0;">Tabla con todas las ventas del sistema</p>
+                <p style="margin-top: 0;">Tabla con todas las compras del sistema con sus datos basicos</p>
             </div>
 
         </div>
+
+
 
 
         <div class="row" style="margin-top: 4rem;">
 
             <div class="col s12">
 
-                <?php if($ventas != null) : ?>
+                <?php if($compras != null) : ?>
 
 
                 <table class="responsive-table centered">
 
                     <thead class="teal darken-3 white-text">
-                        <th>Nombre Usuaurio</th>
-                        <th>Nombre Producto</th>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Valor Total</th>
+                        <th>Medio Pago</th>
                         <th>Fecha</th>
-                        <th>Valor</th>
+                        <th></th>
                         <th></th>
                     </thead>
 
-                    <tbody id="tablaVentas">
-                        <?php foreach ($ventas as $key => $venta) : ?>
-                            <tr>
-                                <input type="hidden" value="<?php echo $venta->id ?>">
 
-                                <td data-nombre-rol="<?php echo $venta->usuario->nombre ?>"> <?php echo $venta->usuario->nombre ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->producto->nombre ?>"> <?php echo $venta->producto->nombre ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->fecha ?>"> <?php echo $venta->fecha ?> </td>
-                                <td data-nombre-rol="<?php echo $venta->valor_total ?>"> <?php echo $venta->valor_total ?> </td>
-                                 <td>
+                    <tbody id="tablaCompras">
+                        <?php foreach ($compras as $key => $compra) : ?>
+                            <tr>
+                                <input type="hidden" value="<?php echo $compra->id ?>">
+
+                                <td data-nombre-usuario="<?php echo $compra->usuario->nombre ?>"> <?php echo $compra->usuario->nombre ?> </td>
+                                <td> <?php echo $compra->producto->nombre ?> </td>
+                                <td> <?php echo $compra->cantidad ?> </td>
+                                <td> <?php echo '$' . $compra->valor_total ?> </td>
+                                <td> <?php echo $compra->medio_pago->medio ?> </td>
+                                <td> <?php echo $compra->fecha ?> </td>
+
+                                <td>
+                                    <a href="<?php echo ruta . '/compras/actualizar/' . $compra->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></a>
+                                </td>
+                                <td>
                                     <button class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">delete</i></button>
                                 </td>
-
-
-
                             </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -73,7 +82,7 @@
 
                 <?php else: ?>
 
-                    <div class="alerta alerta-teal-darken-3" >No existen ventas</div>
+                    <div class="alerta alerta-teal-darken-3" >No hay compras</div>
 
                 <?php endif ?>
 
@@ -87,19 +96,17 @@
                     <div class="alerta alerta-red-darken-3" > <?php echo $msgError ?> </div>
                 <?php endif ?>
 
-
             </div>
         </div>
-
 
 
         <div class="mt-16 flex justify-between flex-wrap" >
 
             <div class="col s12 l5 flex items-center" >
 
-                <!-- <a href="<?php echo ruta . '/usuarios/crear' ?>" class="waves-effect waves-light">
+                <a href="<?php echo ruta . '/compras/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
-                </a> -->
+                </a>
 
             </div>
 
@@ -109,7 +116,7 @@
 
                     <?php if ($pagina != 1): ?>
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars(ruta . '/ventas/pagina/' . ($pagina-1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/compras/pagina/' . ($pagina-1) ) ?>">
                                 <i class="material-icons">chevron_left</i>
                             </a>
                         </li>
@@ -124,11 +131,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo htmlspecialchars(ruta . "/ventas/pagina/$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/compras/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo htmlspecialchars(ruta . "/ventas/pagina/$i") ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/compras/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -142,7 +149,7 @@
                     <?php else: ?>
 
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars(ruta . '/ventas/pagina/' . ($pagina+1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/compras/pagina/' . ($pagina+1) ) ?>">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>
@@ -160,14 +167,11 @@
 
 
 
-
-
-
     <!-- Llamando el php que contiene los scripts -->
     <?php include_once '../vistas/includes/scripts.php'; ?>
 
-    <!-- Llamando el php que contiene los scripts propios de roles -->
-    <?php include_once '../vistas/includes/ventas.php'; ?>
+    <!-- Llamando el php que contiene los scripts propios de compras -->
+    <?php include_once '../vistas/includes/compras.php'; ?>
 
 </body>
 </html>

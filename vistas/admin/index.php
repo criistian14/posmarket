@@ -40,7 +40,7 @@
         <div class="row">
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal cursor-pointer">
+                <a href="<?php echo ruta . '/usuarios' ?>" class="card horizontal">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">person</i>
@@ -54,13 +54,13 @@
 
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal cursor-pointer">
+                <a href="<?php echo ruta . '/reportes' ?>" class="card horizontal">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">assignment</i>
@@ -74,13 +74,13 @@
 
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal cursor-pointer">
+                <a href="<?php echo ruta . '/ventas' ?>" class="card horizontal">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">local_grocery_store</i>
@@ -94,13 +94,13 @@
 
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
 
 
             <div class="col s12 l7 xl6">
-                <div class="card horizontal cursor-pointer">
+                <a href="<?php echo ruta . '/productos' ?>" class="card horizontal">
 
                     <div class="col s4 flex items-center justify-center teal darken-3 white-text">
                         <i class="material-icons" style="font-size: 8.5rem;">card_giftcard</i>
@@ -114,23 +114,15 @@
 
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-
-
-
-
-
-
-
-
 
         </div>
 
 
 
 
-        <div class="row mt-24">
+        <!-- <div class="row mt-24">
 
 
             <div class="col s12">
@@ -140,7 +132,7 @@
 
             </div>
 
-        </div>
+        </div> -->
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2018 a las 03:38:12
+-- Tiempo de generación: 25-11-2018 a las 00:58:16
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `posmarket_db`
 --
+CREATE DATABASE IF NOT EXISTS `posmarket_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `posmarket_db`;
 
 -- --------------------------------------------------------
 
@@ -54,8 +56,7 @@ CREATE TABLE `medios_pago` (
 --
 
 INSERT INTO `medios_pago` (`id`, `medio`) VALUES
-(1, 'Efectivo'),
-(2, 'CriptoMoneda');
+(1, 'Efectivo');
 
 -- --------------------------------------------------------
 
@@ -65,24 +66,16 @@ INSERT INTO `medios_pago` (`id`, `medio`) VALUES
 
 CREATE TABLE `productos` (
   `id` int(10) UNSIGNED NOT NULL,
-  `activo` tinyint(1) NOT NULL,
-  `cantidad` int(11) NOT NULL,
   `codigo` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `imagen` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `oferta` int(11) NOT NULL,
   `precio` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `oferta` int(11) NOT NULL,
   `tamano` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tipo_producto` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+  `tipo_producto` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `imagen` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id`, `activo`, `cantidad`, `codigo`, `imagen`, `nombre`, `oferta`, `precio`, `tamano`, `tipo_producto`) VALUES
-(1, 1, 4, '123a', 'https://picsum.photos/600/600?image=1', 'Producto 1', 2, 123, '4KG', 'Arroz'),
-(2, 1, 3, 'asd4815', '/posmarket/public/img/4K-TheMeian(20).png', 'Arroz321ad', 5, 123, '5 KG', 'Arroz');
 
 -- --------------------------------------------------------
 
@@ -121,7 +114,7 @@ CREATE TABLE `reportes` (
   `id` int(10) UNSIGNED NOT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha` date NOT NULL,
-  `producto_id` int(10) UNSIGNED DEFAULT NULL,
+  `producto_id` int(10) UNSIGNED NOT NULL,
   `tipo_reporte_id` int(10) UNSIGNED NOT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -143,7 +136,8 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `rol`) VALUES
 (1, 'Admin'),
-(2, 'Usuario');
+(2, 'Usuario'),
+(3, 'Proveedor');
 
 -- --------------------------------------------------------
 
@@ -180,8 +174,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `apellido`, `cedula`, `celular`, `ciudad`, `contrasena`, `correo`, `direccion`, `nombre`, `rol_id`) VALUES
-(9, 'Betancourt Barajas', 123, '3193571748', 'Bogota', 'e10adc3949ba59abbe56e057f20f883e', 'criistian-14@hotmail.com', 'Carrera a', 'Christian Camilo', 1),
-(10, 'a', 1234, '123', 'a', '202cb962ac59075b964b07152d234b70', 'a@a.com', 'a', 'a', 2);
+(18, 'Posmarket', 123, '123', 'Cali', 'e10adc3949ba59abbe56e057f20f883e', 'admin@hotmail.com', 'Carrera a', 'Admin', 1),
+(19, 'Normal', 987, '123', 'Bogota', 'e10adc3949ba59abbe56e057f20f883e', 'usuario@hotmail.com', 'Carrera b', 'Usuario', 2);
 
 -- --------------------------------------------------------
 
@@ -191,21 +185,12 @@ INSERT INTO `usuarios` (`id`, `apellido`, `cedula`, `celular`, `ciudad`, `contra
 
 CREATE TABLE `ventas` (
   `id` int(10) UNSIGNED NOT NULL,
-  `fecha` date NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `medio_pago_id` int(10) UNSIGNED NOT NULL,
   `producto_id` int(10) UNSIGNED NOT NULL,
   `usuario_id` int(10) UNSIGNED NOT NULL,
   `valor_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `ventas`
---
-
-INSERT INTO `ventas` (`id`, `fecha`, `medio_pago_id`, `producto_id`, `usuario_id`, `valor_total`) VALUES
-(1, '2018-11-14', 2, 1, 9, 456),
-(2, '2018-11-22', 1, 2, 10, 978),
-(3, '2018-11-19', 2, 2, 10, 751);
 
 --
 -- Índices para tablas volcadas
@@ -301,13 +286,13 @@ ALTER TABLE `compras`
 -- AUTO_INCREMENT de la tabla `medios_pago`
 --
 ALTER TABLE `medios_pago`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `promociones`
@@ -325,7 +310,7 @@ ALTER TABLE `proveedores_productos`
 -- AUTO_INCREMENT de la tabla `reportes`
 --
 ALTER TABLE `reportes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -337,19 +322,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tipo_reportes`
 --
 ALTER TABLE `tipo_reportes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

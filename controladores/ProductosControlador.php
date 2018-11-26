@@ -3,6 +3,8 @@
 session_start();
 require_once '../modelos/Usuario.php';
 require_once '../modelos/Producto.php';
+require_once '../modelos/Reporte.php';
+require_once '../modelos/Compra.php';
 
 
 class ProductosControlador
@@ -60,15 +62,18 @@ class ProductosControlador
 
 
 
-            // Mensaje
-            $msg = ( isset($_COOKIE['mensaje_producto']) ? $_COOKIE['mensaje_producto'] : null);
 
-                
-                
+            // Mensaje
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+            // Mensaje Error
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
+
 
             // Requerir la vista que muestra todos los usuarios registrados
             include '../vistas/productos/index.php';
-            
+
         } else {
 
             // Redirigir a
@@ -81,7 +86,7 @@ class ProductosControlador
     public function registro()
     {
         // Comprobar si esta logeado como admin
-        if( isset($_SESSION['admin']) || !isset($_SESSION['usuario']) ) {
+        if( isset($_SESSION['admin']) ) {
 
             // Cargar mensaje de error si es que existe
             $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
@@ -89,11 +94,14 @@ class ProductosControlador
             // Cargar datos del usuario si tuvo un error
             $datosProducto = ( isset($_COOKIE['datos_producto_registro']) ? unserialize($_COOKIE['datos_producto_registro']) : null);
 
+            $categorias = categorias;
+
+
             // Requerir la vista que muestra el formulario para registrar un usuario
             include '../vistas/productos/registro.php';
 
         } else {
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -124,19 +132,21 @@ class ProductosControlador
                     $producto->codigo     = $_POST['codigo'];
                     $producto->nombre     = $_POST['nombre'];
                     $producto->precio    = $_POST['precio'];
-                    $producto->cantidad     = $_POST['cantidad'];
+                    $producto->cantidad     = 0;
                     $producto->oferta     = $_POST['oferta'];
                     $producto->tamano  = $_POST['tamano'];
                     $producto->tipo_producto     = $_POST['tipo_producto'];
-                    $producto->activo = $_POST["activo"];
+                    $producto->activo = isset($_POST["activo"]) ? $_POST["activo"] : 0;
+
                     if(!empty($_POST['imagen'])){
-                        $carpeta_destinofinal = "/posmarket/public/img/";
+                        $carpeta_destinofinal = '/img/';
                         $imagen = rand(1, 10000) . $_POST['imagen'];
                         $producto->imagen = $carpeta_destinofinal . $imagen;
 
                      move_uploaded_file($_FILES['imagen_producto']['tmp_name'], "../public/img/" . $imagen);
+
                     }
-                    
+
 
                     // Guardar el usuario
                     $res = $producto->guardar();
@@ -149,10 +159,10 @@ class ProductosControlador
                     }
 
                     // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
-                    setcookie('mensaje_producto', $msg , time() + 5 );
+                    setcookie('mensaje', $msg , time() + 5, '/');
 
                     // Redirigir a la lista de usuarios
-                    header('Location: /posmarket/productos');
+                    header('Location: ../productos');
 
 
 
@@ -161,13 +171,13 @@ class ProductosControlador
             } else {
 
                 // Guardar mensaje con los datos del usuario enviados por POST en una cookie
-                setcookie('datos_producto_registro', serialize($_POST), time() + 20);
+                setcookie('datos_producto_registro', serialize($_POST), time() + 20, '/');
 
                 // Guardar un mensaje de error en una cookie (Si la cedula ya existe)
-                setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 );
+                setcookie('mensaje', 'El codigo ya se encuentra registrado', time() + 10, '/');
 
                 // Redirigir al formulario
-                header('Location: UsuariosControlador.php?action=registro');
+                header('Location: ../productos/crear');
             }
 
 
@@ -175,7 +185,7 @@ class ProductosControlador
         } else {
 
             // Si aun no ha completado el formulario se va a redirigir al formulario
-            header('Location: UsuariosControlador.php?action=registro');
+            header('Location: ../productos/crear');
         }
 
     }
@@ -194,19 +204,45 @@ class ProductosControlador
             // Encontra el producto por el id capturado y guardarlo en una variable
             $producto = Producto::encontrarPorID($id);
 
-            // Guardar un mensaje de que se elimino correctamente en una cookie
-            setcookie('mensaje', 'Se elimino correctamente el producto ' . $producto->nombre, time() + 10 );
+            $comprobarReportes = Reporte::donde('producto_id', $id)
+                                        ->resultado();
 
-            // Eliminar el usuario
-            $producto->eliminar();
+            if (empty($comprobarReportes)) {
 
-            // Redirigir a la tabla con todos los usuarios
-            header('Location: ProductosControlador.php');
+
+                $comprobarCompra = Compra::donde('producto_id', $id)
+                                            ->resultado();
+
+                if (empty($comprobarCompra)) {
+
+                    // Guardar un mensaje de que se elimino correctamente en una cookie
+                    setcookie('mensaje', 'Se elimino correctamente el producto (' . $producto->nombre . ')', time() + 10 , '/');
+
+                    // Eliminar el usuario
+                    $producto->eliminar();
+
+
+                } else {
+
+                    // Guardar un mensaje de que se elimino correctamente en una cookie
+                    setcookie('mensaje_error', 'No se puede eliminar el producto (' . $producto->nombre . ') porque tiene una compra', time() + 10 , '/');
+                }
+
+
+            } else {
+
+                // Guardar un mensaje de que se elimino correctamente en una cookie
+                setcookie('mensaje_error', 'No se puede eliminar el producto (' . $producto->nombre . ') porque tiene un reporte', time() + 10 , '/');
+            }
+
+
+            header('Location: ' . ruta . '/productos');
+
 
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -263,12 +299,18 @@ class ProductosControlador
                     // Validar si hay algo en $_POST
                     if(!empty($_POST['imagen'])){
 
-                        $carpeta_destinofinal = "/posmarket/public/img/";
+
+                        // Eliminar imagen de la carpeta
+                        unlink('../public' . $producto->imagen);
+
+
+                        $carpeta_destinofinal = "/img/";
                         $imagen = rand(1, 10000) . $_POST['imagen'];
                         $producto->imagen = $carpeta_destinofinal . $imagen;
 
                         move_uploaded_file($_FILES['imagen_producto']['tmp_name'], "../public/img/" . $imagen);
                     }
+
 
 
                     // Condicion
@@ -293,10 +335,10 @@ class ProductosControlador
                     }
 
                     // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-                    setcookie('mensaje_producto', $msg, time() + 5, "/");
+                    setcookie('mensaje', $msg, time() + 5, "/");
 
                     // Redirigir a la lista con todos los usuarios
-                    header('Location: /posmarket/productos');
+                    header('Location: ' . ruta . '/productos');
 
 
 
@@ -306,7 +348,7 @@ class ProductosControlador
                     setcookie('mensaje', 'el codigo ya se encuentra registrado', time() + 10 );
 
                     // Redirigir al formulario
-                    header("Location: /posmarket/productos/actualizar/$id");
+                    header('Location: ' . ruta . "/productos/actualizar/$id");
                 }
 
 
@@ -325,12 +367,14 @@ class ProductosControlador
     }
 
 
-    // Funcion para ver el carrito 
+    // Funcion para ver el carrito
     public function carrito(){
+        
+        // Consultar medios de pago
+        $medios_pago = MedioPago::todos();
 
-        
         include '../vistas/productos/carrito.php';
-        
+
     }
 
     // Funcion de respuesta al ajax
@@ -338,7 +382,7 @@ class ProductosControlador
 
         $producto = [];
         foreach ($_POST as $key => $value) {
-            
+
             $producto[] = Producto::encontrarPorID($value);
         }
 

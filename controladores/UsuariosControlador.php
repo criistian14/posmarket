@@ -2,6 +2,9 @@
 
 session_start();
 require_once '../modelos/Usuario.php';
+require_once '../modelos/Reporte.php';
+require_once '../modelos/Venta.php';
+require_once '../modelos/Compra.php';
 require_once '../modelos/Rol.php';
 
 class UsuariosControlador
@@ -59,6 +62,9 @@ class UsuariosControlador
             // Mensaje
             $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
 
+            // Mensaje Error
+            $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
 
             // Requerir la vista que muestra todos los usuarios registrados
             include '../vistas/usuarios/index.php';
@@ -82,6 +88,9 @@ class UsuariosControlador
 
             // Cargar datos del usuario si tuvo un error
             $datosUsuario = ( isset($_COOKIE['datos_usuario_registro']) ? unserialize($_COOKIE['datos_usuario_registro']) : null);
+
+            // Consultar todos los roles
+            $roles = Rol::todos();
 
             // Requerir la vista que muestra el formulario para registrar un usuario
             include '../vistas/usuarios/registro.php';
@@ -132,7 +141,7 @@ class UsuariosControlador
                     $usuario->correo     = $_POST['correo'];
                     $usuario->direccion  = $_POST['direccion'];
                     $usuario->nombre     = $_POST['nombre'];
-                    $usuario->rol_id     = 2;
+                    $usuario->rol_id     = isset($_POST['rol_id']) ? $_POST['rol_id'] : 2;
 
                     // Guardar el usuario
                     $res = $usuario->guardar();
@@ -146,7 +155,7 @@ class UsuariosControlador
                     }
 
                     // Guardar mensaje con el resultado de la operacion de guardar al usuario en una cookie
-                    setcookie('mensaje', $msg, time() + 5 );
+                    setcookie('mensaje', $msg, time() + 5 , '/');
 
                     // Redirigir a la lista de usuarios
                     header('Location: usuarios');
@@ -155,10 +164,10 @@ class UsuariosControlador
                 } else {
 
                     // Guardar mensaje con los datos del usuario enviados por POST en una cookie
-                    setcookie('datos_usuario_registro', serialize($_POST), time() + 20);
+                    setcookie('datos_usuario_registro', serialize($_POST), time() + 20, '/');
 
                     // Guardar un mensaje de error en una cookie (Si el correo ya existe)
-                    setcookie('mensaje', 'El correo ya se encuentra registrado', time() + 10 );
+                    setcookie('mensaje', 'El correo ya se encuentra registrado', time() + 10 , '/');
 
                     // Redirigir al formulario
                     header('Location: registro');
@@ -168,10 +177,10 @@ class UsuariosControlador
             } else {
 
                 // Guardar mensaje con los datos del usuario enviados por POST en una cookie
-                setcookie('datos_usuario_registro', serialize($_POST), time() + 20);
+                setcookie('datos_usuario_registro', serialize($_POST), time() + 20, '/');
 
                 // Guardar un mensaje de error en una cookie (Si la cedula ya existe)
-                setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 );
+                setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 , '/');
 
                 // Redirigir al formulario
                 header('Location: registro');
@@ -245,7 +254,7 @@ class UsuariosControlador
                     if( isset($_POST['recordarDatos']) ) {
 
                         // Guardar el usuario en una cookie
-                        setcookie('usuario_session', serialize($usuario), time() + (360 * 60 * 60) );
+                        setcookie('usuario_session', serialize($usuario), time() + (360 * 60 * 60) , '/');
                     }
 
 
@@ -271,10 +280,10 @@ class UsuariosControlador
 
                 } else {
                     // Guardar mensaje con los datos del usuario enviados por POST en una cookie
-                    setcookie('datos_usuario_login', serialize($_POST), time() + 20);
+                    setcookie('datos_usuario_login', serialize($_POST), time() + 20, '/');
 
                     // Guardar un mensaje de error en una cookie (Si no encuentra ningun usuario)
-                    setcookie('mensaje', 'No coincide con ningun usuario', time() + 10 );
+                    setcookie('mensaje', 'No coincide con ningun usuario', time() + 10 , '/');
 
                     // Redirigir al formulario login
                     header('Location: login');
@@ -316,11 +325,49 @@ class UsuariosControlador
             // Encontra el usuario por el id capturado y guardarlo en una variable
             $usuario = Usuario::encontrarPorID($id);
 
-            // Guardar un mensaje de que se elimino correctamente en una cookie
-            setcookie('mensaje', 'Se elimino correctamente al usuario ' . $usuario->nombre, time() + 10 );
+            $comprobarReportes = Reporte::donde('usuario_id', $id)
+                                        ->resultado();
 
-            // Eliminar el usuario
-            $usuario->eliminar();
+            if (empty($comprobarReportes)) {
+
+
+                $comprobarVenta = Venta::donde('usuario_id', $id)
+                                            ->resultado();
+
+                if (empty($comprobarVenta)) {
+
+
+                    $comprobarCompra = Compra::donde('usuario_id', $id)
+                                                ->resultado();
+
+                    if (empty($comprobarCompra)) {
+
+                        // Guardar un mensaje de que se elimino correctamente en una cookie
+                        setcookie('mensaje', 'Se elimino correctamente al usuario ' . $usuario->nombre, time() + 10 , '/');
+
+                        // Eliminar el usuario
+                        $usuario->eliminar();
+
+
+                    } else {
+
+                        // Guardar un mensaje de que se elimino correctamente en una cookie
+                        setcookie('mensaje_error', 'No se puede eliminar el usuario ' . $usuario->nombre . ' porque tiene una compra', time() + 10 , '/');
+                    }
+
+                } else {
+
+                    // Guardar un mensaje de que se elimino correctamente en una cookie
+                    setcookie('mensaje_error', 'No se puede eliminar el usuario ' . $usuario->nombre . ' porque tiene una venta', time() + 10 , '/');
+                }
+
+
+            } else {
+
+                // Guardar un mensaje de que se elimino correctamente en una cookie
+                setcookie('mensaje_error', 'No se puede eliminar el usuario ' . $usuario->nombre . ' porque tiene un reporte', time() + 10 , '/');
+            }
+
 
             // Redirigir a la tabla con todos los usuarios
             header('Location: ../usuarios');
@@ -413,27 +460,27 @@ class UsuariosControlador
                         }
 
                         // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-                        setcookie('mensaje', $msg, time() + 5 );
+                        setcookie('mensaje', $msg, time() + 5 , '/');
 
                         // Redirigir a la lista con todos los usuarios
-                        header('Location: UsuariosControlador.php?action=todos');
+                        header('Location: ' . ruta . '/usuarios');
 
                     } else {
 
                         // Guardar un mensaje de error en una cookie (Si el correo ya existe)
-                        setcookie('mensaje', 'El correo ya se encuentra registrado', time() + 10 );
+                        setcookie('mensaje', 'El correo ya se encuentra registrado', time() + 10 , '/');
 
                         // Redirigir al formulario
-                        header("Location: UsuariosControlador.php?action=actualizar&id=$id");
+                        header('Location: '. ruta . "/usuarios/actualizar/$id");
                     }
 
                 } else {
 
                     // Guardar un mensaje de error en una cookie (Si la cedula ya existe)
-                    setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 );
+                    setcookie('mensaje', 'La cedula ya se encuentra registrada', time() + 10 , '/');
 
                     // Redirigir al formulario
-                    header("Location: UsuariosControlador.php?action=actualizar&id=$id");
+                    header('Location: '. ruta . "/usuarios/actualizar/$id");
                 }
 
 
@@ -447,7 +494,7 @@ class UsuariosControlador
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -518,7 +565,7 @@ class UsuariosControlador
                         } else {
 
                             // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
-                            setcookie('mensaje_perfil', 'No coincide tu antigua contraseña', time() + 10 );
+                            setcookie('mensaje_perfil', 'No coincide tu antigua contraseña', time() + 10 , '/');
 
                             // Redirigir al formulario login
                             header('Location: UsuariosControlador.php?action=perfil');
@@ -555,7 +602,7 @@ class UsuariosControlador
 
 
                     // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
-                    setcookie('mensaje_perfil_success', 'Pefil modificado satisfactoriamente', time() + 10 );
+                    setcookie('mensaje_perfil_success', 'Pefil modificado satisfactoriamente', time() + 10 , '/');
 
                     // Redirigir al formulario login
                     header('Location: perfil');
@@ -565,7 +612,7 @@ class UsuariosControlador
                     // Si el correo no es valido
 
                     // Guardar un mensaje de error en una cookie (Si la contraseña del usuario no coincide)
-                    setcookie('mensaje_perfil', 'El correo '. $_POST['correo'] .' ya esta en uso', time() + 10 );
+                    setcookie('mensaje_perfil', 'El correo '. $_POST['correo'] .' ya esta en uso', time() + 10 , '/');
 
                     // Redirigir al formulario login
                     header('Location: perfil');
@@ -593,7 +640,7 @@ class UsuariosControlador
     {
         session_destroy();
 
-        setcookie('usuario_session', '', time() - 3600);
+        setcookie('usuario_session', '', time() - 3600, '/');
 
         header('Location: ./');
     }

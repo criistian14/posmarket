@@ -66,7 +66,7 @@
                                 <td> <?php echo $producto->precio ?> </td>
                                 <td> <?php echo $producto->cantidad ?> </td>
                                 <td> <?php echo $producto->oferta ?> </td>
-                                <td> <?php echo $producto->activo ?> </td>
+                                <td> <?php echo ($producto->activo == 0) ? 'No' : 'Si' ?> </td>
 
                                 <td>
                                     <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>" class="waves-effect waves-light btn-flat"><i class="material-icons" style="color: #ff5722;">create</i></a>
@@ -86,35 +86,36 @@
                 <?php endif ?>
 
 
+
                 <?php if ( $msg != null ): ?>
                     <div class="alerta alerta-teal-darken-3" > <?php echo $msg ?> </div>
+                <?php endif ?>
+
+                <?php if ( $msgError != null ): ?>
+                    <div class="alerta alerta-red-darken-3" > <?php echo $msgError ?> </div>
                 <?php endif ?>
 
             </div>
         </div>
 
 
-        <div class="row" style="margin-top: 4rem;">
+        <div class="mt-16 flex justify-between flex-wrap" >
 
-            <div class="col s12 l5">
+            <div class="col s12 l5 flex items-center" >
 
-                <a href="productos/crear" class="waves-effect waves-light">
+                <a href="<?php echo ruta . '/productos/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
-                </a>
-
-                <a href="#" class="waves-effect waves-light">
-                    <i class="material-icons Small" style="color: #ff5722;">search</i>
                 </a>
 
             </div>
 
 
-            <div class="col s12 l7" style="display: flex; justify-content: flex-end;">
+            <div class="col s12 l7 mt-6 sm:mt-0" >
                 <ul class="pagination">
 
                     <?php if ($pagina != 1): ?>
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina-1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/productos/pagina/' . ($pagina-1) ) ?>">
                                 <i class="material-icons">chevron_left</i>
                             </a>
                         </li>
@@ -129,11 +130,11 @@
 
                         <?php if ($pagina == $i): ?>
                             <li class="active">
-                                <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/productos/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php else: ?>
                             <li class="waves-effect">
-                                <a href="<?php echo ruta . '/productos/actualizar/' . $producto->id ?>"><?php echo $i ?></a>
+                                <a href="<?php echo htmlspecialchars(ruta . "/productos/pagina/$i") ?>"><?php echo $i ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -145,8 +146,9 @@
                             <i class="material-icons">chevron_right</i></a>
                         </li>
                     <?php else: ?>
+
                         <li class="waves-effect">
-                            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?action=todos&pagina=' . ($pagina+1) ) ?>">
+                            <a href="<?php echo htmlspecialchars(ruta . '/productos/pagina/' . ($pagina+1) ) ?>">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>

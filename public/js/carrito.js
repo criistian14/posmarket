@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        fetch('/posmarket/controladores/ProductosControlador?action=respuesta', {
+        fetch(`${rutaApp}/controladores/ProductosControlador?action=respuesta`, {
             method: 'POST',
             body: formData
         })
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tablaCarritoElement.innerHTML +=
                     "<tr id='"+val.id+"' data-valor='"+ val.oferta +"' >"
                         +"<td>"
-                        + "<img src='"+val.imagen+"' style='width: 30vh; height: 20vh'>"
+                        + "<img src='" + rutaApp +val.imagen+"' style='width: 30vh; height: 20vh'>"
                         +"</td>"
                         +"<td>"
                         +   val.nombre
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    tablaCarritoElement.innerHTML +=
                        "<tr id='"+val.id+"' data-valor='"+ val.precio +"' >"
                        + "<td>"
-                       + "<img src='" + val.imagen + "' style='width: 30vh; height: 20vh'>"
+                       + "<img src='" + rutaApp + val.imagen + "' style='width: 30vh; height: 20vh'>"
                        + "</td>"
                        + "<td>"
                        + val.nombre
@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
 
+
         //////////////////// Suma de los productos ///////////////////
 
 
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const filaCompraElement = document.querySelector("#filaCompra");
         if(filaCompraElement){
-            filaCompraElement.addEventListener("click", (event) => {
+            filaCompraElement.addEventListener("click", async (event) => {
 
                 let formData = new FormData();
                 let tableProductsElement = [...document.getElementById('tablaCarrito').children];
@@ -237,70 +238,100 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if(tableProductsElement.length > 0){
 
-                        filaCompraElement.innerHTML = '<div class="preloader-wrapper big active" id="preload">'
-                            + ' <div class="spinner-layer spinner-blue">'
-                            + '   <div class="circle-clipper left">'
-                            + '      <div class="circle"></div>'
-                            + ' </div><div class="gap-patch">'
-                            + '     <div class="circle"></div>'
-                            + ' </div><div class="circle-clipper right">'
-                            + '<div class="circle"></div>'
-                            + '</div>'
-                            + '</div>';
+                        let medioPagoCarritoElement = document.getElementById('medioPagoCarrito');
 
-                    }
+                        if (medioPagoCarritoElement.classList.contains('ocultar')) {
+
+                            medioPagoCarritoElement.classList.remove('ocultar');
+                            medioPagoCarritoElement.classList.add('fadeInUp');
 
 
-                    setTimeout(() => {
-                    for (let i = 0; i < tableProductsElement.length; i++) {
+                            window.scrollBy(0, 500);
 
-                        formData.append("id", tableProductsElement[i].id);
-                        formData.append("total_producto", tableProductsElement[i].childNodes[3].firstChild.firstChild.value);
+                        } else {
+
+                            let medioPagoCarritoSelectElement = document.querySelector('#medioPagoCarrito select[required]');
+
+                            if (medioPagoCarritoSelectElement.value != '') {
 
 
+                                filaCompraElement.innerHTML = '<div class="preloader-wrapper big active" id="preload">'
+                                    + ' <div class="spinner-layer spinner-blue">'
+                                    + '   <div class="circle-clipper left">'
+                                    + '      <div class="circle"></div>'
+                                    + ' </div><div class="gap-patch">'
+                                    + '     <div class="circle"></div>'
+                                    + ' </div><div class="circle-clipper right">'
+                                    + '<div class="circle"></div>'
+                                    + '</div>'
+                                    + '</div>';
 
 
-                            fetch('/posmarket/controladores/VentasControlador?action=registrar', {
-                                method: 'POST',
-                                body: formData,
-                                header: {
-                                    'ContentType': 'Application/json',
-                                },
-                            })
-                                .then(data => data.json())
+                                datos = new FormData();
 
-                                .then(responseJson => {
+                                await tableProductsElement.map( (fila, i) => {
+                                    dato = [
+                                        fila.id,
+                                        fila.dataset.valor,
+                                        fila.children[3].firstElementChild.firstElementChild.value
+                                    ];
 
-                                    if (responseJson != 1) {
-
-                                        location.href = "login";
-
-                                    }else{
-
-                                        let element = document.getElementById("preload");
-                                        filaCompraElement.removeChild(element);
-                                        M.toast({ html: 'Compra completada!', classes: 'bg-green-dark' });
-                                        localStorage.clear();
-                                        location.href = "historial";
-
-                                    }
-
-                                })
-                                .catch((error) => {
-                                    console.dir(error);
+                                    datos.append(i, dato);
                                 });
 
 
+                                datos.append('medio_pago', medioPagoCarritoSelectElement.value);
+
+
+                                setTimeout(async () => {
+
+                                    let response = await fetch(`${rutaApp}/controladores/VentasControlador?action=crear`, {
+                                                                method: 'POST',
+                                                                body: datos
+                                                            }).then(response => response.json());
+
+                                    if (!response.isLogged) {
+                                        location.href = 'login';
+
+                                    } else {
+
+                                        if (response.error) {
+
+                                            M.toast({ html: response.message, classes: 'red' });
+
+                                        } else {
+
+                                            M.toast({ html: 'Compra realizada', classes: 'bg-green-dark' });
+
+                                            localStorage.removeItem('carrito');
+
+                                            setTimeout(() => {
+                                                location.href = rutaApp;
+                                            },1000);
+
+                                        }
+
+                                    }
+
+                                }, 3000);
+
+
+                            } else {
+
+
+                                M.toast({ html: 'Escoge un medio de pago', classes: 'red' });
+
+
+                            }
+
+
+                        }
+
+                    } else {
+
+                        M.toast({ html: 'Primero escoge que comprar', classes: 'red' });
 
                     }
-
-
-                    }, 3000);
-
-
-
-
-
 
 
                 }

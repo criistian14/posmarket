@@ -93,8 +93,13 @@
                 <?php endif ?>
 
 
+
                 <?php if ( $msg != null ): ?>
                     <div class="alerta alerta-teal-darken-3" > <?php echo $msg ?> </div>
+                <?php endif ?>
+
+                <?php if ( $msgError != null ): ?>
+                    <div class="alerta alerta-red-darken-3" > <?php echo $msgError ?> </div>
                 <?php endif ?>
 
             </div>
@@ -107,10 +112,6 @@
 
                 <a href="<?php echo ruta . '/usuarios/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
-                </a>
-
-                <a href="#" class="waves-effect waves-light">
-                    <i class="material-icons Small" style="color: #ff5722;">search</i>
                 </a>
 
             </div>

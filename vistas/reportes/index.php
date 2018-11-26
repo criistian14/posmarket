@@ -21,7 +21,7 @@
         <div class="row">
 
             <div class="col s12">
-                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Exportar datos</h1>
+                <h1 style="margin-bottom: .8rem;" class="deep-orange-text">Reportes</h1>
             </div>
 
 
@@ -35,11 +35,11 @@
 
         <div class="flex flex-wrap justify-between">
 
-            <div >
+            <!-- <div >
                 <a href="#" class="waves-effect waves-light btn deep-orange">Excel <i class="material-icons right" style="color: white;">file_download</i></a>
                 <a href="#" class="waves-effect waves-light btn deep-orange">PDF <i class="material-icons right" style="color: white;">insert_drive_file</i></a>
                 <a href="#" class="waves-effect waves-light btn deep-orange mt-2 sm:mt-0">Imprimir <i class="material-icons right" style="color: white;">local_printshop</i></a>
-            </div>
+            </div> -->
 
             <div class="mt-6 sm:mt-0">
                 <a href="<?php echo ruta . '/reportes/tipos_reporte' ?>" class="waves-effect waves-light btn deep-orange">Tipos de Reporte<i class="material-icons right" style="color: white;">settings</i></a>
@@ -119,10 +119,6 @@
 
                 <a href="<?php echo ruta . '/reportes/crear' ?>" class="waves-effect waves-light">
                     <i class="material-icons Small" style="color: #ff5722;">add</i>
-                </a>
-
-                <a href="#" class="waves-effect waves-light">
-                    <i class="material-icons Small" style="color: #ff5722;">search</i>
                 </a>
 
             </div>

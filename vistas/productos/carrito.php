@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body class="animated">
 
     <?php include_once '../vistas/includes/nav.php'; ?>
 
@@ -57,6 +57,24 @@
 
             </div>
         </div>
+
+
+        <div class="animated col s12 mb-16 mt-8 ocultar" id="medioPagoCarrito">
+            <div class="input-field col s12">
+
+                <h5 class="deep-orange-text">Medios De Pago</h5>
+ 
+                <select name="medio" required>
+                    <option value="" disabled selected>Escoge un medio de pago</option>
+
+                    <?php foreach ($medios_pago as $key => $medio_pago): ?>
+                        <option value="<?php echo $medio_pago->id ?>"><?php echo $medio_pago->medio ?></option>
+                    <?php endforeach; ?>
+
+                </select>
+            </div>
+        </div>
+
 
         <div class="row" id="filaCompra">
 

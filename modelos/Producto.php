@@ -265,9 +265,16 @@ class Producto {
 		$conexion = new Conexion;
 
 
+        $producto = Producto::encontrarPorID($id);
+
+
+        // Eliminar imagen de la carpeta
+        unlink('../public' . $producto->imagen);
+
 
 		// Elimina al usuario de la bd encontrado por id
         $conexion->conn->query("DELETE FROM " . static::$tablaConsulta . " WHERE id = $id LIMIT 1");
+
 
 	}
 
@@ -283,14 +290,8 @@ class Producto {
         $conexion = new Conexion;
 
 
-		// Consulta para la base de datos y despues lo guarda en la variable
-		$resultado = $conexion->conn->query("SELECT * FROM " . static::$tablaConsulta . " where id = $id LIMIT 1");
-
-		// Guardar el usuario encontrado por id en la variable
-        $productoEncontrado = $resultado->fetch_assoc();
-
         // Eliminar imagen de la carpeta
-        unlink($productoEncontrado['imagen']);
+        unlink('../public' . $this->imagen);
 
 
 		// Elimina al producto de la bd encontrado por id
@@ -311,23 +312,12 @@ class Producto {
 		// Comprobar si es un registro nuevo o uno ya existente
 		if ($this->update) {
 
-            // Consulta para la base de datos y despues lo guarda en la variable
-		    $resultado = $conexion->conn->query("SELECT * FROM " . static::$tablaConsulta . " where id = $this->id LIMIT 1");
-
-            // Guardar el usuario encontrado por id en la variable
-            $productoEncontrado = $resultado->fetch_assoc();
-
-            // Eliminar imagen de la carpeta
-            unlink($productoEncontrado['imagen']);
-
-
-
 			// Preparar la sentencia para actualizar el usuario en la bd
 			$sentencia = $conexion->conn->prepare("UPDATE productos SET codigo= ?, nombre= ?, precio= ?, cantidad= ?, oferta= ?, tamano= ?, tipo_producto= ?, imagen= ?, activo = ? WHERE id= ?");
 
 			 // Pasar los campos del objecto a la sentencia
              $sentencia->bind_param(
-                'isiiisssii',
+                'ssiiisssii',
                 $this->codigo,
                 $this->nombre,
                 $this->precio,
@@ -348,7 +338,7 @@ class Producto {
 
 		    // Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-                    'isiiisssi',
+                    'ssiiisssi',
 					$this->codigo,
 					$this->nombre,
 					$this->precio,

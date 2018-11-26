@@ -92,7 +92,6 @@ class IndexControlador
         $productos = Producto::donde('tipo_producto', 'LIKE', "%$categoria%")
                             ->resultado();
 
-
         include '../vistas/core/categoria.php';
     }
 
@@ -100,7 +99,73 @@ class IndexControlador
 
     public function contacto()
     {
-        include '../vistas/contacto.php';
+        $usuario_id = (isset($_SESSION['usuario'])) ? unserialize($_SESSION['usuario'])->id : null;
+
+        if ($usuario_id == null) {
+            $usuario_id = (isset($_SESSION['admin'])) ? unserialize($_SESSION['admin'])->id : null;
+        }
+
+        // Mensaje
+        $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+        // Mensaje Error
+        $msgError = ( isset($_COOKIE['mensaje_error']) ? $_COOKIE['mensaje_error'] : null);
+
+
+        if (isset($_POST['flag'])) {
+
+
+            $descripcion = 'Asunto: ' . $_POST['asunto'] . PHP_EOL . PHP_EOL;
+
+            $descripcion .= $_POST['motivo'];
+
+
+            if ($usuario_id == null) {
+
+                $usuario = Usuario::donde('correo', $_POST['correo'])
+                                    ->resultado();
+
+                if (empty($usuario)) {
+
+                    $usuario_id = 0;
+
+                    $descripcion .= PHP_EOL . PHP_EOL . PHP_EOL . '----- Datos del usuario ----' . PHP_EOL . PHP_EOL . 'Correo: ' . $_POST['correo'] . PHP_EOL . 'Nombre: ' . $_POST['nombre'] . PHP_EOL . 'Apellido: ' . $_POST['apellido'];
+
+                } else {
+                    $usuario_id = $usuario[0]->id;
+                }
+
+            }
+
+
+
+            $reporte = new Reporte;
+
+            $reporte->tipo_reporte_id   = 1;
+            $reporte->descripcion       = $descripcion;
+            $reporte->producto_id       = null;
+            $reporte->fecha             = date('Y-m-d');
+            $reporte->usuario_id             = $usuario_id;
+
+
+            if ($reporte->guardar() == 1) {
+
+                setcookie('mensaje', 'Se envio correctamente', time() + 5, '/' );
+
+                header('Location: contacto');
+
+            } else {
+
+                setcookie('mensaje_error', "Error al enviar", time() + 10, '/' );
+
+                header('Location: contacto');
+            }
+
+
+        } else {
+
+            include '../vistas/contacto.php';
+        }
     }
 
 

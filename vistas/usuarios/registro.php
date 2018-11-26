@@ -29,6 +29,30 @@
                 <?php endif; ?>
 
 
+                <?php if (isset($_SESSION['admin'])): ?>
+
+                    <div class="input-field" style="margin-top: 2rem; margin-bottom: 3rem;">
+
+                        <i class="material-icons prefix">assignment_ind</i>
+                        <select name="rol_id" >
+                            <option value="" disabled >Escoge un rol</option>
+
+                            <?php foreach ($roles as $key => $rol): ?>
+
+                                <?php if ($usuario->rol_id == $rol->id): ?>
+                                    <option selected value="<?php echo $rol->id ?>"><?php echo $rol->rol ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $rol->id ?>"><?php echo $rol->rol ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                        </select>
+                        <label>Rol</label>
+                    </div>
+                <?php endif; ?>
+
+
+
                 <div class="input-field">
                     <i class="material-icons prefix">fingerprint</i>
                     <input type="number" class="validate" id="txtCedula" name="cedula" required

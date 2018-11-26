@@ -62,14 +62,16 @@
       <!-- Todos los productos -->
     <div class="row" id="productos-oferta">
 
-        <?php foreach ($productos as $key => $value):
-        ?>
+        <?php foreach ($productos as $key => $value): ?>
           <?php if($value->oferta > 0): ?>
+
+              <?php if ($value->activo == 1): ?>
+
         <div class='col s12 m4'>
             <div class='card' id="<?php echo $value->id ?>">
                 <div class='card-image'>
 
-                  <img src='<?php echo $value->imagen?>' style="width: 100%; height: 30vh">
+                  <img src='<?php echo ruta . $value->imagen?>' style="width: 100%; height: 30vh">
                   <span class='card-title'>
                     <?php echo $value->nombre ?>
                   </span>
@@ -109,7 +111,7 @@
 
             </div>
         </div>
-
+<?php endif; ?>
           <?php endif; ?>
 
         <?php endforeach;?>
@@ -132,8 +134,13 @@
 
 
 <!-- JQUery viejo -->
-<script type="text/javascript" src="public/js/jquery.js"></script>
-<script src="/posmarket/public/js/carrito.js"></script>
+<?php include_once '../vistas/includes/jquery.php'; ?>
+
+
+
+<!-- Llamando el php que contiene los scripts de carrito -->
+<?php include_once '../vistas/includes/carrito.php'; ?>
+
 
 <script type="text/javascript">
 

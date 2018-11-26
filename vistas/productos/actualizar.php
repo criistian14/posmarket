@@ -30,7 +30,7 @@
 
 
                 <div class="input-field">
-                    <i class="material-icons prefix">vpn_key</i>
+                    <!-- <i class="material-icons prefix">vpn_key</i> -->
                     <input type="text" class="validate" id="txtCedula" name="codigo" required
                             value="<?php echo $producto->codigo ?>">
                     <label for="txtCedula">Codigo</label>
@@ -39,7 +39,7 @@
 
 
                 <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">perm_identity</i>
+                    <!-- <i class="material-icons prefix">perm_identity</i> -->
                     <input type="text" class="validate" id="txtNombre" name="nombre" required
                             value="<?php echo $producto->nombre ?>">
                     <label for="txtNombre">Nombre</label>
@@ -48,8 +48,8 @@
 
 
                 <div class="input-field" style="margin-top: 15px;">
-                    <i class="material-icons prefix">monetization_on</i>
-                    <input type="text" class="validate" id="txtApellido" name="precio" required
+                    <!-- <i class="material-icons prefix">monetization_on</i> -->
+                    <input type="number" class="validate" id="txtApellido" name="precio" required
                             value="<?php echo $producto->precio ?>">
                     <label for="txtApellido">Precio</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
@@ -57,8 +57,7 @@
 
 
                 <div class="input-field" style="margin-top: 15px;">
-                    <i class="material-icons prefix">grid_on</i>
-                    <input type="text" class="validate" id="txtCorreo" name="cantidad" required
+                    <input type="number" class="validate" id="txtCorreo" name="cantidad" required
                             value="<?php echo $producto->cantidad ?>">
                     <label for="txtCorreo">Cantidad</label>
                     <span class="helper-text" data-error="Correo valido"></span>
@@ -66,31 +65,40 @@
 
 
                 <div class="input-field" style="margin-top: 15px;">
-                    <i class="material-icons prefix">shopping_basket</i>
-                    <input type="text" class="validate" id="txtCiudad" name="oferta" required
+                    <!-- <i class="material-icons prefix">shopping_basket</i> -->
+                    <input type="number" class="validate" id="txtCiudad" name="oferta" required
                             value="<?php echo $producto->oferta ?>">
                     <label for="txtCiudad">Oferta</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
                 </div>
 
-                <div class="input-field" style="margin-top: 15px;">
-                    <i class="material-icons prefix">assignment</i>
-                    <input type="text" class="validate" id="txtCiudad" name="tipo_producto" required
-                            value="<?php echo $producto->tipo_producto ?>">
-                    <label for="txtCiudad">Tipo del producto</label>
-                    <span class="helper-text" data-error="Obligatorio"></span>
+                <div class="input-field" style="margin-top: 2rem; margin-bottom: 3rem;">
+
+                    <select name="tipo_producto" >
+                        <option disabled >Escoge un tipo</option>
+
+                        <?php foreach (categorias as $categoria): ?>
+                            <?php if ($categoria == $producto->tipo_producto): ?>
+                                <option selected value="<?php echo $categoria ?>"><?php echo $categoria ?></option>
+                            <?php else: ?>
+                                <option value="<?php echo $categoria ?>"><?php echo $categoria ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+
+                    </select>
+                    <label>Tipo De Producto</label>
                 </div>
 
                 <div class="input-field" style="margin-top: 25px;">
-                    <i class="material-icons prefix">location_on</i>
+                    <!-- <i class="material-icons prefix">location_on</i> -->
                     <input type="text" class="validate" id="txtDireccion" name="tamano" required
                             value="<?php echo $producto->tamano ?>">
                     <label for="txtDireccion">Tamaño</label>
                     <span class="helper-text" data-error="Obligatorio"></span>
                 </div>
 
-                <div style="display: flex; justify-content: center; height: 350px" >
-                    <img class="materialboxed" width="350" src="<?php echo $producto->imagen ?>" alt="">
+                <div class="w-full" >
+                    <img class="w-full" src="<?php echo ruta . $producto->imagen ?>" alt="">
                 </div>
 
                 <!-- IMAGEN -->
@@ -104,15 +112,15 @@
                     </div>
                 </div>
 
-                <p>
+                <p class="mt-8">
                     <label>
                         <?php if($producto->activo == 0):?>
                             <input id="indeterminate-checkbox" type="checkbox" name="activo" />
-                        
+
                         <?php else: ?>
                             <input id="indeterminate-checkbox" type="checkbox" checked name="activo" />
                         <?php endif ?>
-                    <span>Activo</span>    
+                    <span>Activo</span>
 
 
                     </label>
@@ -125,7 +133,7 @@
                 <input type="hidden" name="flag" value="1">
 
 
-                <div style="margin: 100px 0 30px 0; display: flex; justify-content: space-around;">
+                <div class="pb-8 flex justify-center">
                     <!-- <button class="waves-effect waves-light btn deep-orange" id="limpiarFormularioRegistroUsuario">Limpiar</button> -->
 
                     <button type="submit" class="waves-effect waves-light btn teal darken-3" >Actualizar</button>

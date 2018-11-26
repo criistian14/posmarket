@@ -35,36 +35,45 @@ class ReportesControlador
     // Funcion que muestra todos los usuarios en una tabla
     public function todos()
     {
-        // La cantidad de reportes que va a mostrar
-        $numeroReportes = 5;
+        // Comprobar si esta logeado como admin
+        if( isset($_SESSION['admin']) ){
 
-        // Obtener que numero de pagina es
-        $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
+            // La cantidad de reportes que va a mostrar
+            $numeroReportes = 5;
 
-        // Conocer el inicio de la consulta
-        $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroReportes * $pagina) - $numeroReportes) );
+            // Obtener que numero de pagina es
+            $pagina = ( isset($_GET['pagina']) ? $_GET['pagina'] : 1 );
 
-        // Contar la cantidad de reportes
-        $totalReportes = count(Reporte::todos());
+            // Conocer el inicio de la consulta
+            $inicioConsulta = ( ($pagina == 1) ? 0 : (($numeroReportes * $pagina) - $numeroReportes) );
 
-        // El numero de paginas que salen en total
-        $cantidadDePaginas = ( ($totalReportes == 0) ? 1 : ceil($totalReportes / $numeroReportes) );
+            // Contar la cantidad de reportes
+            $totalReportes = count(Reporte::todos());
 
-
-        // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
-        $reportes = Reporte::seleccionar('reportes.*, usuarios.nombre, usuarios.ciudad, usuarios.cedula, usuarios.rol_id, tipo_reportes.reporte, roles.rol')
-                            ->unir('reportes', 'usuarios', 'usuario_id', 'id')
-                            ->unir('reportes', 'tipo_reportes', 'tipo_reporte_id', 'id')
-                            ->unir('usuarios', 'roles', 'rol_id', 'id')
-                            ->limite($inicioConsulta, $numeroReportes)
-                            ->resultado();
-
-        // Mensaje
-        $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+            // El numero de paginas que salen en total
+            $cantidadDePaginas = ( ($totalReportes == 0) ? 1 : ceil($totalReportes / $numeroReportes) );
 
 
-        // Requerir la vista que muestra todos los usuarios registrados
-        include '../vistas/reportes/index.php';
+            // Peticion al modelo para recuperar todos los reportes de la bd y guardarlos en una variable
+            $reportes = Reporte::seleccionar('reportes.*, usuarios.nombre, usuarios.ciudad, usuarios.cedula, usuarios.rol_id, tipo_reportes.reporte, roles.rol')
+                                ->unir('reportes', 'usuarios', 'usuario_id', 'id')
+                                ->unir('reportes', 'tipo_reportes', 'tipo_reporte_id', 'id')
+                                ->unir('usuarios', 'roles', 'rol_id', 'id')
+                                ->limite($inicioConsulta, $numeroReportes)
+                                ->resultado();
+
+            // Mensaje
+            $msg = ( isset($_COOKIE['mensaje']) ? $_COOKIE['mensaje'] : null);
+
+
+            // Requerir la vista que muestra todos los usuarios registrados
+            include '../vistas/reportes/index.php';
+
+        } else {
+
+            // Redirigir al login
+            header('Location: login');
+        }
     }
 
 
@@ -114,10 +123,10 @@ class ReportesControlador
                 }
 
                 // Guardar mensaje con el resultado de la operacion de guardar el reporte en una cookie
-                setcookie('mensaje', $msg, time() + 5 );
+                setcookie('mensaje', $msg, time() + 5 , '/');
 
                 // Redirigir a la lista de reportes
-                header('Location: ReportesControlador.php');
+                header('Location: ../reportes');
 
 
 
@@ -131,7 +140,7 @@ class ReportesControlador
 
                 $tipoReporte->guardar();
 
-                header('Location: ReportesControlador.php?action=crear');
+                header('Location: ../reportes/crear');
 
 
             } else {
@@ -148,7 +157,7 @@ class ReportesControlador
         } else {
 
             // Redirigir al login
-            header('Location: UsuariosControlador.php?action=login');
+            header('Location: login');
         }
 
     }
@@ -168,16 +177,16 @@ class ReportesControlador
             Reporte::eliminarPorID($id);
 
             // Guardar un mensaje de que se elimino correctamente en una cookie
-            setcookie('mensaje', 'Se elimino correctamente el reporte ', time() + 10 );
+            setcookie('mensaje', 'Se elimino correctamente el reporte ', time() + 10 , '/');
 
 
             // Redirigir a la tabla con todos los usuarios
-            header('Location: ReportesControlador.php');
+            header('Location: ../reportes');
 
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 
@@ -245,10 +254,10 @@ class ReportesControlador
                 }
 
                 // Guardar mensaje con el resultado de la operacion de actualizar al usuario en una cookie
-                setcookie('mensaje', $msg, time() + 5 );
+                setcookie('mensaje', $msg, time() + 5 , '/');
 
                 // Redirigir a la lista con todos los reportes
-                header('Location: ReportesControlador.php?action=todos');
+                header('Location: ../reportes');
 
 
 
@@ -261,7 +270,7 @@ class ReportesControlador
 
                 $tipoReporte->guardar();
 
-                header("Location: ReportesControlador.php?action=actualizar&id=$id");
+                header("Location: " . ruta . "/reportes/actualizar/$id");
 
 
             } else {
@@ -273,7 +282,7 @@ class ReportesControlador
         } else {
 
             // Redirigir al perfil
-            header('Location: UsuariosControlador.php?action=perfil');
+            header('Location: perfil');
         }
     }
 

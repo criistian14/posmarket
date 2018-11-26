@@ -13,16 +13,17 @@ require_once '../modelos/MedioPago.php';
  * Conexion mysqli
  *
  */
-class Venta
+class Compra
 {
 
-    public static $tablaConsulta = 'ventas';
+    public static $tablaConsulta = 'compras';
 
 	// Variables, campos de referencia con la tabla ventas
 	public $id;
-	public $fecha;
-	public $medio_pago_id;
-	public $datos;
+	public $cantidad;
+    public $fecha;
+    public $medio_pago_id;
+	public $producto_id;
 	public $usuario_id;
     public $valor_total;
 
@@ -48,7 +49,7 @@ class Venta
 	public static $numeroConsultasJoin = 0;
 
 	// Para especificar una consulta select
-	public static $consultaSelect = 'SELECT * FROM ventas ';
+	public static $consultaSelect = 'SELECT * FROM compras ';
 
 
 	// Para especificar un limite
@@ -67,7 +68,7 @@ class Venta
 	public static function todos()
 	{
 		// Arreglo que va a contener todos los ventas
-		$lista_ventas = [];
+		$lista_compras = [];
 
 
 		// Crear una instancia de la conexion
@@ -79,25 +80,26 @@ class Venta
 
 
 		// Recorrer todos los ventas que llegaron de la bd
-		while ( $ventas = $resultado->fetch_assoc() ) {
+		while ( $compras = $resultado->fetch_assoc() ) {
 
 			// Crear un reporte temporal en cada vuelta
-			$ventasTemporal = new Venta();
+			$comprasTemporal = new Compra;
 
 			// Añadir los campos al reporte
-			$ventasTemporal->id 	 	 	 	 = $ventas['id'];
-			$ventasTemporal->fecha 	 	 	     = $ventas['fecha'];
-			$ventasTemporal->datos 	 	 = $ventas['datos'];
-			$ventasTemporal->medio_pago_id	     = $ventas['medio_pago_id'];
-			$ventasTemporal->usuario_id	 	     = $ventas['usuario_id'];
-            $ventasTemporal->valor_total         = $ventas['valor_total'];
+			$comprasTemporal->id 	 	 	 	 = $compras['id'];
+            $comprasTemporal->cantidad 	 	 	 = $compras['cantidad'];
+			$comprasTemporal->fecha 	 	 	 = $compras['fecha'];
+			$comprasTemporal->producto_id 	 	 = $compras['producto_id'];
+			$comprasTemporal->medio_pago_id	     = $compras['medio_pago_id'];
+			$comprasTemporal->usuario_id	 	 = $compras['usuario_id'];
+            $comprasTemporal->valor_total        = $compras['valor_total'];
 
 			// Guarda el objeto reporte en el arreglo
-			$lista_ventas[] = $ventasTemporal;
+			$lista_compras[] = $comprasTemporal;
 		}
 
 		// Devolver todos los ventas
-		return $lista_ventas;
+		return $lista_compras;
 
 	}
 
@@ -110,28 +112,29 @@ class Venta
 
 
 		// Consulta para la base de datos y despues lo guarda en la variable
-		$resultado = $conexion->conn->query("SELECT * FROM ventas where id = $id LIMIT 1");
+		$resultado = $conexion->conn->query("SELECT * FROM ". static::$tablaConsulta ." where id = $id LIMIT 1");
 
 		// Guardar el reporte encontrado por id en la variable
-		$reporteEncontrado = $resultado->fetch_assoc();
+		$compraEncontrado = $resultado->fetch_assoc();
 
 
 		// Crear una venta
-		$reporte = new Venta();
+		$compra = new Compra;
 
 		// Añadir los campos a las ventas
-		$reporte->id 	 	 	 = $reporteEncontrado['id'];
-		$reporte->fecha 	 = $reporteEncontrado['fecha'];
-		$reporte->medio_pago_id 	 	 = $reporteEncontrado['medio_pago_id'];
-		$reporte->datos 	 = $reporteEncontrado['datos'];
-		$reporte->usuario_id	 = $reporteEncontrado['usuario_id'];
-        $reporte->valor_total	 = $reporteEncontrado['valor_total'];
+		$compra->id 	 	 	     = $compraEncontrado['id'];
+        $compra->cantidad 	         = $compraEncontrado['cantidad'];
+		$compra->fecha 	             = $compraEncontrado['fecha'];
+		$compra->medio_pago_id 	 	 = $compraEncontrado['medio_pago_id'];
+		$compra->producto_id 	     = $compraEncontrado['producto_id'];
+		$compra->usuario_id	         = $compraEncontrado['usuario_id'];
+        $compra->valor_total	     = $compraEncontrado['valor_total'];
 
 		// Si se llama este metodo cambiara la variable de update, ya que cuando se utilice la funcion guardar(), hara un update
-		$reporte->update = true;
+		$compra->update = true;
 
 		// Devolver el reporte solicitado
-		return $reporte;
+		return $compra;
 	}
 
 
@@ -242,7 +245,7 @@ class Venta
 	public static function resultado()
 	{
 		// Arreglo que va a contener todos los ventas
-		$lista_ventas = [];
+		$lista_compras = [];
 
 
 		// Crear una instancia de la conexion
@@ -257,89 +260,87 @@ class Venta
 
 
 		// Recorrer todos los ventas que llegaron de la bd
-		while ( $venta = $resultado->fetch_assoc() ) {
+		while ( $compra = $resultado->fetch_assoc() ) {
 
 
 
 			// Crear un reporte temporal en cada vuelta
-			$ventasTemporal = new Venta();
+			$compraTemporal = new Compra();
 
 			// Añadir los campos al reporte
-			$ventasTemporal->id 	 	 	 = ( isset($venta['id']) ? $venta['id'] : '');
-			$ventasTemporal->fecha 	 	 	 = ( isset($venta['fecha']) ? $venta['fecha'] : '');
-            $ventasTemporal->medio_pago_id 	 = ( isset($venta['medio_pago_id']) ? $venta['medio_pago_id'] : '');
-			$ventasTemporal->datos	 = ( isset($venta['datos']) ? $venta['datos'] : '');
-			$ventasTemporal->usuario_id	 	 = ( isset($venta['usuario_id']) ? $venta['usuario_id'] : '');
-			$ventasTemporal->valor_total	 = ( isset($venta['valor_total']) ? $venta['valor_total'] : '');
+            $compraTemporal->id 	 	 	 = ( isset($compra['id']) ? $compra['id'] : '');
+			$compraTemporal->cantidad 	 	 = ( isset($compra['cantidad']) ? $compra['cantidad'] : '');
+			$compraTemporal->fecha 	 	 	 = ( isset($compra['fecha']) ? $compra['fecha'] : '');
+            $compraTemporal->medio_pago_id 	 = ( isset($compra['medio_pago_id']) ? $compra['medio_pago_id'] : '');
+			$compraTemporal->producto_id	 = ( isset($compra['producto_id']) ? $compra['producto_id'] : '');
+			$compraTemporal->usuario_id	 	 = ( isset($compra['usuario_id']) ? $compra['usuario_id'] : '');
+			$compraTemporal->valor_total	 = ( isset($compra['valor_total']) ? $compra['valor_total'] : '');
 
 
-			if( isset($venta['nombreUsuario']) ) {
+			if( isset($compra['nombreUsuario']) ) {
 
 				// Crear un usuario temporal en cada vuelta
 				$usuarioTemporal = new Usuario;
 
 				// Añadir los campos al usuario
-				$usuarioTemporal->apellido 	 = ( isset($venta['apellido']) ? $venta['apellido'] : '');
-				$usuarioTemporal->cedula	 = ( isset($venta['cedula']) ? $venta['cedula'] : '');
-				$usuarioTemporal->celular 	 = ( isset($venta['celular']) ? $venta['celular'] : '');
-				$usuarioTemporal->ciudad 	 = ( isset($venta['ciudad']) ? $venta['ciudad'] : '');
-				$usuarioTemporal->correo 	 = ( isset($venta['correo']) ? $venta['correo'] : '');
-				$usuarioTemporal->direccion	 = ( isset($venta['direccion']) ? $venta['direccion'] : '');
-				$usuarioTemporal->nombre 	 = ( isset($venta['nombreUsuario']) ? $venta['nombreUsuario'] : '');
-				$usuarioTemporal->rol_id 	 = ( isset($venta['rol_id']) ? $venta['rol_id'] : '');
-				$usuarioTemporal->rol 	 	 = ( isset($venta['rol']) ? $venta['rol'] : '');
+				$usuarioTemporal->apellido 	 = ( isset($compra['apellido']) ? $compra['apellido'] : '');
+				$usuarioTemporal->cedula	 = ( isset($compra['cedula']) ? $compra['cedula'] : '');
+				$usuarioTemporal->celular 	 = ( isset($compra['celular']) ? $compra['celular'] : '');
+				$usuarioTemporal->ciudad 	 = ( isset($compra['ciudad']) ? $compra['ciudad'] : '');
+				$usuarioTemporal->correo 	 = ( isset($compra['correo']) ? $compra['correo'] : '');
+				$usuarioTemporal->direccion	 = ( isset($compra['direccion']) ? $compra['direccion'] : '');
+				$usuarioTemporal->nombre 	 = ( isset($compra['nombreUsuario']) ? $compra['nombreUsuario'] : '');
+				$usuarioTemporal->rol_id 	 = ( isset($compra['rol_id']) ? $compra['rol_id'] : '');
+				$usuarioTemporal->rol 	 	 = ( isset($compra['rol']) ? $compra['rol'] : '');
 
 				// Añadir el usuario
-				$ventasTemporal->usuario = $usuarioTemporal;
-
+				$compraTemporal->usuario = $usuarioTemporal;
 			}
 
-			if( isset($venta['nombreProducto']) ) {
+
+
+			if( isset($compra['nombreProducto']) ) {
 
                 // Crear un usario temporal en cada vuelta
-                $productoTemporal = new Producto();
+                $productoTemporal = new Producto;
 
                 // Añadir los campos al producto
-                $productoTemporal->id 	 	      = ( isset($venta['id']) ? $venta['id'] : '');
-                $productoTemporal->activo 	      = ( isset($venta['activo']) ? $venta['activo'] : '');
-                $productoTemporal->codigo	      = ( isset($venta['codigo']) ? $venta['codigo'] : '');
-                $productoTemporal->imagen 	      = ( isset($venta['imagen']) ? $venta['imagen'] : '');
-                $productoTemporal->nombre 	      = ( isset($venta['nombreProducto']) ? $venta['nombreProducto'] : '');
-                $productoTemporal->oferta         = ( isset($venta['oferta']) ? $venta['oferta'] : '');
-                $productoTemporal->precio 	      = ( isset($venta['precio']) ? $venta['precio'] : '');
-                $productoTemporal->tamano	      = ( isset($venta['tamano']) ? $venta['tamano'] : '');
-                $productoTemporal->tipo_producto  = ( isset($venta['tipo_producto']) ? $venta['tipo_producto'] : '');
-                $productoTemporal->cantidad	      = ( isset($venta['cantidad']) ? $venta['cantidad'] : '');
+                $productoTemporal->id 	 	      = ( isset($compra['id']) ? $compra['id'] : '');
+                $productoTemporal->activo 	      = ( isset($compra['activo']) ? $compra['activo'] : '');
+                $productoTemporal->codigo	      = ( isset($compra['codigo']) ? $compra['codigo'] : '');
+                $productoTemporal->imagen 	      = ( isset($compra['imagen']) ? $compra['imagen'] : '');
+                $productoTemporal->nombre 	      = ( isset($compra['nombreProducto']) ? $compra['nombreProducto'] : '');
+                $productoTemporal->oferta         = ( isset($compra['oferta']) ? $compra['oferta'] : '');
+                $productoTemporal->precio 	      = ( isset($compra['precio']) ? $compra['precio'] : '');
+                $productoTemporal->tamano	      = ( isset($compra['tamano']) ? $compra['tamano'] : '');
+                $productoTemporal->tipo_producto  = ( isset($compra['tipo_producto']) ? $compra['tipo_producto'] : '');
+                $productoTemporal->cantidad	      = ( isset($compra['cantidad']) ? $compra['cantidad'] : '');
 
 
 				// Añadir el tipo de reporte
-				$ventasTemporal->producto = $productoTemporal;
+				$compraTemporal->producto = $productoTemporal;
 			}
 
 
 
-            if( isset($venta['medio']) ) {
+            if( isset($compra['medio']) ) {
 
                 // Crear un medio de pago temporal en cada vuelta
     			$medioTemporal = new MedioPago;
 
     			// Añadir los campos al tipo de rol
-    			$medioTemporal->id 	     = ( isset($venta['id']) ? $venta['id'] : '');
-    			$medioTemporal->medio 	 = ( isset($venta['medio']) ? $venta['medio'] : '');
+    			$medioTemporal->id 	     = ( isset($compra['id']) ? $compra['id'] : '');
+    			$medioTemporal->medio 	 = ( isset($compra['medio']) ? $compra['medio'] : '');
 
 
 				// Añadir el tipo de reporte
-				$ventasTemporal->medio_pago = $medioTemporal;
+				$compraTemporal->medio_pago = $medioTemporal;
 			}
 
 
-
-
-
 			// Guarda el objeto reporte en el arreglo
-			$lista_ventas[] = $ventasTemporal;
+			$lista_compras[] = $compraTemporal;
 		}
-
 
 
 
@@ -350,13 +351,13 @@ class Venta
 		static::$numeroConsultasDonde = 0;
 		static::$consultaJoin = '';
 		static::$numeroConsultasJoin = 0;
-		static::$consultaSelect = 'SELECT * FROM ventas ';
+		static::$consultaSelect = 'SELECT * FROM compras ';
 		static::$consultaOrdenar = '';
 		static::$consultaLimite = '';
 
 
 		// Devolver todos los ventas
-		return $lista_ventas;
+		return $lista_compras;
 
 	}
 
@@ -369,7 +370,7 @@ class Venta
 	public static function consulta($sql)
 	{
 		// Arreglo que va a contener todos los ventas
-		$lista_ventas = [];
+		$lista_compras = [];
 
 
 		// Crear una instancia de la conexion
@@ -384,22 +385,22 @@ class Venta
 		while ( $reporte = $resultado->fetch_assoc() ) {
 
 			// Crear un reporte temporal en cada vuelta
-			$ventasTemporal = new Venta();
+			$ventasTemporal = new Compra();
 
 			// Añadir los campos al reporte
 			$ventasTemporal->id 	 	 	 = $reporte['id'];
 			$ventasTemporal->descripcion 	 = $reporte['descripcion'];
 			$ventasTemporal->fecha 	 	 = $reporte['fecha'];
-			$ventasTemporal->datos 	 = $reporte['datos'];
+			$ventasTemporal->producto_id 	 = $reporte['producto_id'];
 			$ventasTemporal->tipo_reporte_id	 = $reporte['tipo_reporte_id'];
 			$ventasTemporal->usuario_id	 = $reporte['usuario_id'];
 
 			// Guarda el objeto reporte en el arreglo
-			$lista_ventas[] = $ventasTemporal;
+			$lista_compras[] = $ventasTemporal;
 		}
 
 		// Devolver todos los ventas
-		return $lista_ventas;
+		return $lista_compras;
 	}
 
 
@@ -414,14 +415,14 @@ class Venta
 		$conexion = new Conexion;
 
 		// Preparar la sentencia para isertar el usuario en la bd
-		$sentencia = $conexion->conn->prepare("INSERT INTO ventas VALUES (null, ?, ?, ?, ?, ?)");
+		$sentencia = $conexion->conn->prepare("INSERT INTO ". static::$tablaConsulta ." VALUES (null, ?, ?, ?, ?, ?)");
 
 		// Pasar los campos del arreglo a la sentencia
 		$sentencia->bind_param(
 				'ssisi',
 				$datos['descripcion'],
 				$datos['fecha'],
-				$datos['datos'],
+				$datos['producto_id'],
 				$datos['tipo_reporte_id'],
 				$datos['usuario_id']
 		);
@@ -431,7 +432,7 @@ class Venta
 	}
 
 
-	// Funcion para guardar los datos del objecto actual (Venta), ya sea actualizar o guardar uno nuevo
+	// Funcion para guardar los datos del objecto actual (Compra), ya sea actualizar o guardar uno nuevo
 	public function guardar()
 	{
 		// Crear una instancia de la conexion
@@ -441,14 +442,14 @@ class Venta
 		if ($this->update) {
 
 			// Preparar la sentencia para actualizar el usuario en la bd
-			$sentencia = $conexion->conn->prepare("UPDATE ventas SET valor_total= ?, fecha= ?, datos= ?, medio_pago_id= ?, usuario_id= ? WHERE id= ?");
+			$sentencia = $conexion->conn->prepare("UPDATE ". static::$tablaConsulta ." SET valor_total= ?, fecha= ?, producto_id= ?, medio_pago_id= ?, usuario_id= ? WHERE id= ?");
 
 			// Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-					'issiii',
+					'isiiii',
 					$this->valor_total,
 					$this->fecha,
-					$this->datos,
+					$this->producto_id,
 					$this->medio_pago_id,
 					$this->usuario_id,
 					$this->id
@@ -457,22 +458,23 @@ class Venta
 		} else {
 
 			// Preparar la sentencia para isertar el usuario en la bd
-			$sentencia = $conexion->conn->prepare("INSERT INTO ventas VALUES (null, ?, ?, ?, ?, ?)");
+			$sentencia = $conexion->conn->prepare("INSERT INTO ". static::$tablaConsulta ." VALUES (null, ?, ?, ?, ?, ?, ?)");
 
 			// Pasar los campos del objecto a la sentencia
 			$sentencia->bind_param(
-					'sisii',
+					'isiiii',
+                    $this->cantidad,
                     $this->fecha,
-                    $this->medio_pago_id,
-                    $this->datos,
-                    $this->usuario_id,
+					$this->medio_pago_id,
+					$this->producto_id,
+					$this->usuario_id,
 					$this->valor_total
 			);
 		}
 
 
 		// Ejecutar la sentencia
-		if ( $sentencia->execute()) {
+		if ( $sentencia->execute() ) {
 
 			// Devolver un uno si fue un exito
 			return 1;
@@ -495,7 +497,7 @@ class Venta
 
 
 		// Elimina al reporte de la bd encontrado por id
-		$conexion->conn->query("DELETE FROM ventas WHERE id = $id LIMIT 1");
+		$conexion->conn->query("DELETE FROM ". static::$tablaConsulta ." WHERE id = $id LIMIT 1");
 	}
 
 
@@ -511,7 +513,7 @@ class Venta
 
 
 		// Elimina al reporte de la bd encontrado por id
-		$conexion->conn->query("DELETE FROM ventas WHERE id = $id LIMIT 1");
+		$conexion->conn->query("DELETE FROM ". static::$tablaConsulta ." WHERE id = $id LIMIT 1");
 	}
 
 
